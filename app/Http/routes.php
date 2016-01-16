@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('portal');
 });
 Route::any('/index', function(){
     return redirect("/");
