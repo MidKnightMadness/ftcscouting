@@ -14,9 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/index', function(){
+Route::any('/index', function(){
     return redirect("/");
-});
+})->name('index');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
