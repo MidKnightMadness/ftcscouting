@@ -14,7 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/index', function(){
+    return redirect("/");
+});
 /*
 |--------------------------------------------------------------------------
 | Application Routes
