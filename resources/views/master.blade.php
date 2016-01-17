@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-    <div clas="row">
+    <div class="row">
         <div class="col-xs-12">
             @yield('content')
         </div>
