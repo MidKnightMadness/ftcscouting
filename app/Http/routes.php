@@ -32,6 +32,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::controller('team', 'TeamController', [
         'getIndex'=>'team.index',
         'getNew'=>'team.new',
-        'putSave'=>'team.save'
+        'putSave'=>'team.save',
     ]);
 });
