@@ -27,10 +27,10 @@
     </div>
     {!! Form::label('zl', 'Zipline Climbers') !!}
     <div class="form-group", id="zl">
-        {!! Form::radio('zl_climbers', '0', true) !!} N/A<br/>
-        {!! Form::radio('zl_climbers', '1') !!} Low<br/>
-        {!! Form::radio('zl_climbers', '2') !!} Mid<br/>
-        {!! Form::radio('zl_climbers', '3') !!} High<br/>
+        {!! Form::radio('zl_climbers', '0', true) !!} 0<br/>
+        {!! Form::radio('zl_climbers', '1') !!} 1<br/>
+        {!! Form::radio('zl_climbers', '2') !!} 2<br/>
+        {!! Form::radio('zl_climbers', '3') !!} 3<br/>
     </div>
     {!! Form::label('d', 'Debris Scored') !!}
     <div class="form-group", id="d">
