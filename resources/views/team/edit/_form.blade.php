@@ -8,8 +8,11 @@
     <hr/>
     <h2>Autonomous</h2>
     <div class="form-group">
-        {!! Form::label('starting_loc', 'Starting Location') !!}
-        {!! Form::text('starting_loc', null, ['class' => 'form-control']) !!}
+        {!! Form::label('starting_loc', 'Conflicting autonomous start location') !!}
+        <div class="form-group" id="auto_start">
+            {!! Form::radio('starting_loc', '0', true) !!} No<br/>
+            {!! Form::radio('starting_loc', '1') !!} Yes<br/>
+        </div>
     </div>
     <div class="form-group">
         {!! Form::checkbox('climbers_scored') !!}

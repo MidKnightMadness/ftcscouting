@@ -18,7 +18,7 @@ class CreateTeamsTable extends Migration
             $table->string('submitter_name');
             $table->string('team_name');
             $table->integer('team_number')->unique();
-            $table->text('starting_loc');
+            $table->boolean('starting_loc');
             $table->integer('climbers_scored');
             $table->boolean('beacon_scored');
             $table->text('auto_zone');

@@ -11,7 +11,7 @@
         <thead>
         <tr>
             <th>Team Number</th>
-            <th>Starting Location</th>
+            <th>Conflicting Autonomous</th>
             <th>Climbers Scored (Autonomous)</th>
             <th>Rescue Beacon</th>
             <th>Autonomous Parking Location</th>
@@ -28,7 +28,11 @@
         @foreach($teams as $team)
             <tr>
                 <td>{{Html::link(route('match.details').'/'.$team->id, $team->team_number)}}</td>
-                <td>{{$team->starting_loc}}</td>
+                @if($team->starting_loc)
+                    <td class="danger">Yes</td>
+                @else
+                    <td class="success">No</td>
+                @endif
 
                 @if($team->climbers_scored)
                     <td class="success">Yes</td>
