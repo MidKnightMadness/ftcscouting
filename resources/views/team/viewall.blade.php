@@ -27,36 +27,36 @@
         <tbody>
         @foreach($teams as $team)
             <tr>
-                <td>{{$team->teamNumber}}</td>
-                <td>{{$team->startingLoc}}</td>
+                <td>{{$team->team_number}}</td>
+                <td>{{$team->starting_loc}}</td>
 
-                @if($team->climbersScored)
+                @if($team->climbers_scored)
                     <td class="success">Yes</td>
                 @else
                     <td class="danger">No</td>
                 @endif
 
-                @if($team->beaconScored)
+                @if($team->beacon_scored)
                     <td class="success">Yes</td>
                 @else
                     <td class="danger">No</td>
                 @endif
 
-                @if($team->autoZone == 0)
+                @if($team->auto_zone == 0)
                     <td>N/A</td>
-                @elseif($team->autoZone == 1)
+                @elseif($team->auto_zone == 1)
                     <td>Repair Zone/Floor Goal</td>
-                @elseif($team->autoZone == 2)
+                @elseif($team->auto_zone == 2)
                     <td>Low Zone</td>
-                @elseif($team->autoZone == 3)
+                @elseif($team->auto_zone == 3)
                     <td>Mid Zone</td>
-                @elseif($team->autoZone == 4)
+                @elseif($team->auto_zone == 4)
                     <td>High Zone</td>
                 @endif
 
-                @if($team->climbersScored)
+                @if($team->climbers_scored)
                     <td class="success">From Auto</td>
-                @elseif($team->t_climberScored)
+                @elseif($team->t_climbers_scored)
                     <td class="success">Yes</td>
                 @else
                     <td class="danger">No</td>
@@ -87,7 +87,7 @@
                     @endif
                 </td>
 
-                @if($team->allClear)
+                @if($team->all_clear)
                     <td class="success">Yes</td>
                 @else
                     <td class="danger">No</td>

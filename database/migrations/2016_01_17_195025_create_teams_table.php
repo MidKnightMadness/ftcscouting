@@ -15,27 +15,27 @@ class CreateTeamsTable extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('submitterName');
-            $table->string('teamName');
-            $table->integer('teamNumber')->unique();
-            $table->text('startingLoc');
-            $table->integer('climbersScored');
-            $table->boolean('beaconScored');
-            $table->text('autoZone');
-            $table->boolean('t_climberScored');
+            $table->string('submitter_name');
+            $table->string('team_name');
+            $table->integer('team_number')->unique();
+            $table->text('starting_loc');
+            $table->integer('climbers_scored');
+            $table->boolean('beacon_scored');
+            $table->text('auto_zone');
+            $table->boolean('t_climbers_scored');
             $table->integer('zl_climbers');
             $table->boolean('d_none');
             $table->boolean('d_fz');
             $table->boolean('d_lz');
             $table->boolean('d_mz');
             $table->boolean('d_hz');
-            $table->boolean('allClear');
+            $table->boolean('all_clear');
             $table->boolean('lz_f');
             $table->boolean('lz');
             $table->boolean('mz');
             $table->boolean('hz');
             $table->boolean('hang');
-            $table->text('otherInfo');
+            $table->text('other_info');
         });
     }
 

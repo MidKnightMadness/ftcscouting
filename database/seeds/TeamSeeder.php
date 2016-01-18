@@ -31,9 +31,9 @@ class TeamSeeder extends Seeder
             $lz = rand(0, 1);
             $mz = rand(0, 1);
             $hz = rand(0, 1);
-            \App\Team::create(['submitterName'=>str_random(), 'teamName'=>$teamName, 'teamNumber' =>$teamNumber, 'startingLoc'=>$startingLoc, 'climbersScored'=>$climbersScored,
-            'beaconScored' =>$beaconScored, 'autoZone' => $autoZone, "t_climberScored" =>$t_climbScored, 'zl_climbers'=>$zlClimbers, 'd_none' => '',
-            'd_fz'=>$d_f, 'd_lz'=>$d_l, 'd_mz'=>$d_m, 'd_hz'=>$d_h, 'allClear'=>$ac, 'lz_f'=>$lz_f, 'lz'=>$lz, 'mz'=>$mz, 'hz'=>$hz, 'hang'=>$hang]);
+            \App\Team::create(['submitter_name'=>str_random(), 'team_name'=>$teamName, 'team_number' =>$teamNumber, 'starting_loc'=>$startingLoc, 'climbers_scored'=>$climbersScored,
+            'beacon_scored' =>$beaconScored, 'auto_zone' => $autoZone, "t_climbers_scored" =>$t_climbScored, 'zl_climbers'=>$zlClimbers, 'd_none' => '',
+            'd_fz'=>$d_f, 'd_lz'=>$d_l, 'd_mz'=>$d_m, 'd_hz'=>$d_h, 'all_clear'=>$ac, 'lz_f'=>$lz_f, 'lz'=>$lz, 'mz'=>$mz, 'hz'=>$hz, 'hang'=>$hang]);
         }
     }
 }

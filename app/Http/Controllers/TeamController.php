@@ -25,7 +25,7 @@ class TeamController extends Controller {
     }
 
     public function getList(){
-        $teams = $this->team->orderBy('teamNumber')->get();
+        $teams = $this->team->orderBy('team_number')->get();
         return view('team.viewall', compact('teams'));
     }
 
@@ -41,7 +41,7 @@ class TeamController extends Controller {
     public function putSave(Team $team, Request $request) {
         $team->create($request->input());
         $team->save();
-        return Redirect::route('team.new')->withCookie(cookie('submittersName', $request->submitterName, 45000))->with(['alert_msg' => 'Saved!', 'alert_msg_type' => 'success']);
+        return Redirect::route('team.new')->withCookie(cookie('submittersName', $request->submitter_name, 45000))->with(['alert_msg' => 'Saved!', 'alert_msg_type' => 'success']);
     }
 
     public function patchSave(Request $request) {
