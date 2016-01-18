@@ -27,7 +27,7 @@
         <tbody>
         @foreach($teams as $team)
             <tr>
-                <td>{{$team->team_number}}</td>
+                <td>{{Html::link(route('match.details').'/'.$team->id, $team->team_number)}}</td>
                 <td>{{$team->starting_loc}}</td>
 
                 @if($team->climbers_scored)

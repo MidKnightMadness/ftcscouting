@@ -37,6 +37,7 @@ Route::group(['middleware' => ['web']], function () {
     ]);
     Route::controller('match', 'MatchController',[
         'getNew' => 'match.add',
-        'putSave' =>'match.new'
+        'putSave' =>'match.new',
+        'getDetails'=>'match.details'
     ]);
 });
