@@ -35,7 +35,9 @@
             <th>All Clear</th>
         </tr>
         @foreach($matches as $match)
-           {!! $match !!}
+            <tr>
+                {!! $match !!}
+            </tr>
         @endforeach
     </table>
 @stop

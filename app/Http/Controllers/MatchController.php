@@ -54,8 +54,8 @@ class MatchController extends Controller {
 
     private function constructMatches($team, $matches) {
         $rows = array();
-        $string = "";
         foreach ($matches as $match) {
+            $string="";
             $string .= $this->noMatch($team->climbers_scored, $match->climbers_scored);
             $string .= $this->getYesNo($match->climbers_scored);
             $string .= "</td>";
