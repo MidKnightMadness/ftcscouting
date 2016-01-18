@@ -42,7 +42,7 @@
     </div>
     {!! Form::label('debris') !!}
     <div class="form-group" id="debris">
-        {!! Form::checkbox('d_none', null, true) !!} None<br/>
+        {!! Form::checkbox('d_none', 1, true) !!} None<br/>
         {!! Form::checkbox('d_fz') !!} Floor Goal<br/>
         {!! Form::checkbox('d_lz') !!} Low Goal<br/>
         {!! Form::checkbox('d_mz') !!} Mid Goal<br/>
