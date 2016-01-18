@@ -33,5 +33,6 @@ Route::group(['middleware' => ['web']], function () {
         'getIndex'=>'team.index',
         'getNew'=>'team.new',
         'putSave'=>'team.save',
+        'getList'=>'team.list'
     ]);
 });

@@ -24,6 +24,11 @@ class TeamController extends Controller {
         return view('team.new');
     }
 
+    public function getList(){
+        $teams = $this->team->orderBy('teamNumber')->get();
+        return view('team.viewall', compact('teams'));
+    }
+
     public function getEdit($teamId) {
         $team = $this->team->whereId($teamId)->first();
         if($team == null){
