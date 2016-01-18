@@ -69,3 +69,4 @@
         {!! Form::textarea('otherInfo', null, ['rows'=>'4', 'placeholder'=>'Other information', 'class'=>'form-control']) !!}
     </div>
 {!! Form::submit('Submit', ['class'=>'btn btn-success btn-block']) !!}
+</div>
