@@ -32,9 +32,9 @@ class TeamController extends Controller {
     public function getEdit($teamId) {
         $team = $this->team->whereId($teamId)->first();
         if($team == null){
-            // TODO: Redirect to team overview
+            return Redirect::route('team.list');
         } else {
-            return view('team.edit', compact('team'))->with('edit', 'true');
+            return view('team.edit', compact('team'));
         }
     }
 
@@ -46,6 +46,6 @@ class TeamController extends Controller {
 
     public function patchSave(Request $request) {
         DB::table($this->team->getTable())->where('id', $request->get('teamId'))->update($request->except(['_method', '_token', 'teamId']));
-        return Redirect::route('team.new')->with(['alert_msg' => 'Updated successfully!', 'alert_msg_type' => 'success']);
+        return Redirect::route('team.list')->with(['alert_msg' => 'Updated successfully!', 'alert_msg_type' => 'success']);
     }
 }
