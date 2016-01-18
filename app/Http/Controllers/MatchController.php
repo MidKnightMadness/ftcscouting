@@ -37,7 +37,7 @@ class MatchController extends Controller {
         $match->team_id = $team->id;
         $match->create($request->except('team_number'));
         $match->save();
-        return \Redirect::route('matc.new')->with(['alert_msg' => 'Match results recorded successfully', 'alert_msg_type' => 'success']);
+        return \Redirect::route('match.new')->with(['alert_msg' => 'Match results recorded successfully', 'alert_msg_type' => 'success']);
     }
 
     private function noMatch($team, $match) {
