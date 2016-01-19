@@ -7,7 +7,7 @@
     Team Overview
 @stop
 @section('content')
-    <table class="table table-responsive table-condensed table-striped">
+    <table class="table table-responsive table-condensed table-striped table-hover table-bordered">
         <thead>
         <tr>
             <th>Team Number</th>
@@ -49,13 +49,15 @@
                 @if($team->auto_zone == 0)
                     <td>N/A</td>
                 @elseif($team->auto_zone == 1)
-                    <td>Repair Zone/Floor Goal</td>
+                    <td>Repair Zone</td>
                 @elseif($team->auto_zone == 2)
                     <td>Low Zone</td>
                 @elseif($team->auto_zone == 3)
                     <td>Mid Zone</td>
                 @elseif($team->auto_zone == 4)
                     <td>High Zone</td>
+                @elseif($team->auto_zone == 5)
+                    <td>Floor Goal</td>
                 @endif
 
                 @if($team->climbers_scored)

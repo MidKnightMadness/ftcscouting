@@ -35,6 +35,7 @@
         {!! $errors->first('auto_zone', '<span class="help-block">:message</span>')!!}
         <div id="auto_park_zone">
             {!! Form::radio('auto_zone', '0') !!} N/A<br/>
+            {!! Form::radio('auto_zone', '5') !!} Floor Goal<br/>
             {!! Form::radio('auto_zone', '1') !!} Repair Zone<br>
             {!! Form::radio('auto_zone', '2') !!} Low Zone<br/>
             {!! Form::radio('auto_zone', '3') !!} Mid Zone<br/>
