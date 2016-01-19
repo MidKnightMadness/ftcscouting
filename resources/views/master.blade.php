@@ -44,8 +44,6 @@
         <br/>
         {!! Html::link(route('index'), 'Home', ['class'=>'btn btn-default btn-block']) !!}
     @endif
-    <br/>
-    </div>
 </div>
 </body>
 </html>
