@@ -34,10 +34,10 @@ class MatchController extends Controller {
         $team = $this->team->whereTeamNumber($request->input('team_number'))->first();
         if ($team == null)
             return \Redirect::back()->with(['alert_msg' => 'That team does not exist', 'alert_msg_type' => 'danger'])->withInput();
-        $match->team_id = $team->id;
-        $match->create($request->except('team_number'));
-        $match->save();
-        return \Redirect::route('match.add')->with(['alert_msg' => 'Match results recorded successfully', 'alert_msg_type' => 'success']);
+        $m = $match->create($request->except('team_number'));
+        $m->team_id = $team->id;
+        $m->save();
+        return redirect(route('match.details').'/'.$team->id)->with(['alert_msg'=>'Match recorded!', 'alert_msg_type'=>'success']);
     }
 
     private function noMatch($team, $match) {
@@ -55,7 +55,7 @@ class MatchController extends Controller {
     private function constructMatches($team, $matches) {
         $rows = array();
         foreach ($matches as $match) {
-            $string="";
+            $string = "";
             $string .= $this->noMatch($team->climbers_scored, $match->climbers_scored);
             $string .= $this->getYesNo($match->climbers_scored);
             $string .= "</td>";
