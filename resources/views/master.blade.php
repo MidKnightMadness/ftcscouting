@@ -43,7 +43,7 @@
     <br/>
     <div class="footer">
         @if($_SERVER['REQUEST_URI'] != "/")
-            {!! Html::link(route('index'), '|< Home') !!}
+            {!! Html::link(route('index'), 'Home', ['class'=>'btn btn-default btn-block']) !!}
         @endif
     </div>
 </div>
