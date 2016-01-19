@@ -42,8 +42,7 @@ class TeamController extends Controller {
         // Validate request
         $this->validate($request, ['submitter_name' => 'required', 'team_number' => 'required|numeric', 'starting_loc' => 'required',
             'auto_zone' => 'required', 'zl_climbers' => 'required']);
-        $team->create($request->input());
-        $team->save();
+       $team->create($request->input());
         return Redirect::route('team.new')->withCookie(cookie('submittersName', $request->submitter_name, 45000))->with(['alert_msg' => 'Saved!', 'alert_msg_type' => 'success']);
     }
 
