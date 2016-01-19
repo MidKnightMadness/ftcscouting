@@ -17,6 +17,7 @@ Route::get('/', function () {
 Route::any('/index', function(){
     return redirect("/");
 })->name('index');
+Route::controller('ajax', 'AjaxController');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
