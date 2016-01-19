@@ -117,7 +117,7 @@
                     @endif
                 </td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="{{route('team.edit').'/'.$team->id}}" class="btn btn-sm btn-primary">Edit</a>
                 </td>
             </tr>
         </tbody>

@@ -34,7 +34,8 @@ Route::group(['middleware' => ['web']], function () {
         'getIndex'=>'team.index',
         'getNew'=>'team.new',
         'putSave'=>'team.save',
-        'getList'=>'team.list'
+        'getList'=>'team.list',
+        'getEdit'=>'team.edit'
     ]);
     Route::controller('match', 'MatchController',[
         'getNew' => 'match.add',
