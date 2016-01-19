@@ -16,4 +16,15 @@ $(document).ready(function(){
             }
         });
     });
+    $("#c_s_a").change(function(){
+        if(this.checked){
+            var teleop = $("#c_s_t");
+            if(!teleop.checked){
+                teleop.prop("checked", true);
+                teleop.prop("disabled", true);
+            }
+        } else {
+            $("#c_s_t").prop("disabled", false);
+        }
+    })
 });

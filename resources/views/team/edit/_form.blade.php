@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="form-group">
-        {!! Form::checkbox('climbers_scored') !!}
+        {!! Form::checkbox('climbers_scored', 1, false, ['id'=>'c_s_a']) !!}
         {!! Form::label('climbers_scored', 'Can score climbers?') !!}
     </div>
     <div class="form-group">
@@ -45,7 +45,7 @@
     <hr/>
     <h2>Teleop</h2>
     <div class="form-group">
-        {!! Form::checkbox('t_climbers_scored') !!}
+        {!! Form::checkbox('t_climbers_scored', 1, false, ['id'=>'c_s_t']) !!}
         {!! Form::label('t_climbers_scored', 'Can score climbers?') !!}
     </div>
     <div class="form-group {!!$errors->first('zl_climbers')? 'has-error' : ''!!}">
