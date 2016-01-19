@@ -3,7 +3,6 @@ $(document).ready(function(){
         var teamNumber = $("#team_number").val();
         if(teamNumber == null || teamNumber == "")
             return;
-        alert(teamNumber);
         var url = '/ajax/team-info/'+ teamNumber;
         $.getJSON(url, function ( data ){
             if(typeof data.team_name != "undefined") {
