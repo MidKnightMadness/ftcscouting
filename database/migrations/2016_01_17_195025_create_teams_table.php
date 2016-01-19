@@ -21,7 +21,7 @@ class CreateTeamsTable extends Migration
             $table->boolean('starting_loc');
             $table->integer('climbers_scored');
             $table->boolean('beacon_scored');
-            $table->text('auto_zone');
+            $table->integer('auto_zone');
             $table->boolean('t_climbers_scored');
             $table->integer('zl_climbers');
             $table->boolean('d_none');
