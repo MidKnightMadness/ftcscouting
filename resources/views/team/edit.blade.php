@@ -3,6 +3,10 @@
 @section('title')
     Edit Team {{$team->teamNumber}}
 @stop
+
+@section('js')
+    <script type="text/javascript" src="{{asset('js/multi_check.js')}}"></script>
+@stop
 @section('subtitle')
     Edit Team {{$team->teamNumber}}
 @stop
