@@ -16,6 +16,17 @@ $(document).ready(function(){
            }
         });
     });
+
+    $("#c_s_a").change(function(){
+        if(this.checked){
+            if(!$("#c_s_t").checked){
+                $("#c_s_t").prop("checked", true);
+                $("#c_s_t").prop("disabled", true);
+            }
+        } else {
+            $("#c_s_t").prop("disabled", false);
+        }
+    })
 });
 
 function disableSubmit(msg){

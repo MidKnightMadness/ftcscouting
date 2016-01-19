@@ -19,7 +19,7 @@
         {!! Form::input('tel', 'team_number', isset($_GET['team'])? $_GET['team'] : null, ['class'=>'form-control', 'id'=>'team_num']) !!}
     </div>
     <div class="form-group">
-        {!! Form::checkbox('climbers_scored') !!}
+        {!! Form::checkbox('climbers_scored', 1, false, ['id'=>'c_s_a']) !!}
         {!! Form::label('climbers_scored', 'Scored Climbers') !!}
     </div>
     <div class="form-group">
@@ -27,7 +27,7 @@
         {!! Form::label('beacon_scored', 'Scored Beacon') !!}
     </div>
     <div class="form-group">
-        {!! Form::checkbox('t_climbers_scored') !!}
+        {!! Form::checkbox('t_climbers_scored', 1, false, ['id'=>'c_s_t']) !!}
         {!! Form::label('t_climbers_scored', 'Scored Climbers (Teleop)') !!}
     </div>
     {!! Form::label('zl', 'Zipline Climbers') !!}
