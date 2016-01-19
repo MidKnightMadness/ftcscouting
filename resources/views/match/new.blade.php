@@ -26,6 +26,17 @@
         {!! Form::checkbox('beacon_scored') !!}
         {!! Form::label('beacon_scored', 'Scored Beacon') !!}
     </div>
+    <label for="auto_park_zone">Autonomous End Location</label>
+    <div class="form-group">
+        <div id="auto_park_zone">
+            {!! Form::radio('auto_zone', '0') !!} N/A<br/>
+            {!! Form::radio('auto_zone', '5') !!} Floor Goal<br/>
+            {!! Form::radio('auto_zone', '1') !!} Repair Zone<br>
+            {!! Form::radio('auto_zone', '2') !!} Low Zone<br/>
+            {!! Form::radio('auto_zone', '3') !!} Mid Zone<br/>
+            {!! Form::radio('auto_zone', '4') !!} High Zone<br/>
+        </div>
+    </div>
     <div class="form-group">
         {!! Form::checkbox('t_climbers_scored', 1, false, ['id'=>'c_s_t']) !!}
         {!! Form::label('t_climbers_scored', 'Scored Climbers (Teleop)') !!}
@@ -49,10 +60,20 @@
         {!! Form::checkbox('all_clear') !!}
         {!! Form::label('allClear', 'All Clear Signal') !!}
     </div>
-    <div class="form-group">
-        {!! Form::checkbox('hang') !!}
-        {!! Form::label('hang', 'Hang') !!}
+    <label for="tele_park_zone">Final Resting Position</label>
+    <div class="form-group" id="tele_park_zone">
+        {!! Form::radio('tele_park', '0', true) !!} N/A<br/>
+        {!! Form::radio('tele_park', '5') !!} Floor Goal<br/>
+        {!! Form::radio('tele_park', '1') !!} Beacon Repair Zone<br/>
+        {!! Form::radio('tele_park', '2') !!} Mountain Low Zone<br/>
+        {!! Form::radio('tele_park', '3') !!} Mountain Mid Zone<br/>
+        {!! Form::radio('tele_park', '4') !!} Mountain High Zone<br/>
+        {!! Form::radio('tele_park', '6') !!} Hang<br/>
     </div>
+    {{--    <div class="form-group">
+            {!! Form::checkbox('hang') !!}
+            {!! Form::label('hang', 'Hang') !!}
+        </div>--}}
     {!! Form::submit('Save', ['class'=> 'btn btn-success btn-block', 'id'=>'submit_btn']) !!}
     {!! Form::close() !!}
 @stop

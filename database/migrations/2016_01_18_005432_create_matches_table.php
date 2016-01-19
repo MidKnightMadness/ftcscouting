@@ -18,6 +18,7 @@ class CreateMatchesTable extends Migration
             $table->integer('team_id');
             $table->integer('climbers_scored');
             $table->boolean('beacon_scored');
+            $table->integer('auto_zone');
             $table->boolean('t_climbers_scored');
             $table->integer('zl_climbers');
             $table->boolean('d_none');
@@ -26,7 +27,7 @@ class CreateMatchesTable extends Migration
             $table->boolean('d_mz');
             $table->boolean('d_hz');
             $table->boolean('all_clear');
-            $table->boolean('hang');
+            $table->integer('tele_park');
         });
     }
 

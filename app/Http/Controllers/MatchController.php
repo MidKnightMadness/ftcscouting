@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Match;
 use App\Team;
 use Illuminate\Http\Request;
+use Log;
 
 class MatchController extends Controller {
 
@@ -48,8 +49,48 @@ class MatchController extends Controller {
         }
     }
 
+    private function compareAutoZone($team, $match){
+        Log::info($team.','.$match);
+        if($team > $match){
+            if($match == 5 && $match != 5){
+                Log::info("Failed check");
+                return "<td class=\"danger\">";
+            }
+        }
+        log::info("Passed check");
+        return "<td>";
+    }
+
     private function getYesNo($cond) {
         return $cond ? 'Yes' : 'No';
+    }
+
+    private function getParkLoc($parkLocId){
+        switch($parkLocId){
+            case 0:
+                return "N/A";
+            break;
+            case 1:
+                return "Repair Zone";
+            break;
+            case 2:
+                return "Low Zone";
+            break;
+            case 3:
+                return "Mid Zone";
+            break;
+            case 4:
+                return "High Zone";
+            break;
+            case 5:
+                return "Floor Goal";
+            break;
+            case 6:
+                return "Hang";
+            break;
+            default:
+                return "";
+        }
     }
 
     private function constructMatches($team, $matches) {
@@ -62,6 +103,10 @@ class MatchController extends Controller {
 
             $string .= $this->noMatch($team->beacon_scored, $match->beacon_scored);
             $string .= $this->getYesNo($match->beacon_scored);
+            $string .= "</td>";
+
+            $string .= $this->compareAutoZone($team->auto_zone, $match->auto_zone);
+            $string .= $this->getParkLoc($match->auto_zone);
             $string .= "</td>";
 
             $string .= $this->noMatch($team->t_climbers_scored, $match->t_climbers_scored);
@@ -92,12 +137,12 @@ class MatchController extends Controller {
             $string .= $this->getYesNo($match->d_hz);
             $string .= "</td>";
 
-            $string .= $this->noMatch($team->all_clear, $match->all_clear);
-            $string .= $this->getYesNo($match->all_clear);
+            $string .= "<td>";
+            $string .= $this->getParkLoc($match->tele_park);
             $string .= "</td>";
 
-            $string .= $this->noMatch($team->hang, $match->hang);
-            $string .= $this->getYesNo($match->hang);
+            $string .= $this->noMatch($team->all_clear, $match->all_clear);
+            $string .= $this->getYesNo($match->all_clear);
             $string .= "</td>";
 
             array_push($rows, $string);

@@ -24,6 +24,7 @@
         <tr>
             <th>Scored Climbers</th>
             <th>Rescue Beacon</th>
+            <th>Autonomous Park Loc</th>
             <th>Teleop Climbers Scored</th>
             <th>Zipline Climbers</th>
             <th>No Debris Scored</th>
@@ -31,7 +32,7 @@
             <th>Low Zone Debris</th>
             <th>Mid Zone Debris</th>
             <th>High Zone Debris</th>
-            <th>Hang</th>
+            <th>Teleop Park Loc</th>
             <th>All Clear</th>
         </tr>
         @foreach($matches as $match)
