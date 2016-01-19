@@ -17,7 +17,7 @@ class CreateMatchesTable extends Migration
             $table->timestamps();
             $table->integer('team_id');
             $table->integer('climbers_scored');
-            $table->string('beacon_scored');
+            $table->boolean('beacon_scored');
             $table->boolean('t_climbers_scored');
             $table->integer('zl_climbers');
             $table->boolean('d_none');
