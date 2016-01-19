@@ -43,6 +43,7 @@
     @if($_SERVER['REQUEST_URI'] != "/")
         <br/>
         {!! Html::link(route('index'), 'Home', ['class'=>'btn btn-default btn-block']) !!}
+        <br/>
     @endif
 </div>
 </body>
