@@ -30,11 +30,12 @@
     <div class="form-group">
         <div id="auto_park_zone">
             {!! Form::radio('auto_zone', '0') !!} N/A<br/>
-            {!! Form::radio('auto_zone', '5') !!} Floor Goal<br/>
-            {!! Form::radio('auto_zone', '1') !!} Repair Zone<br>
-            {!! Form::radio('auto_zone', '2') !!} Low Zone<br/>
-            {!! Form::radio('auto_zone', '3') !!} Mid Zone<br/>
-            {!! Form::radio('auto_zone', '4') !!} High Zone<br/>
+            {!! Form::radio('auto_zone', '1') !!} Floor Goal<br/>
+            {!! Form::radio('auto_zone', '2') !!} Repair Zone<br>
+            {!! Form::radio('auto_zone', '3') !!} Low Zone Touching Floor<br/>
+            {!! Form::radio('auto_zone', '4') !!} Low Zone<br/>
+            {!! Form::radio('auto_zone', '5') !!} Mid Zone<br/>
+            {!! Form::radio('auto_zone', '6') !!} High Zone<br/>
         </div>
     </div>
     <div class="form-group">
@@ -60,15 +61,18 @@
         {!! Form::checkbox('all_clear') !!}
         {!! Form::label('allClear', 'All Clear Signal') !!}
     </div>
-    <label for="tele_park_zone">Final Resting Position</label>
-    <div class="form-group" id="tele_park_zone">
-        {!! Form::radio('tele_park', '0', true) !!} N/A<br/>
-        {!! Form::radio('tele_park', '5') !!} Floor Goal<br/>
-        {!! Form::radio('tele_park', '1') !!} Beacon Repair Zone<br/>
-        {!! Form::radio('tele_park', '2') !!} Mountain Low Zone<br/>
-        {!! Form::radio('tele_park', '3') !!} Mountain Mid Zone<br/>
-        {!! Form::radio('tele_park', '4') !!} Mountain High Zone<br/>
-        {!! Form::radio('tele_park', '6') !!} Hang<br/>
+    <div class="form-group">
+        <label for="tele_park_zone">Final Resting Position</label>
+        <div id="tele_park_zone">
+            {!! Form::radio('auto_zone', '0') !!} N/A<br/>
+            {!! Form::radio('auto_zone', '1') !!} Floor Goal<br/>
+            {!! Form::radio('auto_zone', '2') !!} Repair Zone<br>
+            {!! Form::radio('auto_zone', '3') !!} Low Goal Touching Floor<br/>
+            {!! Form::radio('auto_zone', '4') !!} Low Zone<br/>
+            {!! Form::radio('auto_zone', '5') !!} Mid Zone<br/>
+            {!! Form::radio('auto_zone', '6') !!} High Zone<br/>
+            {!! Form::radio('auto_zone', '7') !!} Hang<br/>
+        </div>
     </div>
     {{--    <div class="form-group">
             {!! Form::checkbox('hang') !!}

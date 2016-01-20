@@ -1,5 +1,36 @@
 @extends('master')
-
+<?php
+function getParkLoc($parkLocId) {
+    switch ($parkLocId) {
+        case 0:
+            return "N/A";
+            break;
+        case 1:
+            return "Floor Goal";
+            break;
+        case 2:
+            return "Repair Zone";
+            break;
+        case 3:
+            return "Low Zone touching Floor";
+            break;
+        case 4:
+            return "Low Zone";
+            break;
+        case 5:
+            return "Mid Zone";
+            break;
+        case 6:
+            return "High Zone";
+            break;
+        case 7:
+            return "Hang";
+            break;
+        default:
+            return "";
+    }
+}
+?>
 @section('title')
     All Teams
 @stop
@@ -46,19 +77,9 @@
                     <td class="danger">No</td>
                 @endif
 
-                @if($team->auto_zone == 0)
-                    <td>N/A</td>
-                @elseif($team->auto_zone == 1)
-                    <td>Repair Zone</td>
-                @elseif($team->auto_zone == 2)
-                    <td>Low Zone</td>
-                @elseif($team->auto_zone == 3)
-                    <td>Mid Zone</td>
-                @elseif($team->auto_zone == 4)
-                    <td>High Zone</td>
-                @elseif($team->auto_zone == 5)
-                    <td>Floor Goal</td>
-                @endif
+                <?php
+                echo '<td>' . getParkLoc($team->auto_zone) . '</td>';
+                ?>
 
                 @if($team->climbers_scored)
                     <td class="success">From Auto</td>

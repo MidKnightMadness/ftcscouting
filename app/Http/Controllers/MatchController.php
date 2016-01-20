@@ -71,21 +71,24 @@ class MatchController extends Controller {
                 return "N/A";
             break;
             case 1:
-                return "Repair Zone";
-            break;
-            case 2:
-                return "Low Zone";
-            break;
-            case 3:
-                return "Mid Zone";
-            break;
-            case 4:
-                return "High Zone";
-            break;
-            case 5:
                 return "Floor Goal";
             break;
+            case 2:
+                return "Repair Zone";
+            break;
+            case 3:
+                return "Low Zone touching Floor";
+            break;
+            case 4:
+                return "Low Zone";
+            break;
+            case 5:
+                return "Mid Zone";
+            break;
             case 6:
+                return "High Zone";
+            break;
+            case 7:
                 return "Hang";
             break;
             default:
@@ -106,6 +109,7 @@ class MatchController extends Controller {
             $string .= "</td>";
 
             $string .= $this->compareAutoZone($team->auto_zone, $match->auto_zone);
+            Log::info("Parking Location ".$this->getParkLoc($match->auto_zone));
             $string .= $this->getParkLoc($match->auto_zone);
             $string .= "</td>";
 
