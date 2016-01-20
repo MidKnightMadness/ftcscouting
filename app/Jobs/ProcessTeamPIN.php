@@ -58,8 +58,13 @@ class ProcessTeamPIN extends Job implements ShouldQueue {
                     Log::info("Skipping Column " . $col);
                     continue;
                 }
+                $pin_val = $col;
+                if ($col == 'auto_zone' || $col == 'tele_park' || $col == 'zl_climbers') {
+                    $pin_val = "{$col}_" . $match->{$col};
+                    Log::info("New special pn: $pin_val");
+                }
                 // Get the col's pn
-                $p = $pim->wherePimName($col)->first();
+                $p = $pim->wherePimName($pin_val)->first();
                 if ($p == null) {
                     Log::info("No Pim entry for " . $col);
                     continue;
