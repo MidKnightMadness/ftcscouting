@@ -12,6 +12,10 @@
     <div class="form-group">
         {!! Form::label('teamName', 'Team Name: ') !!}
         <p class="form-control-static" id="teamName">{{$team->team_name}}</p>
+        {!! Form::label('raw_pin', 'Raw PIN:') !!}
+        <p class="form-control-static" id="raw_pin">{{$team->raw_pin}}</p>
+        {!! Form::label('pin', 'Pin:') !!}
+        <p class="form-control-static" id="pin">{{$team->pin}}</p>
         <div class="form-group">
             {!! Form::label('otherInfo', 'Other Information') !!}
             {!! Form::textarea('otherInfo', $team->other_info, ['class'=> 'form-control', 'rows'=>'4', 'readonly']) !!}
@@ -34,6 +38,7 @@
             <th>High Zone Debris</th>
             <th>Teleop Park Loc</th>
             <th>All Clear</th>
+            <th>Performance Number</th>
         </tr>
         @foreach($matches as $match)
             <tr>

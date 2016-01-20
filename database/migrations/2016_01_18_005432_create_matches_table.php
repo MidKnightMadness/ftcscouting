@@ -28,6 +28,8 @@ class CreateMatchesTable extends Migration
             $table->boolean('d_hz');
             $table->boolean('all_clear');
             $table->integer('tele_park');
+            $table->integer('pn')->comment("Performance Number");
+            $table->boolean('pn_processed')->default(0);
         });
     }
 

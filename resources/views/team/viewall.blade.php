@@ -31,6 +31,10 @@ function getParkLoc($parkLocId) {
     }
 }
 ?>
+
+@section('js')
+    <script type="text/javascript" src="{{asset('js/team_list.js')}}"></script>
+@stop
 @section('title')
     All Teams
 @stop
@@ -38,6 +42,13 @@ function getParkLoc($parkLocId) {
     Team Overview
 @stop
 @section('content')
+    <label for="sort_by">Sort By:</label>
+    <select id="sort_by">
+        <option value="0">---------</option>
+        <option value="team_number">Team Number</option>
+        <option value="raw_pin">Raw PIN Number</option>
+        <option value="pin">PIN Number</option>
+    </select>
     <table class="table table-responsive table-condensed table-striped table-hover table-bordered">
         <thead>
         <tr>

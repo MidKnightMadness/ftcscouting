@@ -35,6 +35,9 @@ class CreateTeamsTable extends Migration
             $table->boolean('mz');
             $table->boolean('hz');
             $table->boolean('hang');
+            $table->integer('raw_pin');
+            $table->integer('pin');
+            $table->integer('p_match_count')->comment("Number of matches processed for the team");
             $table->text('other_info');
         });
     }

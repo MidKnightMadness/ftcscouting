@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessTeamPIN;
 use App\Match;
+use App\Pim;
 use App\Team;
 use Illuminate\Http\Request;
 use Log;
+use Schema;
 
 class MatchController extends Controller {
 
     private $match;
     private $team;
+
+    private $pn_values = ['climbers_scored'=>'1', 'beacon_scored'=>'1', 'auto_zone'=>'db', 't_climbers_scored'=>'1',
+    'zl_climbers'=>'db', 'd_none'=>'0', 'd_fz'=>'1', 'd_lz'=>'1', 'd_mz'=>'1', 'd_hz'=>'1', 'all_clear'=>'1', 'tele_park'=>'db'];
 
     public function __construct(Team $team, Match $match) {
         $this->match = $match;
@@ -38,7 +44,57 @@ class MatchController extends Controller {
         $m = $match->create($request->except('team_number'));
         $m->team_id = $team->id;
         $m->save();
-        return redirect(route('match.details').'/'.$team->id)->with(['alert_msg'=>'Match recorded!', 'alert_msg_type'=>'success']);
+        // Calculate a team's PIN (Performance Indicator Number
+        Log::info('Dispatching PIN calculation');
+        $this->dispatch(new ProcessTeamPIN($team));
+        return redirect(route('match.details') . '/' . $team->id)->with(['alert_msg' => 'Match recorded!', 'alert_msg_type' => 'success']);
+    }
+
+    public function getPimCalculate($teamNumber){
+        $team = $this->team->whereTeamNumber($teamNumber)->first();
+        $this->dispatch(new ProcessTeamPIN($team));
+        echo "Success!";
+    }
+
+    public function getPimForceCalculate($teamNumber){
+        echo "Force recalculating pim for team {$teamNumber}<br/>";
+        $team = $this->team->whereTeamNumber($teamNumber)->first();
+        $team->p_match_count = 0;
+        $team->pin = 0;
+        $team->raw_pin = 0;
+        $team->save();
+
+        $matches = $this->match->whereTeamId($team->id)->get();
+        foreach($matches as $match){
+            $match->pn_processed = false;
+            $match->save();
+        }
+        $this->getPimCalculate($teamNumber);
+    }
+
+    public function getPopulatePimDatabase(Pim $pim){
+        foreach($this->pn_values as $k => $v){
+            echo $k.' - '.$v.'<br/>';
+        }
+        echo "------ <br/><br/>";
+        foreach($this->pn_values as $k => $v){
+            $p = $pim->wherePimName($k)->first();
+            if($p == null){
+                $p = new Pim();
+                $p->pim_name = $k;
+                $p->value = $v;
+                $p->save();
+                echo "Added new pim {$k} with value {$v}<br/>";
+            } else {
+                if($p->value != $v) {
+                    $p->value = $v;
+                    $p->save();
+                    echo "Updated {$k} to {$v}<br/>";
+                } else {
+                    echo "Not updating {$k}<br/>";
+                }
+            }
+        }
     }
 
     private function noMatch($team, $match) {
@@ -49,15 +105,10 @@ class MatchController extends Controller {
         }
     }
 
-    private function compareAutoZone($team, $match){
-        Log::info($team.','.$match);
-        if($team > $match){
-            if($match == 5 && $match != 5){
-                Log::info("Failed check");
-                return "<td class=\"danger\">";
-            }
+    private function compareAutoZone($team, $match) {
+        if ($team > $match) {
+            return "<td class=\"danger\">";
         }
-        log::info("Passed check");
         return "<td>";
     }
 
@@ -65,32 +116,32 @@ class MatchController extends Controller {
         return $cond ? 'Yes' : 'No';
     }
 
-    private function getParkLoc($parkLocId){
-        switch($parkLocId){
+    private function getParkLoc($parkLocId) {
+        switch ($parkLocId) {
             case 0:
                 return "N/A";
-            break;
+                break;
             case 1:
                 return "Floor Goal";
-            break;
+                break;
             case 2:
                 return "Repair Zone";
-            break;
+                break;
             case 3:
                 return "Low Zone touching Floor";
-            break;
+                break;
             case 4:
                 return "Low Zone";
-            break;
+                break;
             case 5:
                 return "Mid Zone";
-            break;
+                break;
             case 6:
                 return "High Zone";
-            break;
+                break;
             case 7:
                 return "Hang";
-            break;
+                break;
             default:
                 return "";
         }
@@ -109,7 +160,6 @@ class MatchController extends Controller {
             $string .= "</td>";
 
             $string .= $this->compareAutoZone($team->auto_zone, $match->auto_zone);
-            Log::info("Parking Location ".$this->getParkLoc($match->auto_zone));
             $string .= $this->getParkLoc($match->auto_zone);
             $string .= "</td>";
 
@@ -148,6 +198,8 @@ class MatchController extends Controller {
             $string .= $this->noMatch($team->all_clear, $match->all_clear);
             $string .= $this->getYesNo($match->all_clear);
             $string .= "</td>";
+
+            $string .= "<td>" . $match->pn . "</td>";
 
             array_push($rows, $string);
         }
