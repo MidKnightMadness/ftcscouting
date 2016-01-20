@@ -42,4 +42,5 @@ Route::group(['middleware' => ['web']], function () {
         'putSave' =>'match.new',
         'getDetails'=>'match.details'
     ]);
+    Route::controller('admin', 'AdminController');
 });
