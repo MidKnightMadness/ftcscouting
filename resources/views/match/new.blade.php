@@ -64,7 +64,7 @@
     <div class="form-group">
         <label for="tele_park_zone">Final Resting Position</label>
         <div id="tele_park_zone">
-            {!! Form::radio('auto_zone', '0') !!} N/A<br/>
+            {!! Form::radio('auto_zone', '0', true) !!} N/A<br/>
             {!! Form::radio('auto_zone', '1') !!} Floor Goal<br/>
             {!! Form::radio('auto_zone', '2') !!} Repair Zone<br>
             {!! Form::radio('auto_zone', '3') !!} Low Goal Touching Floor<br/>
