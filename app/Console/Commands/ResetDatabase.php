@@ -45,10 +45,14 @@ class ResetDatabase extends Command
                 $this->info('Deleted '.$matchCount.' matches');
                 $this->info("Deleting Teams....");
                 $teams = DB::delete("DELETE FROM `TEAMS`");
-                $this->info("Delted ".$teams." teams");
+                $this->info("Deleted ".$teams." teams");
+                $this->info("Deleting PIN indexes...");
+                $pins = Db::delete("DELETE FROM `pim_index`");
+                $this->info("Deleted $pins indexes");
                 $this->info("Resetting Ids");
                 DB::statement("ALTER TABLE `matches` AUTO_INCREMENT = 1");
                 DB::statement("ALTER TABLE `teams` AUTO_INCREMENT = 1");
+                DB::statement("ALTER TABLE `pim_index` AUTO_INCREMENT = 1");
             } else {
                 $this->info('Aborted!');
             }
