@@ -12,6 +12,7 @@
     Add Team
 @stop
 @section('content')
+    <button class="btn btn-danger btn-block" id="slay_beast" style="display: none; transform: rotate(180deg); -webkit-transform: rotate(180deg);" onclick="reset()">Slay the Beast</button>
     {!! Form::open(array('route'=>'team.save', 'method'=> 'put')) !!}
     @include('team.edit._form')
     {!! Form::close() !!}
