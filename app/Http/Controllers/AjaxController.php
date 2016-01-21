@@ -20,7 +20,7 @@ class AjaxController extends Controller
         if($team == null){
             return response()->json(['error'=>'TEAM_NO_EXIST']);
         } else {
-            return response()->json(['team_name'=>$team->team_name, 'submitter'=>$team->submitter_name]);
+            return response()->json(['id'=>$team->id, 'team_name'=>$team->team_name, 'submitter'=>$team->submitter_name]);
         }
     }
 }

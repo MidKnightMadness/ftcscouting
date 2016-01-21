@@ -10,13 +10,13 @@ $(document).ready(function(){
         if(teamNumber == null || teamNumber == "")
             return;
         if(!validateRegex.test(teamNumber)){
-            disableForm(teamNumber+" is not a number in this world. It may be in your world, but not in this one");
+            disableForm("\""+teamNumber+"\" is not a number in this world. It may be in your world, but not in this one. However, if you ask Brian, he may think it is. ");
             return;
         }
         var url = '/ajax/team-info/'+ teamNumber;
         $.getJSON(url, function ( data ){
             if(typeof data.team_name != "undefined") {
-
+                disableForm("Team "+teamNumber+" has already been submitted by " + data.submitter +"<br/> Click <a href='/team/edit/" + data.id+ "'> Here</a> to edit the team");
             } else {
                 $("#submit_button").prop("disabled", false);
                 $("#tn_div").prop("class", "form-group");
