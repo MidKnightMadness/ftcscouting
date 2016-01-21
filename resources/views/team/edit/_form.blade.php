@@ -34,7 +34,7 @@
         {!! Form::label('auto_park_zone', 'Autonomous Parking Location', ['class'=>'control-label']) !!}
         {!! $errors->first('auto_zone', '<span class="help-block">:message</span>')!!}
         <div id="auto_park_zone">
-            {!! Form::radio('auto_zone', '0') !!} N/A<br/>
+            {!! Form::radio('auto_zone', '0', true) !!} N/A<br/>
             {!! Form::radio('auto_zone', '1') !!} Floor Goal<br/>
             {!! Form::radio('auto_zone', '2') !!} Repair Zone<br>
             {!! Form::radio('auto_zone', '3') !!} Low Zone Touching Floor<br/>
@@ -54,7 +54,7 @@
 
         {!!$errors->first('zl_climbers', '<span class="help-block">:message</span>')!!}
         <div id="zipline_climbers">
-            {!! Form::radio('zl_climbers', '0') !!} 0<br/>
+            {!! Form::radio('zl_climbers', '0', true) !!} 0<br/>
             {!! Form::radio('zl_climbers', '1') !!} 1<br/>
             {!! Form::radio('zl_climbers', '2') !!} 2<br/>
             {!! Form::radio('zl_climbers', '3') !!} 3<br/>
