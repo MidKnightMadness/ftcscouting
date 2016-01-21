@@ -28,7 +28,7 @@ class AdminController extends Controller {
     public function getPinCalculate($teamNumber) {
         $team = $this->team->whereTeamNumber($teamNumber)->first();
         $this->dispatch(new ProcessTeamPIN($team));
-        echo "Calculating outstanding matches for team $teamNumber";
+        echo "Calculating outstanding matches for team $teamNumber<br>";
     }
 
     public function getPopulatePinDatabase() {
@@ -53,6 +53,13 @@ class AdminController extends Controller {
                     echo "Not updating {$k}<br/>";
                 }
             }
+        }
+    }
+
+    public function getReCalculateAll(){
+        $allTeams = $this->team->get();
+        foreach($allTeams as $team){
+            $this->getPinForceCalculate($team->team_number);
         }
     }
 
