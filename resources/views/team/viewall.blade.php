@@ -50,6 +50,9 @@ function getParkLoc($parkLocId) {
         <option value="raw_pin">Raw PIN Number</option>
         <option value="pin">PIN Number</option>
     </select>
+    <p>
+        Key: R = Beacon Repair Zone, FZ = Floor Zone, L = Low Zone, M = Mid Zone, H = High Zone
+    </p>
     <table class="table table-responsive table-condensed table-striped table-hover table-bordered">
         <thead>
         <tr>
