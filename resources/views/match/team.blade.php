@@ -26,6 +26,7 @@
     <p>Boxes in red indicate that they did not perform to what they said they could do</p>
     <table class="table table-striped table-responsive">
         <tr>
+            <th>Match #</th>
             <th>Scored Climbers</th>
             <th>Rescue Beacon</th>
             <th>Autonomous Park Loc</th>

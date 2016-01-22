@@ -101,6 +101,7 @@ class MatchController extends Controller {
         $rows = array();
         foreach ($matches as $match) {
             $string = "";
+            $string .= "<td>{$match->match_num}";
             $string .= $this->noMatch($team->climbers_scored, $match->climbers_scored);
             $string .= $this->getYesNo($match->climbers_scored);
             $string .= "</td>";
