@@ -76,6 +76,8 @@
     </div>
     {!! Form::label('end_park', 'Final Parking Position') !!}
     <div class="form-group" id="end_park">
+        {!! Form::checkbox('fz') !!} Floor Goal<br/>
+        {!! Form::checkbox('rz') !!} Repair Zone<br/>
         {!! Form::checkbox('lz_f') !!} Low Zone touching floor<br/>
         {!! Form::checkbox('lz') !!} Low Zone<br/>
         {!! Form::checkbox('mz') !!} Mid Zone<br/>

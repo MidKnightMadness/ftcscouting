@@ -140,6 +140,12 @@ function getParkLoc($parkLocId) {
                     <td class="danger">No</td>
                 @endif
                 <td>
+                    @if($team->rz)
+                        R,
+                    @endif
+                    @if($team->fz)
+                        FZ,
+                    @endif
                     @if($team->lz_f)
                         F,
                     @endif
