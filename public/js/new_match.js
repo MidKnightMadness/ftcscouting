@@ -16,7 +16,7 @@ $(document).ready(function () {
             }
         });
     });
-    $("#matchNum").focusout(function () {
+    $("#match_num").focusout(function () {
         var teamNumber = $("#team_num").val();
         var matchNum = $("#match_num").val();
         if (teamNumber == null || teamNumber == "") {
@@ -25,16 +25,24 @@ $(document).ready(function () {
         }
         if (matchNum == null || matchNum == "") {
             disableSubmit("#match_num", "A match number is required");
+            return;
+        }
+        console.log(isNaN(matchNum));
+        if(isNaN(matchNum)){
+            disableSubmit("#match_num", matchNum+" is not a number!");
+            return;
         }
         var url = '/ajax/match-info/' + teamNumber + '/' + matchNum;
         $.getJSON(url, function (data) {
             if (typeof data.error != "undefined") {
-                if (data.error == "MATCH_NO_EXIST"){
+                if (data.error == "MATCH_NO_EXIST") {
                     enableSubmit("#match_num");
-                } else if(data.error == "TEAM_NO_EXIST"){
-                    disableSubmit("#match_num", "The team "+teamNumber+" does not exist!");
+                } else if (data.error == "TEAM_NO_EXIST") {
+                    disableSubmit("#match_num", "The team " + teamNumber + " does not exist!");
+                } else if (data.error == "SUCCESS") {
+                    disableSubmit("#match_num", "Match "+matchNum+" has already been submitted!");
                 } else {
-                    disableSubmit("#match_num", "An Error Occured: "+data.error);
+                    disableSubmit("#match_num", "An Error Occured: " + data.error);
                 }
             } else {
                 disableSubmit("#match_num", "An Unknown Error Occurred: " + data.error);
@@ -56,6 +64,7 @@ $(document).ready(function () {
 
 function disableSubmit(jquerySelector, msg) {
     console.log("Disabling submit button");
+    console.log(jquerySelector + ","+msg);
     $("#submit_btn").prop("disabled", true);
     $(jquerySelector + "_help").html(msg);
     $(jquerySelector + "_div").prop("class", "form-group has-error");
