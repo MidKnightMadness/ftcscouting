@@ -40,7 +40,7 @@
     <label for="auto_park_zone">Autonomous End Location</label>
     <div class="form-group">
         <div id="auto_park_zone">
-            {!! Form::radio('auto_zone', '0', true) !!} N/A<br/>
+            {!! Form::radio('auto_zone', '0', ) !!} N/A<br/>
             {!! Form::radio('auto_zone', '1') !!} Floor Goal<br/>
             {!! Form::radio('auto_zone', '2') !!} Repair Zone<br>
             {!! Form::radio('auto_zone', '3') !!} Low Zone Touching Floor<br/>
@@ -80,7 +80,7 @@
             {!! Form::radio('tele_park', '0', true) !!} N/A<br/>
             {!! Form::radio('tele_park', '1') !!} Floor Goal<br/>
             {!! Form::radio('tele_park', '2') !!} Repair Zone<br>
-            {!! Form::radio('tele_park', '3') !!} Low Goal Touching Floor<br/>
+            {!! Form::radio('tele_park', '3') !!} Low Zone Touching Floor<br/>
             {!! Form::radio('tele_park', '4') !!} Low Zone<br/>
             {!! Form::radio('tele_park', '5') !!} Mid Zone<br/>
             {!! Form::radio('tele_park', '6') !!} High Zone<br/>
