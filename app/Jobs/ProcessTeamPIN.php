@@ -48,14 +48,11 @@ class ProcessTeamPIN extends Job implements ShouldQueue {
         Log::info("Starting info: [M] " . $match_count . " [total_pim] " . $total_pim);
         foreach ($matches as $match) {
             $match_pn = 0;
-            Log::info($match->pn_processed);
             if ($match->pn_processed)
                 continue;
             Log::info("----- New Match ------");
             foreach ($cols as $col) {
-                Log::info(" --- Col " . $col);
                 if (in_array($col, $this->excluded_cols)) {
-                    Log::info("Skipping Column " . $col);
                     continue;
                 }
                 $pin_val = $col;
@@ -68,16 +65,12 @@ class ProcessTeamPIN extends Job implements ShouldQueue {
                 if ($p == null) {
                     Log::info("No Pim entry for " . $col);
                     continue;
-                } else {
-                    Log::info("Pim entry for " . $col . " is " . $p->value);
                 }
                 if ($p->value == 'db') {
                     Log::info('Retrieving pn value from database...');
                     $pn = $match->{$col};
                     Log::info('Retrieved value: ' . $pn);
                     $match_pn += $pn;
-                } else {
-                    Log::info('P value ' . $p->value);
                 }
                 $match_pn += $p->value;
             }
