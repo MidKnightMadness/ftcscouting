@@ -82,4 +82,17 @@ class AdminController extends Controller {
         }
         $this->getPinCalculate($teamNumber);
     }
+
+    public function getStatistics(){
+        echo "Teams: ".Team::count()."<br>";
+        echo "Matches: ".Match::count()."<br>";
+    }
+
+    public function getUrls(){
+        echo "/pin-calculate/{TEAMNUM}<br>";
+        echo "/populate-pin-database<br>";
+        echo "/re-calculate-all<br>";
+        echo "/pin-force-calculate/{TEAMNUM}<br>";
+        echo "/statistics<br>";
+    }
 }
