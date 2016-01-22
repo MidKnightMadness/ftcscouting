@@ -19,6 +19,9 @@ $(document).ready(function () {
             case 'pin':
                 redirect('pin');
                 break;
+            case 'match_count':
+                redirect('match_count');
+                break;
             default:
                 redirectDefault();
         }

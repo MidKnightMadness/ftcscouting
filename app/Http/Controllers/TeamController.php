@@ -34,9 +34,12 @@ class TeamController extends Controller {
                 case 'raw_pin':
                     $order_by = 'raw_pin';
                     break;
+                case 'match_count':
+                    $order_by = 'p_match_count';
+                    break;
             }
         }
-        $teams = $this->team->orderBy($order_by)->get();
+        $teams = $this->team->orderBy($order_by, 'DESC')->get();
         return view('team.viewall', compact('teams'));
     }
 

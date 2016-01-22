@@ -46,6 +46,7 @@ function getParkLoc($parkLocId) {
     <select id="sort_by">
         <option value="0">---------</option>
         <option value="team_number">Team Number</option>
+        <option value="match_count">Match Count</option>
         <option value="raw_pin">Raw PIN Number</option>
         <option value="pin">PIN Number</option>
     </select>
