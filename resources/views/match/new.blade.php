@@ -13,6 +13,15 @@
 @stop
 @section('content')
     {!! Form::open(['route'=>'match.new', 'method' => 'put']) !!}
+    <div class="form-group">
+        {!! Form::label('submitter_name', 'Submitter Name') !!}
+        {!! Form::text('submitter_name', Cookie::has('submittersName')? Cookie::get('submittersName') : '', ['class'=>'form-control']) !!}
+    </div>
+    <div class="form-group" id="match_num_div">
+        {!! Form::label('match_num', 'Match Number') !!}
+        <span class="help-block" id="match_num_help"></span>
+        {!! Form::input('tel', 'match_num', null, ['class'=> 'form-control', 'id'=>'match_num']) !!}
+    </div>
     <div class="form-group" id="team_num_div">
         {!! Form::label('team_number', 'Team Number', ['class'=>'control-label']) !!}
         <span class="help-block" id="team_num_help"></span>
