@@ -44,7 +44,7 @@ class MatchController extends Controller {
         // Calculate a team's PIN (Performance Indicator Number
         Log::info('Dispatching PIN calculation');
         $this->dispatch(new ProcessTeamPIN($team));
-        return redirect(route('match.details') . '/' . $team->id)->with(['alert_msg' => 'Match recorded!', 'alert_msg_type' => 'success']);
+        return redirect(route('match.details') . '/' . $team->id)->with(['alert_msg' => 'Match recorded!', 'alert_msg_type' => 'success'])->withCookie(cookie('submittersName', $request->submitter_name, 45000));
     }
 
     private function noMatch($team, $match) {
