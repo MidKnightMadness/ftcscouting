@@ -53,6 +53,7 @@ function getParkLoc($parkLocId) {
         <thead>
         <tr>
             <th>Team Number</th>
+            <th>Number of Matches</th>
             <th>Conflicting Autonomous</th>
             <th>Climbers Scored (Autonomous)</th>
             <th>Rescue Beacon</th>
@@ -71,6 +72,7 @@ function getParkLoc($parkLocId) {
         @foreach($teams as $team)
             <tr>
                 <td>{{Html::link(route('match.details').'/'.$team->id, $team->team_number)}}</td>
+                <td>{{$team->p_match_count}}</td>
                 @if($team->starting_loc)
                     <td class="danger">Yes</td>
                 @else
@@ -88,7 +90,6 @@ function getParkLoc($parkLocId) {
                 @else
                     <td class="danger">No</td>
                 @endif
-
                 <?php
                 echo '<td>' . getParkLoc($team->auto_zone) . '</td>';
                 ?>
