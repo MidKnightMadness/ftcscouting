@@ -63,6 +63,7 @@ function getParkLoc($parkLocId) {
             <th>All Clear Signal</th>
             <th>Hang</th>
             <th>Endgame Parking Location</th>
+            <th>Submitted By</th>
             <th></th>
         </tr>
         </thead>
@@ -149,6 +150,9 @@ function getParkLoc($parkLocId) {
                     @if($team->hz)
                         H
                     @endif
+                </td>
+                <td>
+                    {{$team->submitter_name}}
                 </td>
                 <td>
                     <a href="{{route('team.edit').'/'.$team->id}}" class="btn btn-sm btn-primary">Edit</a>
