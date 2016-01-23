@@ -21,7 +21,6 @@ function the_beast(){
     $(document.body).css('transform', 'rotate(180deg)');
     $("#slay_beast").fadeIn();
 }
-var validateRegex = new RegExp("[0-9]+");
 $(document).ready(function () {
     $("#team_number").focusout(function () {
         var teamNumber = $("#team_number").val();
@@ -37,7 +36,7 @@ $(document).ready(function () {
         } else {
             reset();
         }
-        if (!validateRegex.test(teamNumber)) {
+        if (isNaN(teamNumber)) {
             disableForm("\"" + teamNumber + "\" is not a number in this world. It may be in your world, but not in this one. However, if you ask Brian, he may think it is. ");
             return;
         }
