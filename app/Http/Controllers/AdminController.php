@@ -13,11 +13,16 @@ class AdminController extends Controller {
     private $match;
     private $pim;
 
-    private $pn_values = ['climbers_scored' => '1', 'beacon_scored' => '1', 'auto_zone_0' => '0', 'auto_zone_1' => '1', 'auto_zone_2' => '2',
-        'auto_zone_3' => '3', 'auto_zone_4' => '4', 'auto_zone_5' => '5', 'auto_zone_6' => '6', 't_climbers_scored' => '1',
-        'zl_climbers_0' => '0', 'zl_climbers_1' => '1', 'zl_climbers_2' => '2', 'zl_climbers_3' => '3', 'd_none' => '0', 'd_fz' => '1',
-        'd_lz' => '1', 'd_mz' => '1', 'd_hz' => '1', 'all_clear' => '1', 'tele_park_0' => '0', 'tele_park_1' => '1', 'tele_park_2' => '2',
-        'tele_park_3' => '3', 'tele_park_4' => '4', 'tele_park_5' => '5', 'tele_park_6' => '6', 'tele_park_7' => '7'];
+/*    private $pn_values = ['climbers_scored' => '1', 'beacon_scored' => '2', 'auto_zone_0' => '0', 'auto_zone_1' => '1', 'auto_zone_2' => '1',
+        'auto_zone_3' => '1', 'auto_zone_4' => '2', 'auto_zone_5' => '3', 'auto_zone_6' => '4', 't_climbers_scored' => '1',
+        'zl_climbers_0' => '0', 'zl_climbers_1' => '1', 'zl_climbers_2' => '1', 'zl_climbers_3' => '2', 'd_none' => '0', 'd_fz' => '0',
+        'd_lz' => '2', 'd_mz' => '3', 'd_hz' => '4', 'all_clear' => '2', 'tele_park_0' => '0', 'tele_park_1' => '0', 'tele_park_2' => '0',
+        'tele_park_3' => '0', 'tele_park_4' => '1', 'tele_park_5' => '2', 'tele_park_6' => '3', 'tele_park_7' => '5'];*/
+    private $pn_values = ['climbers_scored' => '20', 'beacon_scored' => '20', 'auto_zone_0' => '0', 'auto_zone_1' => '5', 'auto_zone_2' => '5',
+        'auto_zone_3' => '5', 'auto_zone_4' => '10', 'auto_zone_5' => '20', 'auto_zone_6' => '40', 't_climbers_scored' => '20',
+        'zl_climbers_0' => '0', 'zl_climbers_1' => '20', 'zl_climbers_2' => '20', 'zl_climbers_3' => '20', 'd_none' => '0', 'd_fz' => '4',
+        'd_lz' => '20', 'd_mz' => '80', 'd_hz' => '100', 'all_clear' => '20', 'tele_park_0' => '0', 'tele_park_1' => '0', 'tele_park_2' => '0',
+        'tele_park_3' => '5', 'tele_park_4' => '10', 'tele_park_5' => '20', 'tele_park_6' => '40', 'tele_park_7' => '80'];
 
     public function __construct(Team $team, Match $match, Pim $pim) {
         $this->team = $team;
