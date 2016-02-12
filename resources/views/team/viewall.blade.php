@@ -49,6 +49,7 @@ function getParkLoc($parkLocId) {
         <option value="match_count">Match Count</option>
         <option value="raw_pin">Raw PIN Number</option>
         <option value="pin">PIN Number</option>
+        <option value="rating">Rating</option>
     </select>
     <p>
         Key: R = Beacon Repair Zone, FZ = Floor Zone, L = Low Zone, M = Mid Zone, H = High Zone
@@ -58,6 +59,7 @@ function getParkLoc($parkLocId) {
         <tr>
             <th>Team Number</th>
             <th>Number of Matches</th>
+            <th>Rating</th>
             <th>Conflicting Autonomous</th>
             <th>Climbers Scored (Autonomous)</th>
             <th>Rescue Beacon</th>
@@ -77,6 +79,7 @@ function getParkLoc($parkLocId) {
             <tr>
                 <td>{{Html::link(route('match.details').'/'.$team->id, $team->team_number)}}</td>
                 <td>{{$team->p_match_count}}</td>
+                <td>{{$team->rating}}</td>
                 @if($team->starting_loc)
                     <td class="danger">Yes</td>
                 @else

@@ -90,5 +90,13 @@
         {!! Form::label('other_info', 'Other information') !!}
         {!! Form::textarea('other_info', null, ['rows'=>'4', 'placeholder'=>'Other information', 'class'=>'form-control']) !!}
     </div>
+    {!! Form::label('rating_div', 'Team Rating') !!}
+    <div class="form-group" id="rating_div">
+        <span class="help-block">How likely are they to be a canidate for us if we qualify for finals?</span>
+        {!! Form::radio('rating', '0') !!} 0 - <small>Do not ally with</small><br/>
+        {!! Form::radio('rating', '1') !!} 1 - <small>Last Resort</small><br/>
+        {!! Form::radio('rating', '2') !!} 2 - <small>We could [Think That greenish blue team we were with at our 2nd tournament]</small><br/>
+        {!! Form::radio('rating', '3') !!} 3 - <small>We should ally with them. [Think Tigerbots]</small><br/>
+    </div>
     {!! Form::submit('Submit', ['class'=>'btn btn-success btn-block', 'id'=>'submit_button']) !!}
 </div>

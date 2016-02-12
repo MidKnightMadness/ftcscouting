@@ -21,6 +21,8 @@ $(document).ready(function () {
                 break;
             case 'match_count':
                 redirect('match_count');
+            case 'rating':
+                redirect('rating');
                 break;
             default:
                 redirectDefault();

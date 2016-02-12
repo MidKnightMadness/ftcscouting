@@ -25,21 +25,19 @@ class TeamController extends Controller {
     }
 
     public function getList() {
-        $order_by = 'team_number';
         if (isset($_GET['order_by'])) {
-            switch ($_GET['order_by']) {
-                case 'pin':
-                    $order_by = 'pin';
-                    break;
-                case 'raw_pin':
-                    $order_by = 'raw_pin';
-                    break;
-                case 'match_count':
-                    $order_by = 'p_match_count';
-                    break;
+            $parts = explode(',', $_GET['order_by']);
+            $query = DB::table($this->team->getTable());
+            foreach($parts as $part){
+                if(strtolower($part) == 'rating'){
+                    $query->orderBy($part, 'desc');
+                }
+                $query->orderBy($part);
             }
+            $teams = $query->get();
+        }else {
+            $teams = $this->team->orderBy('team_name')->get();
         }
-        $teams = $this->team->orderBy($order_by, 'DESC')->get();
         return view('team.viewall', compact('teams'));
     }
 
