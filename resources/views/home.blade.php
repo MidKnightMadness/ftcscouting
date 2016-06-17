@@ -1,11 +1,9 @@
 @extends('layouts.panel')
 
 @section('title')
-    Welcome
+    Dashboard
 @endsection
 
 @section('body')
-    <p>
-        Welcome to this FTC Scouting website
-    </p>
+    You are logged in!
 @endsection
