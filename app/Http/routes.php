@@ -18,3 +18,6 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+Route::get('/home', function(){
+    return redirect(route('dashboard'));
+});
