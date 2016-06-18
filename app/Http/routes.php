@@ -21,3 +21,5 @@ Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('/home', function(){
     return redirect(route('dashboard'));
 });
+
+Route::get('/teams', 'TeamController@showAllTeams')->name('teams.all');

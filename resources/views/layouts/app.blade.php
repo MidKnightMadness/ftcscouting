@@ -54,6 +54,7 @@
                 @if(!Auth::guest())
                     <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                 @endif
+                <li><a href="{{route('teams.all')}}">Team List</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
