@@ -3,13 +3,23 @@
 namespace App\Providers;
 
 use App\Helpers\Random;
+use App\Helpers\TeamHelper;
 use Illuminate\Support\ServiceProvider;
+use Log;
 
 class UtilityServiceProvider extends ServiceProvider
 {
 
-    protected $defer = true;
-
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+       view()->composer('*', 'App\Http\ViewComposers\TeamComposer');
+    }
+    
     /**
      * Register the application services.
      *
@@ -20,9 +30,8 @@ class UtilityServiceProvider extends ServiceProvider
         $this->app->singleton(Random::class, function(){
             return new Random();
         });
-    }
-
-    public function provides() {
-        return ['App\Helpers\Random'];
+        $this->app->singleton(TeamHelper::class, function(){
+            return new TeamHelper();
+        });
     }
 }
