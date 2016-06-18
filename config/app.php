@@ -161,6 +161,8 @@ return [
         
         // Laravelcollective HTML
         Collective\Html\HtmlServiceProvider::class,
+        
+        App\Providers\UtilityServiceProvider::class
 
     ],
 
