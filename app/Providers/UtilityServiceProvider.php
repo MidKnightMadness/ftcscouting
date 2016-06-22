@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use App\Helpers\Random;
 use App\Helpers\TeamHelper;
+use App\Team;
+use App\TeamInvite;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Log;
 
