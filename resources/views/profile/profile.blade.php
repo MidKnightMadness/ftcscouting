@@ -9,6 +9,9 @@
                 <div style="width: 100%; height: auto;">
                     <img class="profile-image" src="http://placehold.it/150x150" width="100%">
                 </div>
+                @if(!Auth::guest())
+                    <a href="{{route('profile.edit')}}" class="btn btn-block btn-default edit-profile">Edit Profile</a>
+                @endif
                 <div class="profile-text">{{$user->name}}</div>
                 <hr>
                 Joined: {{date("D F j, Y", strtotime($user->created_at))}}
