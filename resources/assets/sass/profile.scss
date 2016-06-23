@@ -1,0 +1,23 @@
+.navbar-nav{
+  li{
+    a{
+      .profile-image{
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+    }
+  }
+}
+
+.profile-rounded{
+  border-radius: 3px;
+
+  box-shadow: 5px 5px 5px grey;
+}
+
+.profile-text{
+  padding-top: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: grey;
+  font-size: 25px;
+}
