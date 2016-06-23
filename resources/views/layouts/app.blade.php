@@ -79,6 +79,20 @@
         </div>
     </div>
 </nav>
+@if(isset($message))
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="alert alert-{{$message_type or 'info'}}" id="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                @if(count(explode(':', $message)) == 2)
+                    <strong>{{explode(':', $message)[0]}}: </strong>{{explode(':', $message)[1]}}
+                @else
+                    {{$message}}
+                @endif
+            </div>
+        </div>
+    </div>
+@endif
 
 @yield('content')
 
@@ -89,6 +103,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>
-{{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+<script src="{{asset('js/all.js')}}"></script>
 </body>
 </html>
