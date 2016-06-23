@@ -23,6 +23,11 @@
     <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-body">
+                @if($bio != null && $bio->bio != '')
+                    <h4>Bio</h4>
+                    {{$bio->bio}}
+                    <hr>
+                @endif
                 <h3>Teams</h3>
                 @if(count($part_of) == 0)
                     <p>{{$user->name}} is not a member of any teams</p>
