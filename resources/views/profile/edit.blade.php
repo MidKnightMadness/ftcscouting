@@ -51,8 +51,7 @@
                             Are you sure you wish to perform this action?<br>
                             Deleting your account is permanent and <strong>CANNOT</strong> be undone
                         </div>
-                        <label>To confirm you want to do this, type the following in the box below:
-                            <span style="color: red;">Delete my account</span></label>
+                        <label>To confirm you want to do this, type the following in the box below: <span>Delete my account</span></label>
                         {!! Form::open(['route'=>'profile.update', 'method'=>'delete']) !!}
                         {!! Form::text('confirmDelete', null, ['class'=>'form-control', 'id'=>'delete-text']) !!}<br>
                         {!! Form::label('delete', 'Check to confirm deletion') !!}

@@ -6,9 +6,7 @@
     <div class="col-md-2 col-md-offset-3" id="profile-column">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div style="width: 100%; height: auto;">
-                    <img class="profile-image" src="http://placehold.it/150x150" width="100%">
-                </div>
+                <img class="profile-image" src="http://placehold.it/150x150" width="100%">
                 @if(!Auth::guest() && $user->name === Auth::user()->name)
                     <a href="{{route('profile.edit')}}" class="btn btn-block btn-default edit-profile">Edit Profile</a>
                 @endif
