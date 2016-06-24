@@ -71,7 +71,7 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
         $userData = new UserData();
-        $userData->user = $user->id;
+        $userData->user_id = $user->id;
         $userData->save();
         return $user;
     }
