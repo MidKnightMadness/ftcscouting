@@ -6,9 +6,11 @@
     <div class="col-md-2 col-md-offset-3" id="profile-column">
         <div class="panel panel-default">
             <div class="panel-body">
-                <img class="profile-image" src="http://placehold.it/150x150" width="100%">
+                <a href="{{route('profile.edit')}}"><img class="profile-image" src="http://placehold.it/150x150" width="100%" @if(!Auth::guest() && $user->name == Auth::user()->name)data-container="body" data-toggle="popover" data-placement="bottom" data-content="Edit Profile"@endif></a>
                 @if(!Auth::guest() && $user->name === Auth::user()->name)
-                    <a href="{{route('profile.edit')}}" class="btn btn-block btn-default edit-profile">Edit Profile</a>
+                    <div class="hidden-md hidden-lg">
+                        <a href="{{route('profile.edit')}}" class="btn btn-block btn-default edit-profile">Edit Profile</a>
+                    </div>
                 @endif
                 <div class="profile-text">{{$user->name}}</div>
                 <hr>

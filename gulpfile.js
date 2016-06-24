@@ -16,6 +16,7 @@ elixir(function(mix) {
         'app.scss'
     ]).scripts([
         'alert.js',
-        'profile/delete.js'
+        'profile/delete.js',
+        'profile/view.js',
     ]);
 });
