@@ -79,15 +79,15 @@
         </div>
     </div>
 </nav>
-@if(isset($message))
+@if(Session::has('message'))
     <div class="container">
         <div class="col-md-10 col-md-offset-1">
-            <div class="alert alert-{{$message_type or 'info'}}" id="alert">
+            <div class="alert alert-{{Session::has('message_type')? Session::get('message_type') : 'info'}}" id="alert">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                @if(count(explode(':', $message)) == 2)
-                    <strong>{{explode(':', $message)[0]}}: </strong>{{explode(':', $message)[1]}}
+                @if(count(explode(':', Session::get('message'))) == 2)
+                    <strong>{{explode(':', Session::get('message'))[0]}}: </strong>{{explode(':', Session::get('message'))[1]}}
                 @else
-                    {{$message}}
+                    {{Session::get('message')}}
                 @endif
             </div>
         </div>
