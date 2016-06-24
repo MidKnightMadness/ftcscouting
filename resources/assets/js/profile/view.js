@@ -1,5 +1,5 @@
-$(".profile-image").hover(function(){
-    $(".profile-image").popover('show');
+$("#profile-column").find(".profile-image").hover(function(){
+    $("#profile-column").find(".profile-image").popover('show');
 }, function(){
-    $(".profile-image").popover('hide');
+    $("#profile-column").find(".profile-image").popover('hide');
 });
