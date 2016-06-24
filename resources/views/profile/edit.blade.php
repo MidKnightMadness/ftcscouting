@@ -46,7 +46,8 @@
                 <strong>{{$errors->first('bio')}}</strong>
             </span>
         @endif
-        {!! Form::textarea('bio', Auth::user()->data->bio, ['class'=> 'form-control']) !!}
+        {!! Form::textarea('bio', Auth::user()->data->bio, ['class'=> 'form-control character-count', 'maxlength'=>'250', 'data-count-feedback'=>'bio-chars']) !!}
+        <div class="bio-chars"></div>
     </div>
 
     <div class="form-group">

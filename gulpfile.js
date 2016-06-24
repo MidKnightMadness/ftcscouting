@@ -18,6 +18,7 @@ elixir(function(mix) {
         'alert.js',
         'profile/delete.js',
         'profile/view.js',
-        'toggle.js'
+        'toggle.js',
+        'charcount.js'
     ]);
 });

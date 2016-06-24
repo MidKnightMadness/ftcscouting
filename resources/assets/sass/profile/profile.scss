@@ -1,3 +1,4 @@
+@import "edit";
 .navbar-nav{
   li{
     a{
@@ -22,17 +23,5 @@
   }
   .edit-profile{
     margin-top: 10px;
-  }
-}
-
-#delete-account{
-  span{
-    color: red;
-  }
-}
-
-form{
-  .image-preview{
-    margin: 5px;
   }
 }
