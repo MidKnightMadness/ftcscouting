@@ -15,6 +15,7 @@ elixir(function(mix) {
     mix.sass([
         'app.scss'
     ]).scripts([
-        'alert.js'
+        'alert.js',
+        'profile/delete.js'
     ]);
 });

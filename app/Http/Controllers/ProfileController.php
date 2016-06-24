@@ -8,7 +8,6 @@ use App\Http\Requests;
 use App\User;
 use App\UserData;
 use Illuminate\Http\Request;
-use Log;
 use Validator;
 
 class ProfileController extends Controller {
@@ -29,20 +28,20 @@ class ProfileController extends Controller {
     }
 
     public function update(Request $request) {
-        Validator::replacer('max', function($message, $attribute, $rule, $parameters){
-            if($attribute == 'bio'){
-                return "Your bio cannot contain more than ".$parameters[0]." characters";
+        Validator::replacer('max', function ($message, $attribute, $rule, $parameters) {
+            if ($attribute == 'bio') {
+                return "Your bio cannot contain more than " . $parameters[0] . " characters";
             }
             return str_replace(':max', $message, $parameters[0]);
         });
-        Validator::replacer('takenEmail', function($message, $attribute, $rule, $parameters){
-           return "That email is already taken";
+        Validator::replacer('takenEmail', function ($message, $attribute, $rule, $parameters) {
+            return "That email is already taken";
         });
-        Validator::extend('takenEmail', function($attribute, $value, $parameters){
-            if(\Auth::guest())
+        Validator::extend('takenEmail', function ($attribute, $value, $parameters) {
+            if (\Auth::guest())
                 return false;
             $user = \Auth::user();
-            if($user->email == $value){
+            if ($user->email == $value) {
                 return true;
             } else {
                 return count(User::whereEmail($value)->get()) == 0;
@@ -60,5 +59,20 @@ class ProfileController extends Controller {
         $userData->save();
 
         return redirect()->route('profile.show', ['number' => \Auth::user()->name]);
+    }
+
+    public function delete(Request $request) {
+        // Verify the user actually inputted stuff, and hasn't somehow bypassed the checks
+        if (\Auth::guest()) {
+            return redirect('/')->with(['message' => 'Delete:Tried to delete an account you did not own. Aborting']);
+        }
+        if (strtolower($request->get('confirmDelete')) != "delete my account" || !$request->get('delete')) {
+            return redirect()->route('profile.show', ['number' => \Auth::user()->name])->with(['message_type' => 'success', 'message' => 'Delete:Deletion of account canceled as'
+                . ' all the requirements were not satisfied']);
+        } else {
+            \Auth::logout();
+//            User::whereId(\Auth::user()->id)->delete();
+            return redirect('/');
+        }
     }
 }
