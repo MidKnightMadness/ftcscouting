@@ -3,7 +3,7 @@
 @section('title', 'Edit Profile')
 
 @section('body')
-    {!! Form::model(Auth::user(), ['route'=>'profile.update', 'method'=>'patch'])!!}
+    {!! Form::model(Auth::user(), ['route'=>'profile.update', 'method'=>'patch', 'files'=>true])!!}
     <div class="form-group">
         {!! Form::label('name', 'Username') !!}
         {!! Form::text('name', null, ['class' => 'form-control', 'disabled']) !!}
@@ -18,6 +18,26 @@
             </span>
         @endif
     </div>
+    <hr>
+    <div class="picture-setting" data-hidden="false">
+        <div class="form-group">
+            @if(\Auth::user()->hasProfilePicture())
+                <img class="image-preview" src="{{\Auth::user()->profileSmall()}}"/>
+            @endif
+            {!! Form::label('profile', 'Change Profile Picture') !!}
+            {!! Form::file('profile') !!}
+        </div>
+        <div class="form-group">
+            {!! Form::label('gravatar', 'Use Gravatar') !!}
+            {!! Form::checkbox('gravatar', 1, \Auth::user()->data->gravatar) !!}<br>
+            {!! Form::label('gravatar-email', 'Gravatar Email') !!}
+            {!! Form::text('gravatar-email', \Auth::user()->data->gravatar? Auth::user()->email == Auth::user()->data->photo_location? '' : \Auth::user()->data->photo_location : '', ['class'=>'form-control']) !!}
+            <p class="help-block">If lefet blank, your email address will be used</p>
+        </div>
+    </div>
+    {!! Form::label("remove-picture", "Remove Profile Picture") !!}
+    {!! Form::checkbox('remove-picture', 1, false, ['class'=>'toggle', 'data-toggle'=>'picture-setting']) !!}
+    <hr>
     <div class="form-group {{$errors->has('bio')? 'has-error': ''}}">
         {!! Form::label('bio',  'Bio') !!}
         <p class="help-block">250 characters max</p>
@@ -51,7 +71,8 @@
                             Are you sure you wish to perform this action?<br>
                             Deleting your account is permanent and <strong>CANNOT</strong> be undone
                         </div>
-                        <label>To confirm you want to do this, type the following in the box below: <span>Delete my account</span></label>
+                        <label>To confirm you want to do this, type the following in the box below:
+                            <span>Delete my account</span></label>
                         {!! Form::open(['route'=>'profile.update', 'method'=>'delete']) !!}
                         {!! Form::text('confirmDelete', null, ['class'=>'form-control', 'id'=>'delete-text']) !!}<br>
                         {!! Form::label('delete', 'Check to confirm deletion') !!}

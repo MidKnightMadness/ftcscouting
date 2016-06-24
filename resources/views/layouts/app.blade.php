@@ -56,7 +56,7 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <img src="http://placehold.it/30x30" class="img-circle">  {{ Auth::user()->name }} <span class="caret"></span>
+                            <img src="{{\Auth::user()->profileExtraSmall()}}" class="img-circle">  {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">

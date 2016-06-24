@@ -17,6 +17,9 @@ class CreateUserDataTable extends Migration
             $table->integer('user_id');
             $table->timestamps();
             $table->text('bio');
+            $table->boolean('has_profile_photo')->default(false);
+            $table->boolean('gravatar')->default(false);
+            $table->string('photo_location');
         });
     }
 
