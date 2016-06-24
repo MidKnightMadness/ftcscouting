@@ -26,4 +26,5 @@ Route::get('/teams', 'TeamController@showAllTeams')->name('teams.all');
 
 // Profile routes
 Route::get('/profile/edit', 'ProfileController@edit')->name('profile.edit')->middleware(['auth']);
+Route::patch('/profile/edit', 'ProfileController@update')->name('profile.update')->middleware(['auth']);
 Route::get('/profile/{number}', 'ProfileController@profile')->name('profile.show');
