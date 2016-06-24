@@ -25,7 +25,7 @@
             <div class="panel-body">
                 @if($bio != null && $bio->bio != '')
                     <h4>Bio</h4>
-                    {{$bio->bio}}
+                    <p class="bio-content">{{$bio->bio}}</p>
                     <hr>
                 @endif
                 <h3>Teams</h3>
