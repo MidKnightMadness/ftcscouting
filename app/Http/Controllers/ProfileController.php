@@ -24,6 +24,9 @@ class ProfileController extends Controller {
 
     public function profile($userName, TeamHelper $teamHelper) {
         $user = User::whereName($userName)->first();
+        if($user == null){
+            return view('profile.userNotFound')->with('username', $userName);
+        }
         $part_of = $teamHelper->getTeamsForUser($user);
         $bio = $user->data;
         return view('profile.profile', compact('user', 'part_of', 'bio'));
