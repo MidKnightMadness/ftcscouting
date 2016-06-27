@@ -82,7 +82,7 @@ class ProfileController extends Controller {
         }
         $userData->save();
 
-        return redirect()->route('profile.show', ['number' => \Auth::user()->name])->with(['message', 'Your profile has been updated!', 'message_type'=>'success']);
+        return redirect()->route('profile.show', ['number' => \Auth::user()->name])->with(['message'=>'Your profile has been updated!', 'message_type'=>'success']);
     }
 
     public function delete(Request $request) {
