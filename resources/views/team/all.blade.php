@@ -15,10 +15,10 @@
             </thead>
             <tbody>
             @foreach($user_teams as $team)
-                    <tr>
-                        <td>{{$team->team_number}}</td>
-                        <td>{{$team->name}}</td>
-                    </tr>
+                <tr>
+                    <td><a href="{{route('teams.show', [$team->team_number])}}">{{$team->team_number}}</a></td>
+                    <td>{{$team->name}}</td>
+                </tr>
             @endforeach
             </tbody>
         </table>
@@ -35,7 +35,7 @@
         <tbody>
         @foreach($teams as $team)
             <tr>
-                <td>{{$team->team_number}}</td>
+                <td><a href="{{route('teams.show', [$team->team_number])}}">{{$team->team_number}}</a></td>
                 <td>{{$team->name}}</td>
             </tr>
         @endforeach
