@@ -27,8 +27,11 @@ class ProfileController extends Controller {
         if($user == null){
             return view('profile.userNotFound')->with('username', $userName);
         }
-        $part_of = $teamHelper->getTeamsForUser($user);
         $bio = $user->data;
+        $part_of = $teamHelper->getTeamsForUser($user);
+        if(\Auth::guest() || \Auth::user()->name != $userName){
+            $part_of = $teamHelper->getPublicTeamsForUser($user);
+        }
         return view('profile.profile', compact('user', 'part_of', 'bio'));
     }
 

@@ -22,6 +22,19 @@ class TeamHelper {
         }
         return $teams;
     }
+    
+    public function getPublicTeamsForUser(User $user){
+        return $this->getPublicTeamsForId($user->id);
+    }
+    
+    public function getPublicTeamsForId($id){
+        $teams = array();
+        $teamInvites = TeamInvite::whereReceiver($id)->whereAccepted(true)->wherePublic(true)->get();
+        foreach ($teamInvites as $team){
+            $teams[] = Team::whereId($team->team_id)->first();
+        }
+        return $teams;
+    }
 
     public function getAllTeams() {
         return Team::all();
