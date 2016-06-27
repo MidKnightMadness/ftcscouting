@@ -23,6 +23,8 @@ Route::get('/home', function(){
 });
 
 Route::get('/teams', 'TeamController@showAllTeams')->name('teams.all');
+Route::put('/team/create', 'TeamController@doCreate')->name('teams.doCreate');
+Route::get('/team/create', 'TeamController@showCreate')->name('teams.create');
 
 // Profile routes
 Route::get('/profile/edit', 'ProfileController@edit')->name('profile.edit')->middleware(['auth']);
