@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App;
-use App\AboutUser;
-use App\Helpers\TeamHelper;
 use App\Http\Requests;
 use App\User;
 use App\UserData;
@@ -22,15 +20,15 @@ class ProfileController extends Controller {
         $this->random = $random;
     }
 
-    public function profile($userName, TeamHelper $teamHelper) {
+    public function profile($userName) {
         $user = User::whereName($userName)->first();
         if($user == null){
             return view('profile.userNotFound')->with('username', $userName);
         }
         $bio = $user->data;
-        $part_of = $teamHelper->getTeamsForUser($user);
+        $part_of = $user->teams();
         if(\Auth::guest() || \Auth::user()->name != $userName){
-            $part_of = $teamHelper->getPublicTeamsForUser($user);
+            $part_of = $user->publicTeams();
         }
         return view('profile.profile', compact('user', 'part_of', 'bio'));
     }

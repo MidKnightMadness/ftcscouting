@@ -27,6 +27,28 @@ class User extends Authenticatable {
         return $this->hasOne('App\UserData');
     }
 
+    public function invites(){
+        return $this->hasMany('App\TeamInvite','receiver','id');
+    }
+    
+    public function teams(){
+        $teams = array();
+        foreach($this->invites as $invite){
+            $teams[] = Team::whereId($invite->team_id)->first();
+        }
+        return $teams;
+    }
+    
+    public function publicTeams(){
+        $teams = array();
+        foreach ($this->invites as $invite){
+            if($invite->public){
+                $teams[] = Team::whereId($invite->team_id)->first();
+            }
+        }
+        return $teams;
+    }
+
     public function getProfilePicUrl($size) {
         $image = 'default';
         if ($this->data->has_profile_photo) {
