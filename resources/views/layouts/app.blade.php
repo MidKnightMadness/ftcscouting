@@ -43,6 +43,18 @@
                 {{-- Only show the dashboard link if the user is logged in--}}
                 @if(!Auth::guest())
                     <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Teams <span class="badge">{{count($user_teams) == 0? '' : count($user_teams)}}</span><span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            @if(count($user_teams) == 0)
+                                <li><a>You are not a member of any team</a></li>
+                            @else
+                                @foreach($user_teams as $team)
+                                    <li><a href="{{route('teams.show', [$team->team_number])}}">Team {{$team->team_number}}, {{$team->name}}</a></li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    </li>
                 @endif
                 <li><a href="{{route('teams.all')}}">Team List</a></li>
             </ul>
