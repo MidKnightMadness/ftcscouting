@@ -53,4 +53,9 @@ class TeamController extends Controller
         $invite->save();
         return redirect()->route('teams.all')->with(['message'=>'Team created successfully', 'message_type'=>'success']);
     }
+    
+    public function viewTeam($number){
+        $team = $this->team->whereTeamNumber($number)->first();
+        return view('team.view', compact('team'));
+    }
 }
