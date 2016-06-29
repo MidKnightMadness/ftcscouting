@@ -34,6 +34,8 @@ class User extends Authenticatable {
     public function teams(){
         $teams = array();
         foreach($this->invites as $invite){
+            if($invite->pending)
+                continue;
             $teams[] = Team::whereId($invite->team_id)->first();
         }
         return $teams;
@@ -47,6 +49,17 @@ class User extends Authenticatable {
             }
         }
         return $teams;
+    }
+    
+    public function inTeam($teamId){
+        $team = Team::whereId($teamId)->first();
+        if($team == null)
+            return true;
+        foreach($this->invites as $invite){
+            if($invite->team_id == $team->id && !$invite->pending && $invite->accepted)
+                return true;
+        }
+        return false;
     }
 
     public function getProfilePicUrl($size) {
