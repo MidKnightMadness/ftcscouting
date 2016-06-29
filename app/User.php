@@ -61,6 +61,13 @@ class User extends Authenticatable {
         }
         return false;
     }
+    
+    public function teamInCommon(User $otherUser, $teamId){
+        if($this->inTeam($teamId) && $otherUser->inTeam($teamId))
+            return true;
+        return false;
+    }
+
 
     public function getProfilePicUrl($size) {
         $image = 'default';
