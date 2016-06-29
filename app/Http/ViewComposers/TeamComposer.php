@@ -25,14 +25,22 @@ class TeamComposer {
         $view->with('teams', $this->teams->orderBy('team_number')->get());
         if (Auth::guest()) {
             $view->with('user_teams', array());
+            $view->with('pending_teams', array());
         } else {
             $user = Auth::user();
             $teamInvites = $this->teamInvite->whereReceiver($user->id)->whereAccepted(true)->get();
             $user_teams = array();
-            foreach ($teamInvites as $team) {
-                $user_teams[] = $this->teams->whereId($team->team_id)->first();
+            foreach ($teamInvites as $invite) {
+                $user_teams[] = $invite->team;
             }
             $view->with('user_teams', $user_teams);
+            
+            $pendingInvites = $this->teamInvite->whereReceiver($user->id)->whereAccepted(false)->wherePending(true)->get();
+            $pending = array();
+            foreach($pendingInvites as $pending_invite){
+                $pending[$pending_invite->id] = $pending_invite->team;
+            }
+            $view->with('pending_teams', $pending);
         }
     }
 }
