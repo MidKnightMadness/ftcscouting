@@ -6,7 +6,7 @@
 
 @section('body')
     <h4>All Teams</h4>
-    <table class="table table-responsive table-condensed table-striped table-bordered">
+    <table class="table table-responsive table-condensed table-striped table-bordered" id="all-teams">
         <thead>
         <th>Team Number</th>
         <th>Team Name</th>
