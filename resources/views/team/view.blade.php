@@ -10,6 +10,9 @@
         </h1>
     </div>
 
+    @if(in_array($team, $pending_teams))
+        <a href="{{route('teams.teamAcceptInvite', [$team->id])}}" class="btn btn-lg btn-default">Accept Invite</a>
+    @endif
     <h3>Members</h3>
     <div class="help-block">The member with a plus sign (+) is the team creator.
         @if(!\Auth::guest() && in_array($team, \Auth::user()->teams()))

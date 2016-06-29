@@ -51,7 +51,7 @@
                                 <li class="dropdown-header">Pending team invites. Click to accept</li>
                                 @foreach($pending_teams as $invite_id => $pending_team)
                                     {{--TODO: Add team accept URL--}}
-                                    <li><a href="#">Team {{$pending_team->team_number}}, {{$pending_team->name}}</a></li>
+                                    <li><a href="{{route('teams.acceptInvite', [$invite_id])}}">Team {{$pending_team->team_number}}, {{$pending_team->name}}</a></li>
                                 @endforeach
                                 <li role="separator" class="divider"></li>
                             @endif
