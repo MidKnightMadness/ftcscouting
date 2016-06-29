@@ -18,4 +18,8 @@ class TeamInvite extends Model
     public function sendUser(){
         return $this->hasOne('App\User', 'id', 'sender');
     }
+
+    public function team(){
+        return $this->hasOne('App\Team', 'id', 'team_id');
+    }
 }
