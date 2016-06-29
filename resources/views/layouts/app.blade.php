@@ -9,12 +9,12 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css"
-          integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+            integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"
-          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+            integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
 </head>
 <body id="app-layout">
@@ -44,13 +44,24 @@
                 @if(!Auth::guest())
                     <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Teams <span class="badge">{{count($user_teams) == 0? '' : count($user_teams)}}</span><span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Teams
+                            <span class="badge">{{count($pending_teams) == 0? '' : count($pending_teams)}}</span><span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
+                            @if(count($pending_teams) != 0)
+                                <li class="dropdown-header">Pending team invites. Click to accept</li>
+                                @foreach($pending_teams as $invite_id => $pending_team)
+                                    {{--TODO: Add team accept URL--}}
+                                    <li><a href="#">Team {{$pending_team->team_number}}, {{$pending_team->name}}</a></li>
+                                @endforeach
+                                <li role="separator" class="divider"></li>
+                            @endif
                             @if(count($user_teams) == 0)
                                 <li><a>You are not a member of any team</a></li>
                             @else
                                 @foreach($user_teams as $team)
-                                    <li><a href="{{route('teams.show', [$team->team_number])}}">Team {{$team->team_number}}, {{$team->name}}</a></li>
+                                    <li>
+                                        <a href="{{route('teams.show', [$team->team_number])}}">Team {{$team->team_number}}, {{$team->name}}</a>
+                                    </li>
                                 @endforeach
                             @endif
                         </ul>
@@ -68,14 +79,16 @@
                 @else
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle profile-image" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <img src="{{\Auth::user()->profileExtraSmall()}}" class="img-circle">  {{ Auth::user()->name }} <span class="caret"></span>
+                            <img src="{{\Auth::user()->profileExtraSmall()}}" class="img-circle"> {{ Auth::user()->name }}
+                            <span class="caret"></span>
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
                             @if(\Auth::user()->superadmin)
                                 <li><a href="{{url('/admin')}}"><i class="fa fa-btn fa-cogs"></i>Admin</a></li>
                             @endif
-                            <li><a href="{{url('/profile/'.Auth::user()->name)}}"><i class="fa fa-btn fa-user"></i>Profile</a></li>
+                            <li><a href="{{url('/profile/'.Auth::user()->name)}}"><i class="fa fa-btn fa-user"></i>Profile</a>
+                            </li>
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                         </ul>
                     </li>
