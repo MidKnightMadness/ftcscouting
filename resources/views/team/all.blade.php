@@ -21,3 +21,14 @@
         </tbody>
     </table>
 @endsection
+
+@section('bottom')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#all-teams").DataTable({
+                "ordering": false,
+                "lengthMenu": [[50, 100, 300, -1], [50, 100, 300, "All"]]
+            });
+        });
+    </script>
+@endsection

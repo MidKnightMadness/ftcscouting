@@ -19,7 +19,6 @@ elixir(function(mix) {
         'profile/delete.js',
         'profile/view.js',
         'toggle.js',
-        'charcount.js',
-        'tables.js'
+        'charcount.js'
     ]);
 });
