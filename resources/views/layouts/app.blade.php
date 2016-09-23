@@ -85,7 +85,7 @@
                         </a>
 
                         <ul class="dropdown-menu" role="menu">
-                            @if(\Auth::user()->superadmin)
+                            @if(\Auth::user()->data->superadmin)
                                 <li><a href="{{url('/admin')}}"><i class="fa fa-btn fa-cogs"></i>Admin</a></li>
                             @endif
                             <li><a href="{{url('/profile/'.Auth::user()->name)}}"><i class="fa fa-btn fa-user"></i>Profile</a>

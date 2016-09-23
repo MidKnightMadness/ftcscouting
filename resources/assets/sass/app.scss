@@ -1,12 +1,16 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
-@import "profile/profile";
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+@import "profile/profile.scss";
 @import "team/view.scss";
 
-body {
-  font-family: 'Lato';
-}
+// Variables
+@import "variables";
 
-.fa-btn {
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+.fa-btn{
   margin-right: 6px;
 }
