@@ -78,7 +78,7 @@ class User extends Authenticatable
         if ($this->data->has_profile_photo) {
             if ($this->data->gravatar) {
                 $hash = md5(strtolower(trim($this->data->photo_location)));
-                return "https://www.gravatar.com/avatar/" . $hash . "?s=" . $size;
+                return "https://www.gravatar.com/avatar/" . $hash . "?s=" . $size."&d=mm";
             } else {
                 $image = $this->data->photo_location;
                 if(!file_exists(public_path('img/profile/'.$image))){
