@@ -22,5 +22,7 @@ elixir(function(mix) {
         'profile/view.js',
         'toggle.js',
         'charcount.js'
-    ]);
+    ]).scripts([
+        'reactiveDash.js'
+    ], 'public/js/reactiveDash.js');
 });
