@@ -27,6 +27,7 @@ Route::get('/teams', 'TeamController@showAllTeams')->name('teams.all');
 Route::put('/team/create', 'TeamController@doCreate')->name('teams.doCreate');
 Route::get('/team/create', 'TeamController@showCreate')->name('teams.create');
 Route::get('/team/{number}', 'TeamController@viewTeam')->name('teams.show');
+Route::get('/team/{number}/manage', 'TeamController@manageTeam')->name('teams.manage');
 Route::get('/team/acceptInviteTeam/{teamId}', 'TeamController@postAcceptTeamInvite')->name('teams.teamAcceptInvite');
 Route::get('/team/acceptInvite/{inviteNumber}', 'TeamController@acceptTeamInvite')->name('teams.acceptInvite');
 

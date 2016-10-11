@@ -57,6 +57,11 @@ class TeamController extends Controller {
         return view('team.view', compact('team'));
     }
 
+    public function manageTeam($number){
+        $team = $this->team->whereTeamNumber($number)->first();
+        return view('team.manage', compact('team'));
+    }
+
     public function acceptTeamInvite($inviteNumber) {
         $teamInvite = TeamInvite::whereId($inviteNumber)->first();
         if ($teamInvite == null) {

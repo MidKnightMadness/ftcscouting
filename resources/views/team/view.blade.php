@@ -8,6 +8,13 @@
         <h1>Team {{$team->team_number}}
             <small>{{$team->name}}</small>
         </h1>
+        @if(!Auth::guest())
+            @if($team->isOwner(Auth::id()))
+                <div class="btn-group">
+                    <a href="{{route('teams.manage', [$team->team_number])}}" class="btn btn-sm btn-default" style="float:right">Manage Team</a>
+                </div>
+            @endif
+        @endif
     </div>
 
     @if(in_array($team, $pending_teams))
