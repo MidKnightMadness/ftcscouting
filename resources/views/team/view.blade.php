@@ -21,37 +21,20 @@
         <a href="{{route('teams.teamAcceptInvite', [$team->id])}}" class="btn btn-lg btn-default">Accept Invite</a>
     @endif
     <h3>Members</h3>
-    <div class="help-block">The member with a plus sign (+) is the team creator.
-        @if(!\Auth::guest() && in_array($team, \Auth::user()->teams()))
-            <br/>Members with an asterisk (*) have their membership to this team private and aren't showed to members not in the team.
-        @endif
-    </div>
     <div class="member-block">
-        @foreach($team->members as $member)
-            @if($member->pending || !$member->accepted)
-                @continue
-            @endif
-            @if($member->public)
+        @if(sizeof($members))
+            @foreach($members as $member)
                 <div class="col-md-2 col-xs-4 col-sm-4">
                     <div class="member">
-                        <div class="member">
-                            <img src="{{$member->recUser->profileSmall()}}" class="member-image"/>
-                            <div class="member-badge">{{$team->owner == $member->recUser->id? '+' : ''}}{{$member->recUser->name}}</div>
-                        </div>
+                        <img src="{{$member->profileSmall()}}" class="member-image"/>
+                        <div class="member-badge">{{$member->name}}</div>
                     </div>
                 </div>
-            @else
-                @if(!\Auth::guest())
-                    <div class="col-md-2 col-xs-4 col-sm-4">
-                        @if(\Auth::user()->teamInCommon($member->recUser, $team->id))
-                            <div class="member-secret">
-                                <img src="{{$member->recUser->profileSmall()}}" class="member-image"/>
-                                <div class="member-badge">{{$team->owner == $member->recUser->id? '+' : ''}}{{$member->recUser->name}}</div>
-                            </div>
-                        @endif
-                    </div>
-                @endif
-            @endif
-        @endforeach
+            @endforeach
+        @else
+            <div class="col-md-12">
+                <h5>There are no users in this team</h5>
+            </div>
+        @endif
     </div>
 @endsection

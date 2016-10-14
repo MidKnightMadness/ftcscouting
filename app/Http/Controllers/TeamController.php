@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Team;
 use App\TeamInvite;
 use Illuminate\Http\Request;
@@ -54,10 +53,33 @@ class TeamController extends Controller {
 
     public function viewTeam($number) {
         $team = $this->team->whereTeamNumber($number)->first();
-        return view('team.view', compact('team'));
+        $members = array();
+        foreach ($team->members as $invite) {
+            if ($invite->recUser->id == $team->owner) {
+                if ($invite->public)
+                    array_unshift($members, $invite->recUser);
+                else if (!\Auth::guest() && \Auth::user()->teamInCommon($invite->recUser, $team->id))
+                    array_unshift($members, $invite->recUser);
+                continue;
+            }
+            if ($invite->pending || !$invite->accepted)
+                continue;
+            if ($invite->public) {
+                $members[] = $invite->recUser;
+            } else {
+                // The member is private, only show if they share the team
+                if (!\Auth::guest()) {
+                    if (\Auth::user()->teamInCommon($invite->recUser, $team->id)) {
+                        $members[] = $invite->recUser;
+                    }
+                }
+            }
+        }
+
+        return view('team.view', compact('team', 'members', 'owner'));
     }
 
-    public function manageTeam($number){
+    public function manageTeam($number) {
         $team = $this->team->whereTeamNumber($number)->first();
         return view('team.manage', compact('team'));
     }
