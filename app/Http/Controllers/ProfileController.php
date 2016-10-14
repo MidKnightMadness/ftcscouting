@@ -68,7 +68,7 @@ class ProfileController extends Controller {
         $userData = $user->data;
         $userData->bio = $request->get('bio');
         if (!$request->get('gravatar')) {
-            $file = $request->file('profile')[0];
+            $file = $request->file('profile');
             if($file != null)
                 $this->processNewProfilePicture($userData, $file);
         } else {
@@ -106,7 +106,7 @@ class ProfileController extends Controller {
     }
 
     public function image($image, $size) {
-        $image_location = public_path('img/profile/' . $image . '.png');
+        $image_location = public_path('img/profile/' . $image.'.png');
         if (!file_exists($image_location)) {
             echo "The image you are looking for was not found";
             exit;
