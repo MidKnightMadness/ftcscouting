@@ -40,7 +40,7 @@ class Csp {
         $this->set(['font', 'script', 'style'], 'https://cdnjs.cloudflare.com');
         $this->set('font', ['https://fonts.gstatic.com']);
         $this->set('style', ['https://fonts.googleapis.com', "'unsafe-inline'", 'https://cdn.datatables.net']);
-        $this->set('script', ['https://cdn.datatables.net', "'unsafe-inline'"]);
+        $this->set('script', ['https://cdn.datatables.net', "'unsafe-inline'", "'unsafe-eval'"]);
         $this->set('img',['https://placeholdit.imgix.net/','http://placehold.it', 'https://www.gravatar.com']);
     }
 
