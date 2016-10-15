@@ -1,7 +1,7 @@
 process.env.DISABLE_NOTIFIER = true;
 const elixir = require('laravel-elixir');
 
-require('laravel-elixir-vue');
+require('laravel-elixir-vue-2');
 
 /*
  |--------------------------------------------------------------------------
@@ -14,17 +14,15 @@ require('laravel-elixir-vue');
  |
  */
 
-elixir(function(mix) {
-    mix.sass([
-        'app.scss'
-    ]).scripts([
-        'alert.js',
-        'profile/delete.js',
-        'profile/view.js',
-        'toggle.js',
-        'charcount.js',
-        'general.js'
-    ]).scripts([
-        'reactiveDash.js'
-    ], 'public/js/reactiveDash.js');
+elixir(mix => {
+   mix.sass('app.scss').webpack('app.js').scripts([
+       'alert.js',
+       'profile/delete.js',
+       'profile/view.js',
+       'toggle.js',
+       'charcount.js',
+       'general.js'
+   ]).scripts([
+       'reactiveDash.js'
+   ], 'public/js/reactiveDash.js');
 });
