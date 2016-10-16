@@ -15,6 +15,7 @@ require('./bootstrap');
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('textarea-charcount', require('./components/TextAreaCharCount.vue'));
+Vue.component('alert', require('./components/Alert.vue'));
 
 const app = new Vue({
     el: '#app'

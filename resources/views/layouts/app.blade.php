@@ -104,21 +104,12 @@
         </div>
     </nav>
     @if(Session::has('message'))
-        <div class="container">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="alert alert-{{Session::has('message_type')? Session::get('message_type') : 'info'}}" id="alert">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    @if(count(explode(':', Session::get('message'))) == 2)
-                        <strong>{{explode(':', Session::get('message'))[0]}}: </strong>{{explode(':', Session::get('message'))[1]}}
-                    @else
-                        {{Session::get('message')}}
-                    @endif
-                </div>
-            </div>
-        </div>
+        @if(count(explode(':', Session::get('message'))) == 2)
+            <alert title="{{explode(':', Session::get('message'))[0]}}" type="{{Session::has('message_type')? Session::get('message_type'): ''}}">{{explode(':', Session::get('message'))[1]}}</alert>
+        @else
+            <alert type="{{Session::has('message_type')? Session::get('message_type'): ''}}">{{Session::get('message')}}</alert>
+        @endif
     @endif
-
-
     @yield('content')
 </div>
 <!-- JavaScripts -->
