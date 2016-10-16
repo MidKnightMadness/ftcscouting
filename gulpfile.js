@@ -20,7 +20,6 @@ elixir(mix => {
        'profile/delete.js',
        'profile/view.js',
        'toggle.js',
-       'charcount.js',
        'general.js'
    ]).scripts([
        'reactiveDash.js'

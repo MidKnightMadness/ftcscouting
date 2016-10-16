@@ -38,17 +38,8 @@
     {!! Form::label("remove-picture", "Remove Profile Picture") !!}
     {!! Form::checkbox('remove-picture', 1, false, ['class'=>'toggle', 'data-toggle'=>'picture-setting']) !!}
     <hr>
-    <div class="form-group {{$errors->has('bio')? 'has-error': ''}}">
-        {!! Form::label('bio',  'Bio') !!}
-        <p class="help-block">250 characters max</p>
-        @if($errors->has('bio'))
-            <span class="help-block">
-                <strong>{{$errors->first('bio')}}</strong>
-            </span>
-        @endif
-        {!! Form::textarea('bio', Auth::user()->data->bio, ['class'=> 'form-control character-count', 'maxlength'=>'250', 'data-count-feedback'=>'bio-chars']) !!}
-        <div class="bio-chars"></div>
-    </div>
+    <textarea-charcount content="{{(Request::session()->getOldInput('bio') != null)? Request::session()->getOldInput('bio') : Auth::user()->data->bio}}"
+            maxchars=250 rows="10" columns="50" name="bio"></textarea-charcount>
 
     <div class="form-group">
         <div class="btn-group">
