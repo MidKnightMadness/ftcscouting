@@ -185,7 +185,9 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         
-        App\Providers\UtilityServiceProvider::class
+        App\Providers\UtilityServiceProvider::class,
+
+        Laravel\Passport\PassportServiceProvider::class,
 
     ],
 

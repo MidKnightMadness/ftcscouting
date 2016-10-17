@@ -33,6 +33,7 @@ Route::get('/team/acceptInvite/{inviteNumber}', 'TeamController@acceptTeamInvite
 
 // Profile routes
 Route::get('/profile/edit', 'ProfileController@edit')->name('profile.edit')->middleware(['auth']);
+Route::get('/profile/oauth', 'ProfileController@oauthPanel')->name('profile.oauth')->middleware(['auth']);
 Route::patch('/profile/edit', 'ProfileController@update')->name('profile.update')->middleware(['auth']);
 Route::delete('/profile/edit', 'ProfileController@delete')->middleware(['auth']);
 Route::get('/profile/image/{image}/{size}', 'ProfileController@image')->name('profile.image');

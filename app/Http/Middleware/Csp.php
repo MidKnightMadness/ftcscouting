@@ -35,7 +35,7 @@ class Csp {
 
     private function addPolicies() {
         $this->defaultDenyAll();
-        $this->self(['script','img','style', 'font']);
+        $this->self(['script','img','style', 'font', 'connect-src']);
 
         $this->set(['font', 'script', 'style'], 'https://cdnjs.cloudflare.com');
         $this->set('font', ['https://fonts.gstatic.com']);

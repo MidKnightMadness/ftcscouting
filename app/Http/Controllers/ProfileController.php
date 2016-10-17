@@ -37,6 +37,10 @@ class ProfileController extends Controller {
         return view('profile.edit');
     }
 
+    public function oauthPanel(){
+        return view('profile.oauth');
+    }
+
     public function update(Request $request) {
         Validator::replacer('max', function ($message, $attribute, $rule, $parameters) {
             if ($attribute == 'bio') {
