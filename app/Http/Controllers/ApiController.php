@@ -60,6 +60,8 @@ class ApiController extends Controller {
         $alreadyOnTeam = false;
         foreach ($team->members as $invite){
             if($invite->recUser->name == $toInvite) {
+                if(!$invite->pending && !$invite->accepted)
+                    continue;
                 $alreadyOnTeam = true;
                 break;
             }
