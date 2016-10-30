@@ -8,6 +8,7 @@
     <div>
         <!-- Member Overview -->
         <h3>Members ({{this.members.length}})</h3>
+        <button class="btn btn-default" @click="inviteUser" style="margin-bottom: 10px">Invite User</button>
         <div class="member-block">
             <div class="col-md-2 col-xs-4 col-sm-4" v-for="member in members">
                 <div class="member" @click="manageUser(member)">
@@ -35,6 +36,42 @@
                 </div>
             </div>
         </div>
+
+        <!-- Invite user -->
+        <div class="modal fade" id="invite-user" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Invite user</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger" v-if="forms.inviteUser.errors.length > 0">
+                            <p><strong>Whoops!</strong> Something went wrong!</p>
+                            <br/>
+                            <ul>
+                                <li v-for="error in forms.inviteUser.errors">
+                                    {{ error }}
+                                </li>
+                            </ul>
+                        </div>
+                        <p>
+                            Enter the username of the member you wish to invite
+                        </p>
+                        <form @submit.prevent="sendInvite">
+                            <div class="input-group">
+                                <input type="text" name="username" v-model="forms.inviteUser.username" placeholder="Enter Username" class="form-control"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="button" @click="sendInvite">Send Invite!</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -44,12 +81,17 @@
             return {
                 members: [],
                 targetedMember: {
-                    user:{
+                    user: {
                         name: '',
-                        data: {
-                        }
+                        data: {}
                     }
                 },
+                forms: {
+                    inviteUser: {
+                        errors: [],
+                        username: ''
+                    }
+                }
             }
         },
 
@@ -80,6 +122,39 @@
             manageUser(user){
                 this.targetedMember = user;
                 $('#manage-member').modal('show');
+            },
+
+            inviteUser(){
+                this.forms.inviteUser.errors = [];
+                this.forms.inviteUser.username = '';
+                $('#invite-user').modal('show');
+            },
+
+            sendInvite(){
+                // Check if user exists
+                this.$http.get('/api/user/'+this.forms.inviteUser.username).then(resp => {
+                    // User exists, send invite
+                    this.$http.post('/api/invite',  {
+                        username: this.forms.inviteUser.username,
+                        teamNumber: this.number
+                    }).then(response => {
+                        this.members = [];
+                        this.fetchUsers();
+                        $('#invite-user').modal('hide');
+                    }).catch(response => {
+                        if (typeof response.data === 'object') {
+                            this.forms.inviteUser.errors = _.flatten(_.toArray(response.data));
+                        } else {
+                            this.forms.inviteUser.errors = ['Something went wrong. Please try again.'];
+                        }
+                    });
+                }).catch(response => {
+                    if (typeof response.data === 'object') {
+                        this.forms.inviteUser.errors = _.flatten(_.toArray(response.data));
+                    } else {
+                        this.forms.inviteUser.errors = ['Something went wrong. Please try again.'];
+                    }
+                });
             }
         }
     }

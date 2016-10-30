@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Team;
+use App\TeamInvite;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -11,14 +12,14 @@ class ApiController extends Controller {
     public function getUser($username) {
         $user = User::whereName($username)->first();
         if ($user == null)
-            return response()->json(['error' => 'User Not Found', 'errorno' => 1]);
+            return response()->json(['error' => 'User Not Found'], 404);
         return $this->userJson($user);
     }
 
     public function getTeam($teamNumber) {
         $team = Team::whereTeamNumber($teamNumber)->first();
         if ($team == null)
-            return response()->json(['error' => 'Team Not Found', 'errorno' => 2]);
+            return response()->json(['error' => 'Team Not Found'], 404);
         return response()->json($team);
     }
 
@@ -48,6 +49,33 @@ class ApiController extends Controller {
             }
         }
         return $users;
+    }
+
+    public function sendInvite(Request $request){
+        $sendingUser = $request->user();
+        $toInvite = $request->username;
+        $teamNumber = $request->teamNumber;
+        // Check if the user is already on the team
+        $team = Team::whereTeamNumber($teamNumber)->first();
+        $alreadyOnTeam = false;
+        foreach ($team->members as $invite){
+            if($invite->recUser->name == $toInvite) {
+                $alreadyOnTeam = true;
+                break;
+            }
+        }
+        if($alreadyOnTeam){
+            return response()->json(['error'=>"$toInvite is already invited!"], 400);
+        }
+
+        $inv = new TeamInvite();
+        $inv->accepted = false;
+        $inv->pending = true;
+        $inv->sender = $sendingUser->id;
+        $inv->receiver = User::whereName($toInvite)->first()->id;
+        $inv->team_id = $team->id;
+        $inv->save();
+        return response()->json(['status'=>'Invite Sent!']);
     }
 
     private function userJson(User $user) {
