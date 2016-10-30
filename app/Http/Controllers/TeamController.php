@@ -81,6 +81,9 @@ class TeamController extends Controller {
 
     public function manageTeam($number) {
         $team = $this->team->whereTeamNumber($number)->first();
+        if(!$team->isOwner(\Auth::id())){
+            return redirect(route('teams.show', [$number]))->with(['message'=>'Error:You cannot manage teams', 'message_type'=>'danger']);
+        }
         return view('team.manage', compact('team'));
     }
 
