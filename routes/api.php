@@ -24,3 +24,4 @@ Route::get('/team/{number}', 'ApiController@getTeam')->middleware('auth:api');
 Route::get('/team/{number}/members', 'ApiController@teamMembers')->middleware('auth:api');
 
 Route::post('/invite', 'ApiController@sendInvite')->middleware('auth:api');
+Route::post('/invite/cancel', 'ApiController@cancelInvite')->middleware('auth:api');

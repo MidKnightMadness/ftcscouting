@@ -80,6 +80,15 @@ class ApiController extends Controller {
         return response()->json(['status'=>'Invite Sent!']);
     }
 
+    public function cancelInvite(Request $request){
+        $invite = TeamInvite::whereId($request->id);
+        if($invite == null){
+            return response()->json(['error'=>'That invite does not exist!'], 404);
+        }
+        $invite->delete();
+        return response()->json(['status'=>'Deleted!']);
+    }
+
     private function userJson(User $user) {
         return ['id' => $user->id,
             'name' => $user->name,

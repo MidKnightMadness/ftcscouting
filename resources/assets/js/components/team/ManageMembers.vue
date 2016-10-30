@@ -36,9 +36,9 @@
                     </div>
                     <div class="modal-body">
                         <img :src="targetedMember.user.data.photo_location"/>
-                        <button class="btn btn-default" v-if="!targetedMember.pending">Transfer ownership</button>
-                        <button class="btn btn-danger" v-if="!targetedMember.pending">Remove Member From Team</button>
-                        <button class="btn btn-danger" v-else>Cancel Invite</button>
+                        <button class="btn btn-default" v-if="!targetedMember.pending" disabled>Transfer ownership</button>
+                        <button class="btn btn-danger" v-if="!targetedMember.pending" @click="cancelInvite(targetedMember.invite_id)">Remove Member From Team</button>
+                        <button class="btn btn-danger" v-else @click="cancelInvite(targetedMember.invite_id)">Cancel Invite</button>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -170,6 +170,15 @@
                     } else {
                         this.forms.inviteUser.errors = ['Something went wrong. Please try again.'];
                     }
+                });
+            },
+
+            cancelInvite(id){
+                this.$http.post('/api/invite/cancel', {id: id}).then(resp => {
+                    this.members = [];
+                    this.pending = [];
+                    $('#manage-member').modal('hide');
+                    this.fetchUsers();
                 });
             }
         }
