@@ -11,8 +11,8 @@
         <div class="member-block">
             <div class="col-md-2 col-xs-4 col-sm-4" v-for="member in members">
                 <div class="member" @click="manageUser(member)">
-                    <img :src="member.data.photo_location" class="member-image"/>
-                    <div class="member-badge">{{member.name}}</div>
+                    <img :src="member.user.data.photo_location" class="member-image"/>
+                    <div class="member-badge">{{member.user.name}}</div>
                 </div>
             </div>
         </div>
@@ -22,10 +22,10 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content" v-if="targetedMember">
                     <div class="modal-header">
-                        <h4 class="modal-title">Manage User {{targetedMember.name}}</h4>
+                        <h4 class="modal-title">Manage User {{targetedMember.user.name}}</h4>
                     </div>
                     <div class="modal-body">
-                        <img :src="targetedMember.data.photo_location"/>
+                        <img :src="targetedMember.user.data.photo_location"/>
                         <button class="btn btn-default">Transfer ownership</button>
                         <button class="btn btn-danger">Remove Member From Team</button>
                     </div>
@@ -44,7 +44,11 @@
             return {
                 members: [],
                 targetedMember: {
-                    data: {}
+                    user:{
+                        name: '',
+                        data: {
+                        }
+                    }
                 },
             }
         },
@@ -68,14 +72,8 @@
             fetchUsers(){
                 this.$http.get('/api/team/' + this.number + '/members').then(response=> {
                     for (var i = 0; i < response.data.length; i++) {
-                        this.fetchUser(response.data[i].user);
+                        this.members.push(response.data[i]);
                     }
-                });
-            },
-
-            fetchUser(username){
-                this.$http.get('/api/user/' + username).then(response=> {
-                    this.members.push(response.data);
                 });
             },
 
