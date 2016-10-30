@@ -15,6 +15,6 @@ class Team extends Model {
     }
 
     public function isOwner($userId){
-        return $this->owner = $userId;
+        return $this->owner == $userId;
     }
 }
