@@ -9,8 +9,17 @@
         <!-- Member Overview -->
         <h3>Members ({{this.members.length}})</h3>
         <button class="btn btn-default" @click="inviteUser" style="margin-bottom: 10px">Invite User</button>
-        <div class="member-block">
+        <div class="member-block col-md-12">
             <div class="col-md-2 col-xs-4 col-sm-4" v-for="member in members">
+                <div class="member" @click="manageUser(member)">
+                    <img :src="member.user.data.photo_location" class="member-image"/>
+                    <div class="member-badge">{{member.user.name}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="member-block col-md-12" v-if="pending.length > 0">
+            <h3>Pending Acceptance</h3>
+            <div class="col-md-2 col-xs-4 col-sm-4" v-for="member in pending">
                 <div class="member" @click="manageUser(member)">
                     <img :src="member.user.data.photo_location" class="member-image"/>
                     <div class="member-badge">{{member.user.name}}</div>
@@ -27,8 +36,9 @@
                     </div>
                     <div class="modal-body">
                         <img :src="targetedMember.user.data.photo_location"/>
-                        <button class="btn btn-default">Transfer ownership</button>
-                        <button class="btn btn-danger">Remove Member From Team</button>
+                        <button class="btn btn-default" v-if="!targetedMember.pending">Transfer ownership</button>
+                        <button class="btn btn-danger" v-if="!targetedMember.pending">Remove Member From Team</button>
+                        <button class="btn btn-danger" v-else>Cancel Invite</button>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -80,6 +90,7 @@
         data(){
             return {
                 members: [],
+                pending: [],
                 targetedMember: {
                     user: {
                         name: '',
@@ -114,7 +125,11 @@
             fetchUsers(){
                 this.$http.get('/api/team/' + this.number + '/members').then(response=> {
                     for (var i = 0; i < response.data.length; i++) {
-                        this.members.push(response.data[i]);
+                        if (response.data[i].pending) {
+                            this.pending.push(response.data[i]);
+                        } else {
+                            this.members.push(response.data[i]);
+                        }
                     }
                 });
             },
@@ -132,13 +147,14 @@
 
             sendInvite(){
                 // Check if user exists
-                this.$http.get('/api/user/'+this.forms.inviteUser.username).then(resp => {
+                this.$http.get('/api/user/' + this.forms.inviteUser.username).then(resp => {
                     // User exists, send invite
-                    this.$http.post('/api/invite',  {
+                    this.$http.post('/api/invite', {
                         username: this.forms.inviteUser.username,
                         teamNumber: this.number
                     }).then(response => {
                         this.members = [];
+                        this.pending = [];
                         this.fetchUsers();
                         $('#invite-user').modal('hide');
                     }).catch(response => {
