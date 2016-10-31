@@ -14,6 +14,10 @@ class Team extends Model {
         return $this->hasMany('App\TeamInvite', 'team_id', 'id');
     }
 
+    public function surveys() {
+        return $this->hasMany('App\Survey', 'team_owner', 'id');
+    }
+
     public function isOwner($userId){
         return $this->owner == $userId;
     }

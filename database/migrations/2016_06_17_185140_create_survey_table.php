@@ -11,10 +11,10 @@ class CreateSurveyTable extends Migration {
      */
     public function up() {
         Schema::create('surveys', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+            $table->string('survey_id')->primary();
             $table->integer('created_by');
             $table->integer('team_owner');
+            $table->string('name');
             $table->boolean('public');
             $table->boolean('template');
         });

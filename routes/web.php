@@ -38,3 +38,8 @@ Route::patch('/profile/edit', 'ProfileController@update')->name('profile.update'
 Route::delete('/profile/edit', 'ProfileController@delete')->middleware(['auth']);
 Route::get('/profile/image/{image}/{size}', 'ProfileController@image')->name('profile.image');
 Route::get('/profile/{number}', 'ProfileController@profile')->name('profile.show');
+
+// Survey routes
+Route::group(['prefix'=>'survey'], function(){
+   Route::get('/', 'SurveyController@index')->name('survey.index');
+});
