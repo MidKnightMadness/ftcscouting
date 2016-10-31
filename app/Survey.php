@@ -9,4 +9,9 @@ class Survey extends Model
     protected $table = 'surveys';
     
     protected $guarded = [];
+
+
+    public function questions(){
+        return $this->hasMany('App\Question', 'survey_id', 'survey_id');
+    }
 }
