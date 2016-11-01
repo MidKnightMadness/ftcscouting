@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
+use App\Helpers\PermissionHandler;
 use App\Helpers\Random;
-use App\Team;
-use App\TeamInvite;
 use Illuminate\Support\ServiceProvider;
-use Log;
 
 class UtilityServiceProvider extends ServiceProvider
 {
@@ -30,6 +28,9 @@ class UtilityServiceProvider extends ServiceProvider
     {
         $this->app->singleton(Random::class, function(){
             return new Random();
+        });
+        $this->app->singleton(PermissionHandler::class, function(){
+            return new PermissionHandler();
         });
     }
 }
