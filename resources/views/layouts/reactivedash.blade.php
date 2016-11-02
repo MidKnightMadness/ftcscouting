@@ -18,7 +18,6 @@
     </div>
 @endsection
 
-@section('bottom')
-    @parent
+@push('js')
     <script type="text/javascript" src="{{asset('js/reactiveDash.js')}}"></script>
-@endsection
+@endpush

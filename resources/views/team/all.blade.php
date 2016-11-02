@@ -22,7 +22,7 @@
     </table>
 @endsection
 
-@section('bottom')
+@push('js')
     <script type="text/javascript">
         $(document).ready(function () {
             $("#all-teams").DataTable({
@@ -31,4 +31,4 @@
             });
         });
     </script>
-@endsection
+@endpush
