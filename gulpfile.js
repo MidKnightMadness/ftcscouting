@@ -15,13 +15,5 @@ require('laravel-elixir-vue-2');
  */
 
 elixir(mix => {
-   mix.sass('app.scss').webpack('app.js').scripts([
-       'alert.js',
-       'profile/delete.js',
-       'profile/view.js',
-       'toggle.js',
-       'general.js'
-   ]).scripts([
-       'reactiveDash.js'
-   ], 'public/js/reactiveDash.js');
+   mix.sass('app.scss').webpack('app.js').scriptsIn('resources/assets/js/files');
 });

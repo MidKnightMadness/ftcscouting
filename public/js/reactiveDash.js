@@ -41,13 +41,13 @@ function dash_showDiv(toShow){
  */
 function dash_swapDisplayed(newDiv){
     if(typeof dash_displayed != "undefined"){
-        dash_displayed.fadeOut(250, function(){
+        dash_displayed.fadeOut(150, function(){
             dash_displayed = newDiv;
-            dash_displayed.fadeIn(250);
+            dash_displayed.fadeIn(150);
         })
     } else {
         dash_displayed = newDiv;
-        dash_displayed.fadeIn(250);
+        dash_displayed.fadeIn(150);
     }
 }
 
