@@ -41,5 +41,4 @@ Route::get('/profile/{number}', 'ProfileController@profile')->name('profile.show
 
 // Survey routes
 Route::group(['prefix'=>'survey'], function(){
-   Route::get('/', 'SurveyController@index')->name('survey.index');
 });
