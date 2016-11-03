@@ -18,7 +18,7 @@ class CreateQuestionsTable extends Migration
             $table->integer('order');
             $table->string('question_name', 1500);
             $table->enum('question_type', ['short_text', 'long_text', 'number', 'checkbox', 'radio']);
-            $table->string('extra_data');
+            $table->string('extra_data', 15000);
         });
     }
 
