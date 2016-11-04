@@ -13,8 +13,9 @@ class CreateQuestionsTable extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->string('question_id')->primary();
-            $table->string('survey_id');
+            $table->increments('id');
+            $table->timestamps();
+            $table->integer('survey_id');
             $table->integer('order');
             $table->string('question_name', 1500);
             $table->enum('question_type', ['short_text', 'long_text', 'number', 'checkbox', 'radio']);
