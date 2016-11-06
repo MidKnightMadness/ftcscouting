@@ -25,3 +25,9 @@ Route::get('/team/{number}/members', 'ApiController@teamMembers')->middleware('a
 
 Route::post('/invite', 'ApiController@sendInvite')->middleware('auth:api');
 Route::post('/invite/cancel', 'ApiController@cancelInvite')->middleware('auth:api');
+
+Route::get('/survey/{survey}/questions', 'ApiController@getSurveyQuestions')->middleware('auth:api');
+Route::get('/survey/{survey}/new-question', 'ApiController@newSurveyQuestion');
+
+Route::post('/question/{id}/delete', 'ApiController@deleteQuestion')->middleware('auth:api');
+Route::post('/question/{id}/update', 'ApiController@updateQuestion')->middleware('auth:api');

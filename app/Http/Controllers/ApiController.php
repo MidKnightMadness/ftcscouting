@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Question;
+use App\Survey;
 use App\Team;
 use App\TeamInvite;
 use App\User;
@@ -87,6 +89,58 @@ class ApiController extends Controller {
         }
         $invite->delete();
         return response()->json(['status'=>'Deleted!']);
+    }
+
+    public function getSurveyQuestions(Request $request, $survey){
+        $survey = Survey::whereId($survey)->first();
+        if($survey == null){
+            return response()->json(['error'=>'Not found.'], 404);
+        }
+        $questions = $survey->questions;
+
+        $data = array();
+        foreach($questions as $question){
+            $data[] = $question;
+        }
+        return response()->json($data);
+    }
+
+    public function deleteQuestion($id){
+        \Log::info("Deleting question $id");
+        $question = Question::whereId($id);
+        if($question == null)
+            return response()->json(['error'=>'Question not found.'], 404);
+        $question->delete();
+        return response()->json(['status'=>'Deleted!']);
+    }
+
+    public function updateQuestion(Request $request, $id){
+        $question_data = $request->data;
+        $question_data['extra_data'] = json_encode($question_data['extra_data']);
+        $question = Question::whereId($id)->first();
+        if($question == null)
+            return response()->json(['error'=>'Question not found.'], 404);
+        $question->question_name = $question_data['question_name'];
+        $question->question_type = $question_data['question_type'];
+        $question->extra_data = $question_data['extra_data'];
+        $question->order = $question_data['order'];
+        $question->save();
+        return response()->json(['status'=>'Updated!']);
+    }
+
+    public function newSurveyQuestion($survey){
+        $survey = Survey::whereId($survey)->first();
+        if($survey == null){
+            return response()->json(['error'=>'Survey not found'], 404);
+        }
+        $question = new Question();
+        $question->survey_id = $survey->id;
+        $question->question_type = 'short_text';
+        $question->question_name = 'New Question';
+        $question->order = sizeof($survey->questions)+1;
+        $question->extra_data = "{\"options\":[]}";
+        $question->save();
+        return response()->json($question);
     }
 
     private function userJson(User $user) {
