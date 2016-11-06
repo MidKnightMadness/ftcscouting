@@ -16,7 +16,6 @@ class CreateSurveyTable extends Migration {
             $table->integer('created_by');
             $table->integer('team_owner');
             $table->string('name');
-            $table->boolean('public');
             $table->boolean('template');
         });
     }
