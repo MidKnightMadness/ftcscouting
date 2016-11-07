@@ -23,21 +23,26 @@ Route::get('/home', function(){
     return redirect(route('dashboard'));
 });
 
+Route::group(['prefix'=>'team'], function(){
+    Route::put('/create', 'TeamController@doCreate')->name('teams.doCreate');
+    Route::get('/create', 'TeamController@showCreate')->name('teams.create');
+    Route::get('/{number}', 'TeamController@viewTeam')->name('teams.show');
+    Route::get('/{number}/manage', 'TeamController@manageTeam')->name('teams.manage');
+    Route::get('/acceptInviteTeam/{teamId}', 'TeamController@postAcceptTeamInvite')->name('teams.teamAcceptInvite');
+    Route::get('/acceptInvite/{inviteNumber}', 'TeamController@acceptTeamInvite')->name('teams.acceptInvite');
+});
 Route::get('/teams', 'TeamController@showAllTeams')->name('teams.all');
-Route::put('/team/create', 'TeamController@doCreate')->name('teams.doCreate');
-Route::get('/team/create', 'TeamController@showCreate')->name('teams.create');
-Route::get('/team/{number}', 'TeamController@viewTeam')->name('teams.show');
-Route::get('/team/{number}/manage', 'TeamController@manageTeam')->name('teams.manage');
-Route::get('/team/acceptInviteTeam/{teamId}', 'TeamController@postAcceptTeamInvite')->name('teams.teamAcceptInvite');
-Route::get('/team/acceptInvite/{inviteNumber}', 'TeamController@acceptTeamInvite')->name('teams.acceptInvite');
+
 
 // Profile routes
-Route::get('/profile/edit', 'ProfileController@edit')->name('profile.edit')->middleware(['auth']);
-Route::get('/profile/oauth', 'ProfileController@oauthPanel')->name('profile.oauth')->middleware(['auth']);
-Route::patch('/profile/edit', 'ProfileController@update')->name('profile.update')->middleware(['auth']);
-Route::delete('/profile/edit', 'ProfileController@delete')->middleware(['auth']);
-Route::get('/profile/image/{image}/{size}', 'ProfileController@image')->name('profile.image');
-Route::get('/profile/{number}', 'ProfileController@profile')->name('profile.show');
+Route::group(['prefix'=>'profile'], function(){
+    Route::get('/edit', 'ProfileController@edit')->name('profile.edit')->middleware(['auth']);
+    Route::get('/oauth', 'ProfileController@oauthPanel')->name('profile.oauth')->middleware(['auth']);
+    Route::patch('/edit', 'ProfileController@update')->name('profile.update')->middleware(['auth']);
+    Route::delete('/edit', 'ProfileController@delete')->middleware(['auth']);
+    Route::get('/image/{image}/{size}', 'ProfileController@image')->name('profile.image');
+    Route::get('/{number}', 'ProfileController@profile')->name('profile.show');
+});
 
 // Survey routes
 Route::group(['prefix'=>'survey'], function(){
