@@ -58,11 +58,11 @@
                 @foreach($team->surveys as $survey)
                     <tr>
                         <td>
-                            <a href="{{url('/survey/'.$survey->survey_id)}}">{{$survey->name}}</a>
+                            <a href="{{route('survey.view', $survey->id)}}">{{$survey->name}}</a>
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a href="#" class="btn btn-default">Edit Survey</a>
+                                <a href="{{route('survey.edit', $survey->id)}}" class="btn btn-default">Edit Survey</a>
                                 <a href="#" class="btn btn-default">Delete Survey</a>
                             </div>
                         </td>
