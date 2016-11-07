@@ -43,4 +43,6 @@ Route::get('/profile/{number}', 'ProfileController@profile')->name('profile.show
 Route::group(['prefix'=>'survey'], function(){
     Route::get('/edit/{surveyId}', 'SurveyController@edit')->name('survey.edit');
     Route::get('/questions/{surveyId}', 'SurveyController@questions')->name('survey.questions');
+    Route::get('/{survey}', 'SurveyController@showSurvey')->name('survey.view');
+    Route::put('/{survey}/submit', 'SurveyController@submitSurvey')->name('survey.submit');
 });

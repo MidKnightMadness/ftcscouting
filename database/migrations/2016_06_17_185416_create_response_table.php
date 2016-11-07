@@ -13,9 +13,9 @@ class CreateResponseTable extends Migration {
         Schema::create('responses', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('response_group_id');
-            $table->integer('question_id');
-            $table->string('response', 1500);
+            $table->integer('survey');
+            $table->integer('submitted_by');
+            $table->integer('team');
         });
     }
 
