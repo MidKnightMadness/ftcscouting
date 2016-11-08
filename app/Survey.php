@@ -14,4 +14,8 @@ class Survey extends Model
     public function questions(){
         return $this->hasMany('App\Question', 'survey_id', 'id')->orderBy('order');
     }
+
+    public function responses(){
+        return $this->hasMany('App\Response', 'survey', 'id');
+    }
 }
