@@ -63,7 +63,7 @@
                         <td>
                             <div class="btn-group">
                                 <a href="{{route('survey.edit', $survey->id)}}" class="btn btn-default">Edit Survey</a>
-                                <a href="#" class="btn btn-default">Delete Survey</a>
+                                <a href="{{route('survey.delete', $survey->id)}}" class="btn btn-default">Delete Survey</a>
                             </div>
                         </td>
                     </tr>

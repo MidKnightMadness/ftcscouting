@@ -57,4 +57,35 @@ class SurveyController extends Controller
         }
         return redirect(route('survey.view', $survey))->with(['message'=>'Response recorded!', 'message_type'=>'success']);
     }
+
+    public function delete($survey){
+        $survey = Survey::whereId($survey)->first();
+        if($survey == null){
+            // TODO: Throw an error or something
+        }
+        return view('confirmAction')->with(['action'=>"Delete Survey \"$survey->name\"",
+            'route'=>['survey.doDelete', $survey->id], 'method'=>'delete', 'extra_desc'=>['Deletion of surveys will delete 
+            all questions and responses associated with it. This action is PERMANENT and cannot be undone']]);
+    }
+
+    public function doDelete($survey){
+        $survey = Survey::whereId($survey)->first();
+        if($survey == null){
+            // TODO: Throw an error or something
+        }
+        foreach($survey->responses as $response){
+            foreach($response->data as $data){
+                \Log::info("Deleting ResponseData $data->id");
+                $data->delete();
+            }
+            \Log::info("Deleting response $response->id");
+            $response->delete();
+        }
+        foreach($survey->questions as $question){
+            \Log::info("Deleting question $question->id");
+            $question->delete();
+        }
+        $survey->delete();
+        return redirect(route('teams.show', Team::whereId($survey->team_owner)->first()->team_number))->with(['message'=>'Survey Deleted!', 'message_type'=>'success']);
+    }
 }
