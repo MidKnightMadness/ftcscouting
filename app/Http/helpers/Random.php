@@ -3,10 +3,7 @@
 
 namespace App\Helpers;
 
-
-use Illuminate\Support\Facades\Facade;
-
-class Random extends Facade {
+class Random {
 
     private $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     private $numbers = '0123456789';
@@ -31,9 +28,5 @@ class Random extends Facade {
             $string .= $chars[rand(0, strlen($chars) - 1)];
         }
         return $string;
-    }
-
-    protected static function getFacadeAccessor() {
-        return 'random';
     }
 }

@@ -26,8 +26,8 @@ class UtilityServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Random::class, function(){
-            return new Random();
+        $this->app->bind('random', function(){
+            return new Random;
         });
         $this->app->singleton(PermissionHandler::class, function(){
             return new PermissionHandler();

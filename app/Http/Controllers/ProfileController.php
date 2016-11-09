@@ -3,24 +3,20 @@
 namespace App\Http\Controllers;
 
 use App;
-use App\Helpers\Random;
-use App\Http\Requests;
 use App\User;
 use App\UserData;
-use File;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Facades\Image;
+use Random;
 use Storage;
 use Validator;
 
 class ProfileController extends Controller {
 
-    private $random;
 
-    public function __construct(App\Helpers\Random $random) {
+    public function __construct() {
         $this->middleware('auth', ['except' => 'profile', 'image']);
-        $this->random = $random;
     }
 
     public function profile($userName) {

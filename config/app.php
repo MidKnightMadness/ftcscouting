@@ -243,6 +243,8 @@ return [
         
         'Image' => Intervention\Image\Facades\Image::class,
 
+        'Random' => App\Facades\RandomFacade::class,
+
     ],
 
 ];
