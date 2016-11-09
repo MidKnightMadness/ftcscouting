@@ -52,7 +52,7 @@ class TeamController extends Controller {
     }
 
     public function viewTeam($number) {
-        $team = $this->team->whereTeamNumber($number)->first();
+        $team = $this->team->whereTeamNumber($number)->firstOrFail();
         $members = array();
         foreach ($team->members as $invite) {
             if ($invite->recUser->id == $team->owner) {
@@ -80,7 +80,7 @@ class TeamController extends Controller {
     }
 
     public function manageTeam($number) {
-        $team = $this->team->whereTeamNumber($number)->first();
+        $team = $this->team->whereTeamNumber($number)->firstOrFail();
         if(!$team->isOwner(\Auth::id())){
             return redirect(route('teams.show', [$number]))->with(['message'=>'Error:You cannot manage teams', 'message_type'=>'danger']);
         }

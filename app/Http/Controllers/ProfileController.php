@@ -21,10 +21,7 @@ class ProfileController extends Controller {
     }
 
     public function profile($userName) {
-        $user = User::whereName($userName)->first();
-        if($user == null){
-            return view('profile.userNotFound')->with('username', $userName);
-        }
+        $user = User::whereName($userName)->firstOrFail();
         $bio = $user->data;
         $part_of = $user->teams();
         if(\Auth::guest() || \Auth::user()->name != $userName){

@@ -18,7 +18,7 @@ class SurveyController extends Controller
         $this->middleware('auth');
     }
     public function questions($surveyId){
-        $survey = Survey::whereId($surveyId)->first();
+        $survey = Survey::findOrFail($surveyId);
         if($survey == null){
             return response()->json(['error'=>'Not found.'], 404);
         }
@@ -27,12 +27,12 @@ class SurveyController extends Controller
     }
 
     public function edit($surveyId){
-        $survey = Survey::whereId($surveyId)->first();
+        $survey = Survey::findOrFail($surveyId);
         return view('survey.edit', compact('survey'));
     }
 
     public function showSurvey($survey){
-        $survey = Survey::whereId($survey)->first();
+        $survey = Survey::findOrFail($survey);
         return view('survey.view', compact('survey'));
     }
 
@@ -59,7 +59,7 @@ class SurveyController extends Controller
     }
 
     public function delete($survey){
-        $survey = Survey::whereId($survey)->first();
+        $survey = Survey::findOrFail($survey);
         if($survey == null){
             // TODO: Throw an error or something
         }
@@ -69,10 +69,7 @@ class SurveyController extends Controller
     }
 
     public function doDelete($survey){
-        $survey = Survey::whereId($survey)->first();
-        if($survey == null){
-            // TODO: Throw an error or something
-        }
+        $survey = Survey::findOrFail($survey);
         foreach($survey->responses as $response){
             foreach($response->data as $data){
                 \Log::info("Deleting ResponseData $data->id");
