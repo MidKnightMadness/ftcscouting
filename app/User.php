@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Storage;
 
 class User extends Authenticatable
 {
@@ -76,15 +77,14 @@ class User extends Authenticatable
 
     public function getProfilePicUrl($size) {
         $image = 'default';
-//        dd($this->data);
         if ($this->data->has_profile_photo) {
             if ($this->data->gravatar) {
                 $hash = md5(strtolower(trim($this->data->photo_location)));
-                return "https://www.gravatar.com/avatar/" . $hash . "?s=" . $size."&d=mm";
+                return "https://www.gravatar.com/avatar/$hash?s=$size&d=mm";
             } else {
                 $image = $this->data->photo_location;
-                if(!file_exists(public_path('img/profile/'.$image.'.png'))){
-                    $image = 'default';
+                if(!Storage::disk('public')->exists("profile/$image")){
+                    return "https://www.gravatar.com/avatar/default?s=$size&d=mm";
                 }
                 return route('profile.image', ['image'=>$image, 'size'=>$size]);
             }

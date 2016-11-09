@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Helpers\Random;
 use App\Http\Requests;
 use App\User;
 use App\UserData;
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Facades\Image;
+use Storage;
 use Validator;
 
 class ProfileController extends Controller {
@@ -107,12 +110,7 @@ class ProfileController extends Controller {
     }
 
     public function image($image, $size) {
-        $image_location = public_path('img/profile/' . $image.'.png');
-        if (!file_exists($image_location)) {
-            echo "The image you are looking for was not found";
-            exit;
-        }
-        $img = Image::make($image_location);
+        $img = Image::make(Storage::disk('public')->get("profile/$image"));
         $img->resize($size, $size);
         return $img->response('png');
     }
@@ -120,13 +118,13 @@ class ProfileController extends Controller {
     private function processNewProfilePicture(UserData $userData, UploadedFile $file) {
         $userData->has_profile_photo = true;
         $userData->gravatar = false;
-        $fileName = $this->random->letters(30);
+        $fileName = Random::letters(30).".".$file->getClientOriginalExtension();
 
-        $filePath = public_path('img/profile/' . $fileName . '.png');
-        if (file_exists($filePath)) {
+        if(Storage::disk('public')->exists("profile/$fileName")){
             $this->processNewProfilePicture($userData, $file);
+        } else {
+            $file->storeAs("profile", $fileName, 'public');
         }
         $userData->photo_location = $fileName;
-        $file->move('img/profile', $fileName . '.png');
     }
 }
