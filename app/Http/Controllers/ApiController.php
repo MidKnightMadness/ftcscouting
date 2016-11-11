@@ -143,6 +143,9 @@ class ApiController extends Controller {
         return response()->json($question);
     }
 
+    public function getSurveyResponses(Survey $survey){
+        return $survey->responses;
+    }
     private function userJson(User $user) {
         return ['id' => $user->id,
             'name' => $user->name,

@@ -28,6 +28,7 @@ Route::post('/invite/cancel', 'ApiController@cancelInvite')->middleware('auth:ap
 
 Route::get('/survey/{survey}/questions', 'ApiController@getSurveyQuestions')->middleware('auth:api');
 Route::get('/survey/{survey}/new-question', 'ApiController@newSurveyQuestion');
+Route::get('/survey/{survey}/responses', 'ApiController@getSurveyResponses');
 
 Route::post('/question/{id}/delete', 'ApiController@deleteQuestion')->middleware('auth:api');
 Route::post('/question/{id}/update', 'ApiController@updateQuestion')->middleware('auth:api');
