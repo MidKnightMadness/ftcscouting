@@ -11,6 +11,7 @@ class Response extends Model
     protected $guarded = [];
 
     public function data(){
-        return $this->hasMany('App\ResponseData', 'response_id', 'id');
+        return $this->hasMany('App\ResponseData', 'response_id', 'id')
+            ->join('questions', 'response_data.question_id', '=', 'questions.id')->select('response_data.*')->orderBy('order', 'asc');
     }
 }
