@@ -10,10 +10,11 @@ class CreateResponseTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('responses', function (Blueprint $table) {
+        Schema::create('allResponses', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->integer('survey');
+            $table->boolean('initial');
             $table->integer('submitted_by');
             $table->integer('team');
         });
@@ -25,6 +26,6 @@ class CreateResponseTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('responses');
+        Schema::drop('allResponses');
     }
 }

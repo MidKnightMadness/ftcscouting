@@ -16,6 +16,6 @@ class Survey extends Model
     }
 
     public function responses(){
-        return $this->hasMany('App\Response', 'survey', 'id');
+        return $this->hasMany('App\Response', 'survey', 'id')->orderBy('team')->orderBy('initial', 'DESC');
     }
 }
