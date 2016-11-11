@@ -17,6 +17,7 @@ class CreateResponseTable extends Migration {
             $table->boolean('initial');
             $table->integer('submitted_by');
             $table->integer('team');
+            $table->integer('match_number');
         });
     }
 
