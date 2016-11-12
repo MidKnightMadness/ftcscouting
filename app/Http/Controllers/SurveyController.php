@@ -65,7 +65,12 @@ class SurveyController extends Controller
         }
         return view('confirmAction')->with(['action'=>"Delete Survey \"$survey->name\"",
             'route'=>['survey.doDelete', $survey->id], 'method'=>'delete', 'extra_desc'=>['Deletion of surveys will delete 
-            all questions and responses associated with it. This action is PERMANENT and cannot be undone']]);
+            all questions and allResponses associated with it. This action is PERMANENT and cannot be undone']]);
+    }
+
+    public function showResponses(Survey $survey){
+        $team = Team::whereId($survey->team_owner)->first();
+        return view('survey.response')->with(compact('survey', 'team'));
     }
 
     public function doDelete($survey){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Question;
+use App\Response;
 use App\Survey;
 use App\Team;
 use App\TeamInvite;
@@ -144,8 +145,24 @@ class ApiController extends Controller {
     }
 
     public function getSurveyResponses(Survey $survey){
-        return $survey->responses;
+        $result = array();
+        foreach($survey->responses as $resp){
+            $resp['submitted_by_id'] = $resp->submitted_by;
+            $resp['submitted_by'] = User::whereId($resp->submitted_by)->first()->name;
+            $result[] = $resp;
+        }
+        return $result;
     }
+
+    public function getResponseData(Response $response){
+        $result = array();
+        foreach($response->data as $data){
+            $data['question'] = Question::whereId($data->question_id)->first()->question_name;
+            $result[] = $data;
+        }
+        return $result;
+    }
+
     private function userJson(User $user) {
         return ['id' => $user->id,
             'name' => $user->name,

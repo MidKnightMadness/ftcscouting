@@ -51,5 +51,6 @@ Route::group(['prefix'=>'survey'], function(){
     Route::delete('/delete/{surveyId}', 'SurveyController@doDelete')->name('survey.doDelete');
     Route::get('/questions/{surveyId}', 'SurveyController@questions')->name('survey.questions');
     Route::get('/{survey}', 'SurveyController@showSurvey')->name('survey.view');
+    Route::get('/{survey}/responses', 'SurveyController@showResponses')->name('survey.allResponses');
     Route::put('/{survey}/submit', 'SurveyController@submitSurvey')->name('survey.submit');
 });

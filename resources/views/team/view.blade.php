@@ -66,6 +66,11 @@
                                 <a href="{{route('survey.delete', $survey->id)}}" class="btn btn-default">Delete Survey</a>
                             </div>
                         </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{route('survey.allResponses', $survey->id)}}" class="btn btn-default">Responses ({{sizeof($survey->responses)}})</a>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
