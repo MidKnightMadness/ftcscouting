@@ -244,6 +244,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
 
         'Random' => App\Facades\RandomFacade::class,
+        'PINNumber' => App\Facades\PinFacade::class,
 
     ],
 

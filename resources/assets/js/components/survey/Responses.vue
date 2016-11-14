@@ -10,10 +10,24 @@
     .initial {
         background: #1bb200;
     }
+
+    .pin {
+        font-size: 5em;
+        float: right;
+    }
+
+    .bold {
+        font-size: 2em;
+    }
+
+    .m-top-10 {
+        margin-top: 10px;
+    }
 </style>
 
 <template>
     <div>
+        <button class="btn btn-default form-control" @click="rank">Rank Teams by PIN&trade;</button>
         <transition name="fade">
             <div v-if="!viewingResponse">
                 <transition name="fade">
@@ -41,6 +55,7 @@
                             <tr>
                                 <th><b>Match #</b></th>
                                 <th><b>Submitted By</b></th>
+                                <th><b>PIN</b></th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -49,6 +64,7 @@
                                 <td v-if="response.match_number != -1">{{response.match_number}}</td>
                                 <td v-else>N/A</td>
                                 <td>{{response.submitted_by}}</td>
+                                <td>{{response.pin}}</td>
                                 <td>
                                     <button type="button" @click="viewResponse(response.id, response.initial)" class="btn btn-default">View</button>
                                 </td>
@@ -62,6 +78,7 @@
         </transition>
         <transition name="fade">
             <div v-if="viewingResponse" data-id="response">
+                <div class="pin" v-if="responsePin != -1">PIN {{responsePin}}</div>
                 <div class="question" v-for="question in viewingResponse">
                     <h3>{{question.question}}</h3>
                     <p>{{question.response_data}}</p>
@@ -69,6 +86,23 @@
                 <button type="button" @click="viewingResponse = null" class="btn btn-sm btn-default"><i class="fa fa-backward" aria-hidden="true"></i></button>
             </div>
         </transition>
+        <div class="modal fade" id="ranked" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Ranked PIN</h4>
+                    </div>
+                    <div class="modal-body">
+                       <ol>
+                           <li v-for="(team, index) in rankedTeams" :class="{bold: index < 3}">{{team.team}} ({{team.pin}})</li>
+                       </ol>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -80,6 +114,8 @@
                 allResponses: [],
                 responses:[],
                 viewingResponse:null,
+                responsePin: -1,
+                rankedTeams:[],
             }
         },
 
@@ -117,9 +153,10 @@
             },
 
             viewResponse(id, initial){
+                this.getPin(id);
                 this.$http.get('/api/response/' + id + '/data').then(resp=> {
                     this.viewingResponse = resp.data;
-                })
+                });
             },
 
             viewResponses(team){
@@ -129,6 +166,19 @@
                         this.responses.push(r);
                 })
             },
+
+            getPin(id){
+                this.$http.get('/api/response/'+id+'/pin').then(resp => {
+                    this.responsePin = resp.data;
+                })
+            },
+
+            rank(){
+                this.$http.get('/api/survey/'+this.id+'/rank').then(resp => {
+                    this.rankedTeams = resp.data;
+                    $("#ranked").modal('show');
+                })
+            }
         }
     }
 </script>

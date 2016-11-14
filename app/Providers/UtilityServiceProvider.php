@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\PermissionHandler;
+use App\Helpers\PinHelper;
 use App\Helpers\Random;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +29,9 @@ class UtilityServiceProvider extends ServiceProvider
     {
         $this->app->bind('random', function(){
             return new Random;
+        });
+        $this->app->bind('pnumber', function(){
+            return new PinHelper;
         });
         $this->app->singleton(PermissionHandler::class, function(){
             return new PermissionHandler();

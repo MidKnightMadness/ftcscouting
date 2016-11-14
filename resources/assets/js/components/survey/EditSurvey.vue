@@ -79,6 +79,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <div class="btn-group" v-if="checkboxOrRadio(editingQuestion)">
+                            <button type="button" class="btn btn-default" @click="showPinDialog()">Edit PIN&trade;</button>
+                        </div>
                         <div class="btn-group">
                             <button type="button" class="btn btn-danger" @click="del()">Delete Question</button>
                         </div>
@@ -86,6 +89,24 @@
                             <button type="button" class="btn btn-danger" @click="cancel()">Cancel</button>
                             <button type="button" class="btn btn-success" @click="save()">Save</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="edit-pin" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit PIN&trade; data</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="update-pin" @submit.prevent="updatePin">
+                            <div class="input-group" v-for="(option, index) in editingQuestion.extra_data.options" style="margin-bottom: 10px">
+                                <span class="input-group-addon">{{option.name}}</span>
+                                <input type="number" class="form-control" :value="pinData[option.name.toLowerCase()]" :name="option.name.toLowerCase()" :id="option.name.toLowerCase()"/>
+                            </div>
+                            <button type="submit" class="btn btn-default">Save</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -104,8 +125,9 @@
                     order: -1,
                     extra_data: {
                         options: []
-                    }
+                    },
                 },
+                pinData:[],
             }
         },
 
@@ -183,6 +205,23 @@
             newQuestion(){
                 this.$http.get('/api/survey/' + this.id + '/new-question', {id: this.id}).then(e=> {
                     this.questions.push(e.data);
+                })
+            },
+
+            showPinDialog(){
+                this.$http.get('/api/question/'+this.editingQuestion.id+'/pin').then(e=>{
+                    this.pinData = JSON.parse(e.data.pin_data);
+                    $("#edit-question").modal('hide');
+                    $("#edit-pin").modal('show');
+                });
+            },
+
+            updatePin(e){
+                var data = $(e.target).serializeArray();
+                console.log(data);
+                this.$http.post('/api/question/'+this.editingQuestion.id+'/pin', _.flatten(data)).then(e=>{
+                    $("#edit-question").modal('show');
+                    $("#edit-pin").modal('hide');
                 })
             }
         },

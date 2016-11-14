@@ -29,8 +29,12 @@ Route::post('/invite/cancel', 'ApiController@cancelInvite')->middleware('auth:ap
 Route::get('/survey/{survey}/questions', 'ApiController@getSurveyQuestions')->middleware('auth:api');
 Route::get('/survey/{survey}/new-question', 'ApiController@newSurveyQuestion');
 Route::get('/survey/{survey}/allResponses', 'ApiController@getSurveyResponses');
+Route::get('/survey/{survey}/rank', 'ApiController@rankTeams');
 
 Route::get('/response/{response}/data', 'ApiController@getResponseData');
+Route::get('/response/{response}/pin', 'ApiController@getResponsePin');
 
 Route::post('/question/{id}/delete', 'ApiController@deleteQuestion')->middleware('auth:api');
 Route::post('/question/{id}/update', 'ApiController@updateQuestion')->middleware('auth:api');
+Route::get('/question/{id}/pin', 'ApiController@pinQuestion');
+Route::post('/question/{id}/pin', 'ApiController@setPinQuestion')->middleware('auth:api');
