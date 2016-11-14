@@ -43,6 +43,8 @@ class SurveyController extends Controller
         $response->submitted_by = $request->user()->id;
         $response->survey = $survey;
         $response->team = $teamNumber;
+        $response->initial = $request->initial? $request->initial : 0;
+        $response->match_number = !$response->initial? $request->match_number : -1;
         $response->save();
         $except = $request->except(['_method', '_token']);
         foreach($except as $k=>$v){
