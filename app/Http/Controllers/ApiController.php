@@ -199,6 +199,8 @@ class ApiController extends Controller {
             $i = 0;
             $pin = 0;
             foreach($responses as $resp){
+                if($resp->initial)
+                    continue;
                 $pin += \PINNumber::calculatePinForResponse($resp);
                 $i++;
             }
