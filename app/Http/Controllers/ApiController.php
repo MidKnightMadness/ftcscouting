@@ -213,6 +213,13 @@ class ApiController extends Controller {
         return response()->json($toReturn);
     }
 
+    public function deleteResponse(Response $response){
+        foreach($response->data as $data){
+            $data->delete();
+        }
+        $response->delete();
+    }
+
     private function userJson(User $user) {
         return ['id' => $user->id,
             'name' => $user->name,

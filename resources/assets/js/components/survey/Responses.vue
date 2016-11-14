@@ -60,13 +60,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="response in responses" :class="{'initial': response.initial}">
+                            <tr v-for="(response, index) in responses" :class="{'initial': response.initial}">
                                 <td v-if="response.match_number != -1">{{response.match_number}}</td>
                                 <td v-else>N/A</td>
                                 <td>{{response.submitted_by}}</td>
                                 <td>{{response.pin}}</td>
                                 <td>
-                                    <button type="button" @click="viewResponse(response.id, response.initial)" class="btn btn-default">View</button>
+                                    <div class="btn-group">
+                                        <button type="button" @click="viewResponse(response.id, response.initial)" class="btn btn-default">View</button>
+                                        <button type="button" @click="deleteResponse(index, response)" class="btn btn-danger">Delete</button>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -165,6 +168,13 @@
                     if(r.team == team)
                         this.responses.push(r);
                 })
+            },
+
+            deleteResponse(index, response){
+                this.$http.post('/api/response/'+response.id+'/delete').then(resp=> {
+                   this.responses.splice(index, 1);
+                    this.getSurveyData();
+                });
             },
 
             getPin(id){

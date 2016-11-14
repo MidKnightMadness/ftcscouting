@@ -33,6 +33,7 @@ Route::get('/survey/{survey}/rank', 'ApiController@rankTeams');
 
 Route::get('/response/{response}/data', 'ApiController@getResponseData');
 Route::get('/response/{response}/pin', 'ApiController@getResponsePin');
+Route::post('/response/{response}/delete', 'ApiController@deleteResponse');
 
 Route::post('/question/{id}/delete', 'ApiController@deleteQuestion')->middleware('auth:api');
 Route::post('/question/{id}/update', 'ApiController@updateQuestion')->middleware('auth:api');
