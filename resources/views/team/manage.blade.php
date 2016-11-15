@@ -7,6 +7,6 @@
 
 @section('panels')
     <div class="twopanel" id="members">
-        <team-manage-members number={{$team->team_number}}></team-manage-members>
+        <team-manage-members number={{$team->team_number}} id={{$team->id}}></team-manage-members>
     </div>
 @endsection

@@ -8,47 +8,49 @@ use App\Survey;
 use App\Team;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
-class SurveyController extends Controller
-{
+class SurveyController extends Controller {
 
 
     public function __construct() {
         $this->middleware('auth');
     }
-    public function questions($surveyId){
+
+    public function questions($surveyId) {
         $survey = Survey::findOrFail($surveyId);
-        if($survey == null){
-            return response()->json(['error'=>'Not found.'], 404);
+        if ($survey == null) {
+            return response()->json(['error' => 'Not found.'], 404);
         }
         $questions = $survey->questions;
         return view('survey.allQuestions', compact('questions'));
     }
 
-    public function edit($surveyId){
+    public function edit($surveyId) {
         $survey = Survey::findOrFail($surveyId);
+        if (\Auth::guest() || !\Auth::user()->can('edit_survey', Team::whereId($survey->team_owner)->first()))
+            return back()->with(['message' => 'Error:You cannot respond to this survey', 'message_type' => 'danger']);
         return view('survey.edit', compact('survey'));
     }
 
-    public function showSurvey($survey){
+    public function showSurvey($survey) {
         $survey = Survey::findOrFail($survey);
+        if (\Auth::guest() || !\Auth::user()->can('survey_respond', Team::whereId($survey->team_owner)->first()))
+            return back()->with(['message' => 'Error:You cannot respond to this survey', 'message_type' => 'danger']);
         return view('survey.view', compact('survey'));
     }
 
-    public function submitSurvey(Request $request, $survey){
+    public function submitSurvey(Request $request, $survey) {
         \Log::info($request);
         $teamNumber = $request->team_number;
         $response = new Response();
         $response->submitted_by = $request->user()->id;
         $response->survey = $survey;
         $response->team = $teamNumber;
-        $response->initial = $request->initial? $request->initial : 0;
-        $response->match_number = !$response->initial? $request->match_number : -1;
+        $response->initial = $request->initial ? $request->initial : 0;
+        $response->match_number = !$response->initial ? $request->match_number : -1;
         $response->save();
         $except = $request->except(['_method', '_token']);
-        foreach($except as $k=>$v){
-            if(strpos($k, 'question')!==0)
+        foreach ($except as $k => $v) {
+            if (strpos($k, 'question') !== 0)
                 continue;
             $k = str_replace('question-', '', $k);
             $response_data = new ResponseData();
@@ -57,39 +59,41 @@ class SurveyController extends Controller
             $response_data->response_data = $v;
             $response_data->save();
         }
-        return redirect(route('survey.view', $survey))->with(['message'=>'Response recorded!', 'message_type'=>'success']);
+        return redirect(route('survey.view', $survey))->with(['message' => 'Response recorded!', 'message_type' => 'success']);
     }
 
-    public function delete($survey){
+    public function delete($survey) {
         $survey = Survey::findOrFail($survey);
-        if($survey == null){
+        if ($survey == null) {
             // TODO: Throw an error or something
         }
-        return view('confirmAction')->with(['action'=>"Delete Survey \"$survey->name\"",
-            'route'=>['survey.doDelete', $survey->id], 'method'=>'delete', 'extra_desc'=>['Deletion of surveys will delete 
+        return view('confirmAction')->with(['action' => "Delete Survey \"$survey->name\"",
+            'route' => ['survey.doDelete', $survey->id], 'method' => 'delete', 'extra_desc' => ['Deletion of surveys will delete 
             all questions and allResponses associated with it. This action is PERMANENT and cannot be undone']]);
     }
 
-    public function showResponses(Survey $survey){
+    public function showResponses(Survey $survey) {
         $team = Team::whereId($survey->team_owner)->first();
+        if (\Auth::guest() || !\Auth::user()->can('view_survey', $team))
+            return back()->with(['message' => 'Error;You cannot view the results of this survey', 'message_type' => 'danger']);
         return view('survey.response')->with(compact('survey', 'team'));
     }
 
-    public function doDelete($survey){
+    public function doDelete($survey) {
         $survey = Survey::findOrFail($survey);
-        foreach($survey->responses as $response){
-            foreach($response->data as $data){
+        foreach ($survey->responses as $response) {
+            foreach ($response->data as $data) {
                 \Log::info("Deleting ResponseData $data->id");
                 $data->delete();
             }
             \Log::info("Deleting response $response->id");
             $response->delete();
         }
-        foreach($survey->questions as $question){
+        foreach ($survey->questions as $question) {
             \Log::info("Deleting question $question->id");
             $question->delete();
         }
         $survey->delete();
-        return redirect(route('teams.show', Team::whereId($survey->team_owner)->first()->team_number))->with(['message'=>'Survey Deleted!', 'message_type'=>'success']);
+        return redirect(route('teams.show', Team::whereId($survey->team_owner)->first()->team_number))->with(['message' => 'Survey Deleted!', 'message_type' => 'success']);
     }
 }

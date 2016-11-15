@@ -42,7 +42,9 @@
                             <tbody>
                             <tr v-for="team in teams">
                                 <td>{{team}}</td>
-                                <td><button @click="viewResponses(team)" class="btn btn-default">View</button></td>
+                                <td>
+                                    <button @click="viewResponses(team)" class="btn btn-default">View</button>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -68,13 +70,14 @@
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" @click="viewResponse(response.id, response.initial)" class="btn btn-default">View</button>
-                                        <button type="button" @click="deleteResponse(index, response)" class="btn btn-danger">Delete</button>
+                                        <button type="button" @click="deleteResponse(index, response)" class="btn btn-danger" v-if="canDelete">Delete</button>
                                     </div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-                        <button @click="responses = []" class="btn btn-default"><i class="fa fa-backward" aria-hidden="true"></i></button>
+                        <button @click="responses = []" class="btn btn-default">
+                            <i class="fa fa-backward" aria-hidden="true"></i></button>
                     </div>
                 </transition>
             </div>
@@ -86,7 +89,8 @@
                     <h3>{{question.question}}</h3>
                     <p>{{question.response_data}}</p>
                 </div>
-                <button type="button" @click="viewingResponse = null" class="btn btn-sm btn-default"><i class="fa fa-backward" aria-hidden="true"></i></button>
+                <button type="button" @click="viewingResponse = null" class="btn btn-sm btn-default">
+                    <i class="fa fa-backward" aria-hidden="true"></i></button>
             </div>
         </transition>
         <div class="modal fade" id="ranked" tabindex="-1" role="dialog">
@@ -96,9 +100,9 @@
                         <h4 class="modal-title">Ranked PIN</h4>
                     </div>
                     <div class="modal-body">
-                       <ol>
-                           <li v-for="(team, index) in rankedTeams" :class="{bold: index < 3}">{{team.team}} ({{team.pin}})</li>
-                       </ol>
+                        <ol>
+                            <li v-for="(team, index) in rankedTeams" :class="{bold: index < 3}">{{team.team}} ({{team.pin}})</li>
+                        </ol>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -115,10 +119,11 @@
         data(){
             return {
                 allResponses: [],
-                responses:[],
-                viewingResponse:null,
+                responses: [],
+                viewingResponse: null,
                 responsePin: -1,
-                rankedTeams:[],
+                rankedTeams: [],
+                canDelete: false
             }
         },
 
@@ -132,8 +137,8 @@
         computed: {
             teams(){
                 var teams = [];
-                this.allResponses.forEach(e=>{
-                    if($.inArray(e.team, teams) == -1){
+                this.allResponses.forEach(e=> {
+                    if ($.inArray(e.team, teams) == -1) {
                         teams.push(e.team);
                     }
                 });
@@ -143,7 +148,7 @@
 
         mounted(){
             this.getSurveyData();
-            setInterval(function(){
+            setInterval(function () {
                 this.getSurveyData();
             }.bind(this), 30000);
         },
@@ -163,28 +168,31 @@
             },
 
             viewResponses(team){
-                this.responses = [];
-                this.allResponses.forEach(r => {
-                    if(r.team == team)
-                        this.responses.push(r);
-                })
+                this.$http.get('/api/can/delete_survey/' + this.id).then(resp=> {
+                    this.canDelete = (resp.data == "true");
+                    this.responses = [];
+                    this.allResponses.forEach(r => {
+                        if (r.team == team)
+                            this.responses.push(r);
+                    })
+                });
             },
 
             deleteResponse(index, response){
-                this.$http.post('/api/response/'+response.id+'/delete').then(resp=> {
-                   this.responses.splice(index, 1);
+                this.$http.post('/api/response/' + response.id + '/delete').then(resp=> {
+                    this.responses.splice(index, 1);
                     this.getSurveyData();
                 });
             },
 
             getPin(id){
-                this.$http.get('/api/response/'+id+'/pin').then(resp => {
+                this.$http.get('/api/response/' + id + '/pin').then(resp => {
                     this.responsePin = resp.data;
                 })
             },
 
             rank(){
-                this.$http.get('/api/survey/'+this.id+'/rank').then(resp => {
+                this.$http.get('/api/survey/' + this.id + '/rank').then(resp => {
                     this.rankedTeams = resp.data;
                     $("#ranked").modal('show');
                 })

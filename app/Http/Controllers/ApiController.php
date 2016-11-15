@@ -9,6 +9,7 @@ use App\Survey;
 use App\Team;
 use App\TeamInvite;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller {
@@ -220,6 +221,14 @@ class ApiController extends Controller {
             $data->delete();
         }
         $response->delete();
+    }
+
+    public function verifyPermission($perm, Team $team, Request $request){
+        if($team == null)
+            return "false";
+        if($request->user() == null)
+            return "false";
+        return Auth::user()->can($perm, $team)? "true" : "false";
     }
 
     private function userJson(User $user) {

@@ -8,7 +8,7 @@
     <div>
         <!-- Member Overview -->
         <h3>Members ({{this.members.length}})</h3>
-        <button class="btn btn-default" @click="inviteUser" style="margin-bottom: 10px">Invite User</button>
+        <button class="btn btn-default" @click="inviteUser" style="margin-bottom: 10px" v-if="perms.invite">Invite User</button>
         <div class="member-block col-md-12">
             <div class="col-md-2 col-xs-4 col-sm-4" v-for="member in members">
                 <div class="member" @click="manageUser(member)">
@@ -36,9 +36,11 @@
                     </div>
                     <div class="modal-body">
                         <img :src="targetedMember.user.data.photo_location"/>
-                        <button class="btn btn-default" v-if="!targetedMember.pending" disabled>Transfer ownership</button>
-                        <button class="btn btn-danger" v-if="!targetedMember.pending" @click="cancelInvite(targetedMember.invite_id)">Remove Member From Team</button>
-                        <button class="btn btn-danger" v-else @click="cancelInvite(targetedMember.invite_id)">Cancel Invite</button>
+                        <!--<button class="btn btn-default" v-if="!targetedMember.pending" disabled>Transfer ownership</button>-->
+                        <div v-if="perms.remove" style="margin-top: 10px">
+                            <button class="btn btn-danger" v-if="!targetedMember.pending" @click="cancelInvite(targetedMember.invite_id)">Remove Member From Team</button>
+                            <button class="btn btn-danger" v-else @click="cancelInvite(targetedMember.invite_id)">Cancel Invite</button>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -102,16 +104,25 @@
                         errors: [],
                         username: ''
                     }
+                },
+                perms: {
+                    invite: false,
+                    remove: false,
                 }
             }
         },
 
         mounted(){
             this.prepareComponent();
+            this.fetchPerms();
         },
 
         props: {
             number: {
+                type: String,
+                required: true
+            },
+            id: {
                 type: String,
                 required: true
             }
@@ -132,6 +143,15 @@
                         }
                     }
                 });
+            },
+
+            fetchPerms(){
+                this.$http.get('/api/can/invite/' + this.id).then(resp => {
+                    this.perms.invite = resp.data == "true";
+                });
+                this.$http.get('/api/can/remove_member/' + this.id).then(resp=> {
+                    this.perms.remove = resp.data == "true";
+                })
             },
 
             manageUser(user){

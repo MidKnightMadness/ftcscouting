@@ -8,13 +8,11 @@
         <h1>Team {{$team->team_number}}
             <small>{{$team->name}}</small>
         </h1>
-        @if(!Auth::guest())
-            @if($team->isOwner(Auth::id()))
-                <div class="btn-group">
-                    <a href="{{route('teams.manage', [$team->team_number])}}" class="btn btn-sm btn-default" style="float:right">Manage Team</a>
-                </div>
-            @endif
-        @endif
+        @can('manage', $team)
+            <div class="btn-group">
+                <a href="{{route('teams.manage', [$team->team_number])}}" class="btn btn-sm btn-default" style="float:right">Manage Team</a>
+            </div>
+        @endcan
         @if(in_array($team, $pending_teams))
             <a href="{{route('teams.teamAcceptInvite', [$team->id])}}" class="btn btn-lg btn-default">Accept Invite</a>
         @endif
@@ -47,37 +45,51 @@
         </div>
     </div>
     <div class="twopanel" id="survey">
-        @if(sizeof($team->surveys) > 0)
-            <table class="table table-borderless">
-                <thead>
-                <tr>
-                    <td><b>Name</b></td>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($team->surveys as $survey)
+        @can('view_survey', $team)
+            @if(sizeof($team->surveys) > 0)
+                <table class="table table-borderless">
+                    <thead>
                     <tr>
-                        <td>
-                            <a href="{{route('survey.view', $survey->id)}}">{{$survey->name}}</a>
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                <a href="{{route('survey.edit', $survey->id)}}" class="btn btn-default">Edit Survey</a>
-                                <a href="{{route('survey.delete', $survey->id)}}" class="btn btn-default">Delete Survey</a>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                <a href="{{route('survey.allResponses', $survey->id)}}" class="btn btn-default">Responses ({{sizeof($survey->responses)}})</a>
-                            </div>
-                        </td>
+                        <td><b>Name</b></td>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
-        @else
-            <p>No surveys have been created for this team</p>
-        @endif
+                    </thead>
+                    <tbody>
+                    @foreach($team->surveys as $survey)
+                        <tr>
+                            <td>
+                                @can('survey_respond', $team)
+                                    <a href="{{route('survey.view', $survey->id)}}">{{$survey->name}}</a>
+                                @endcan
+                                @cannot('survey_respond', $team)
+                                    {{$survey->name}}
+                                @endcannot
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    @can('edit_survey', $team)
+                                        <a href="{{route('survey.edit', $survey->id)}}" class="btn btn-info">Edit Survey</a>
+                                    @endcan
+                                    @can('delete_survey', $team)
+                                        <a href="{{route('survey.delete', $survey->id)}}" class="btn btn-danger">Delete Survey</a>
+                                    @endcan
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{route('survey.allResponses', $survey->id)}}" class="btn btn-default">Responses ({{sizeof($survey->responses)}})</a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>No surveys have been created for this team</p>
+            @endif
+        @endcan
+        @cannot('view_survey', $team)
+            <p>You cannot view surveys, contact the team owner if this was a mistake</p>
+        @endcannot
     </div>
 @endsection
 

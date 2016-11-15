@@ -39,3 +39,4 @@ Route::post('/question/{id}/delete', 'ApiController@deleteQuestion')->middleware
 Route::post('/question/{id}/update', 'ApiController@updateQuestion')->middleware('auth:api');
 Route::get('/question/{id}/pin', 'ApiController@pinQuestion');
 Route::post('/question/{id}/pin', 'ApiController@setPinQuestion')->middleware('auth:api');
+Route::get('/can/{perm}/{team}', 'ApiController@verifyPermission')->middleware('auth:api');
