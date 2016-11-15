@@ -17,6 +17,7 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.component('textarea-charcount', require('./components/TextAreaCharCount.vue'));
 Vue.component('alert', require('./components/Alert.vue'));
 Vue.component('team-manage-members', require('./components/team/ManageMembers.vue'));
+Vue.component('team-manage-roles', require('./components/team/ManageRoles.vue'));
 Vue.component('edit-survey', require('./components/survey/EditSurvey.vue'));
 Vue.component('survey-responses', require('./components/survey/Responses.vue'));
 

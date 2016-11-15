@@ -8,6 +8,8 @@ use App\Response;
 use App\Survey;
 use App\Team;
 use App\TeamInvite;
+use App\TeamPermission;
+use App\TeamRole;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -195,12 +197,12 @@ class ApiController extends Controller {
         }
         // calculate the team's pin number
         $teamPin = array();
-        foreach ($teams as $team){
+        foreach ($teams as $team) {
             $responses = Response::whereTeam($team)->get();
             $i = 0;
             $pin = 0;
-            foreach($responses as $resp){
-                if($resp->initial)
+            foreach ($responses as $resp) {
+                if ($resp->initial)
                     continue;
                 $pin += \PINNumber::calculatePinForResponse($resp);
                 $i++;
@@ -210,25 +212,55 @@ class ApiController extends Controller {
         }
         arsort($teamPin);
         $toReturn = array();
-        foreach($teamPin as $k=>$v){
-            $toReturn[] = array('team'=>$k, 'pin'=>$v);
+        foreach ($teamPin as $k => $v) {
+            $toReturn[] = array('team' => $k, 'pin' => $v);
         }
         return response()->json($toReturn);
     }
 
-    public function deleteResponse(Response $response){
-        foreach($response->data as $data){
+    public function deleteResponse(Response $response) {
+        foreach ($response->data as $data) {
             $data->delete();
         }
         $response->delete();
     }
 
-    public function verifyPermission($perm, Team $team, Request $request){
-        if($team == null)
+    public function verifyPermission($perm, Team $team, Request $request) {
+        if ($team == null)
             return "false";
-        if($request->user() == null)
+        if ($request->user() == null)
             return "false";
-        return Auth::user()->can($perm, $team)? "true" : "false";
+        return Auth::user()->can($perm, $team) ? "true" : "false";
+    }
+
+    public function getAllRolesForTeam(Team $team) {
+        return TeamRole::whereOwningTeam($team->id)->get();
+    }
+
+    public function getAllAssigned($roleId) {
+        return TeamPermission::where('team_permissions.role', $roleId)->join('users', 'users.id', '=', 'team_permissions.user')->join('user_data', 'users.id', '=', 'user_data.user_id')
+            ->select('users.name', 'users.email', 'user_data.*')->get();
+    }
+
+    public function assignRole($role, Request $request) {
+        $role = TeamRole::whereId($role)->first();
+        $user = User::whereName($request->user)->first();
+        if ($role == null) {
+            return response()->json(['error' => 'That role was not found!'], 404);
+        }
+        if ($user == null) {
+            return response()->json(['error' => 'That user does not exist!'], 404);
+        }
+        if(TeamPermission::whereUser($user->id)->whereRole($role->id)->count() > 0){
+            return response()->json(['error'=>'The user already has this role!'], 400);
+        }
+        $perm = new TeamPermission;
+        $perm->user = $user->id;
+        $perm->team = Team::whereId($role->owning_team)->first()->id;
+        $perm->role = $role->id;
+        $perm->priority = 0;
+        $perm->save();
+        return response()->json(['success'=>'Saved!']);
     }
 
     private function userJson(User $user) {

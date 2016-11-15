@@ -40,3 +40,9 @@ Route::post('/question/{id}/update', 'ApiController@updateQuestion')->middleware
 Route::get('/question/{id}/pin', 'ApiController@pinQuestion');
 Route::post('/question/{id}/pin', 'ApiController@setPinQuestion')->middleware('auth:api');
 Route::get('/can/{perm}/{team}', 'ApiController@verifyPermission')->middleware('auth:api');
+
+Route::group(['prefix'=>'role'], function(){
+    Route::get('/{role}/assigned', 'ApiController@getAllAssigned');
+    Route::post('/{role}/assign', 'ApiController@assignRole');
+    Route::get('/{team}', 'ApiController@getAllRolesForTeam');
+});
