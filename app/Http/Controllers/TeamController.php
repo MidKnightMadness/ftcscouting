@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Team;
 use App\TeamInvite;
+use App\TeamRole;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -48,6 +49,13 @@ class TeamController extends Controller {
         $invite->pending = false;
         $invite->accepted = true;
         $invite->save();
+        // Create the default team roles
+        $default = new TeamRole;
+        $default->name = "Default";
+        $default->default = true;
+        $default->owning_team = $team->id;
+        $default->save();
+
         return redirect()->route('teams.all')->with(['message' => 'Team created successfully', 'message_type' => 'success']);
     }
 

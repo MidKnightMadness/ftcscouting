@@ -26,7 +26,7 @@ class CreateTeamRolesTable extends Migration
 
             $table->boolean('survey_view')->default(true);
             $table->boolean('survey_create')->default(false);
-            $table->boolean('survey_modify')->default(true);
+            $table->boolean('survey_modify')->default(false);
             $table->boolean('survey_delete')->default(false);
             $table->boolean('survey_respond')->default(true);
         });
