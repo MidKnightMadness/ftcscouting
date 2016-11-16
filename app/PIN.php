@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PIN extends Model
 {
-    protected $table = "PIN";
+    protected $table = "pin";
 
     protected $guarded = [];
 }
