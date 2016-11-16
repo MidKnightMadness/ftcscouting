@@ -76,7 +76,7 @@
                         <div class="row">
                             <div class="col-md-4" v-for="mem in membersWithRole">
                                 <h4>{{mem.name}}</h4>
-                                <button class="btn btn-danger m-t-10 form-control">Remove Role</button>
+                                <button class="btn btn-danger m-t-10 form-control" @click="removeUser(mem)">Remove Role</button>
                             </div>
                             <div class="col-md-4">
                                 <transition name="fade">
@@ -132,12 +132,13 @@
 
             editRole(role){
                 this.editingRole = role;
-                this.retrieveAssigned(role);
+                this.retrieveAssigned(role.id);
+                this.showAddUser = false;
                 $('#manage-role').modal('show');
             },
 
             retrieveAssigned(role){
-                this.$http.get('/api/role/' + role.id + '/assigned').then(resp=> {
+                this.$http.get('/api/role/' + role + '/assigned').then(resp=> {
                     this.membersWithRole = resp.data;
                 });
             },
@@ -153,8 +154,9 @@
                 this.$http.post('/api/role/' + this.editingRole.id + '/assign', {
                     user: this.userToAdd
                 }).then(resp=> {
-                    loadRoles();
+                    this.retrieveAssigned(this.editingRole.id);
                     this.addingUser = false;
+                    this.userToAdd = "";
                 }).catch(response => {
                     if (typeof response.data === 'object') {
                         this.errors = _.flatten(_.toArray(response.data));
@@ -162,6 +164,12 @@
                         this.errors = ['Something went wrong. Please try again.'];
                     }
                     this.addingUser = false;
+                });
+            },
+
+            removeUser(user){
+                this.$http.post('/api/role/' + this.editingRole.id + '/remove', {user: user.id}).then(resp=> {
+                    this.retrieveAssigned(this.editingRole.id);
                 });
             }
         }

@@ -44,5 +44,6 @@ Route::get('/can/{perm}/{team}', 'ApiController@verifyPermission')->middleware('
 Route::group(['prefix'=>'role'], function(){
     Route::get('/{role}/assigned', 'ApiController@getAllAssigned');
     Route::post('/{role}/assign', 'ApiController@assignRole');
+    Route::post('/{role}/remove', 'ApiController@removeRole');
     Route::get('/{team}', 'ApiController@getAllRolesForTeam');
 });

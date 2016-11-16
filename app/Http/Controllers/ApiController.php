@@ -263,6 +263,17 @@ class ApiController extends Controller {
         return response()->json(['success'=>'Saved!']);
     }
 
+    public function removeRole($role, Request $request){
+        $userId = $request->user;
+        $user = User::whereId($userId)->first();
+        if($user == null){
+            return response()->json(['error'=>'That user was not found!'], 404);
+        }
+        $perm = TeamPermission::whereUser($user->id)->whereRole($role)->first();
+        if($perm != null)
+            $perm->delete();
+    }
+
     private function userJson(User $user) {
         return ['id' => $user->id,
             'name' => $user->name,
