@@ -3,7 +3,9 @@
     @if(isset($question_data->help_text))
         <p class="help-block">{{$question_data->help_text}}</p>
     @endif
+    <?php $id = 0;?>
     @foreach($question_data->options as $option)
-        {!! Form::checkbox('question-'.$question->id, $option->name, $option->checked) !!} {{$option->name}}<br/>
+        {!! Form::checkbox('question-'.$question->id.'[]', $option->name, $option->checked) !!} {{$option->name}}
+        <br/>
     @endforeach
 </div>

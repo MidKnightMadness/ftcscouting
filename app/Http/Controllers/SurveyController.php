@@ -56,10 +56,18 @@ class SurveyController extends Controller {
             $response_data = new ResponseData();
             $response_data->question_id = $k;
             $response_data->response_id = $response->id;
-            $response_data->response_data = $v;
+            $response_data->response_data = is_array($v)? $this->concatArray($v) : $v;
             $response_data->save();
         }
         return redirect(route('survey.view', $survey))->with(['message' => 'Response recorded!', 'message_type' => 'success']);
+    }
+
+    private function concatArray(array $array){
+        $toReturn = "";
+        foreach($array as $a){
+            $toReturn .= "$a, ";
+        }
+        return substr($toReturn, 0, strlen($toReturn) - 2);
     }
 
     public function delete($survey) {

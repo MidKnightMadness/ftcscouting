@@ -24,13 +24,16 @@ class PinHelper {
 
     public function calculatePinForResponseData(ResponseData $data) {
         $question = $data->question;
+        if($question->question_type == 'checkbox'){
+            return $this->getCheckboxPin($data);
+        }
         return $this->getPin($question, $data->response_data);
     }
 
     public function calculatePinForResponse(Response $response) {
         $totalPin = 0;
         foreach($response->data as $data){
-            $pin = $this->getPin($data->question, $data->response_data);
+            $pin = $this->calculatePinForResponseData($data);
             if($pin != null)
                 $totalPin += $pin;
         }
@@ -53,5 +56,15 @@ class PinHelper {
                 return $v;
         }
         return null;
+    }
+
+    private function getCheckboxPin(ResponseData $data){
+        $options = explode(',', $data->response_data);
+        $pin = 0;
+        foreach($options as $option){
+            $option = trim($option);
+            $pin += $this->getPin($data->question, trim($option));
+        }
+        return $pin;
     }
 }
