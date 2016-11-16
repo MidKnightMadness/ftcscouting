@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.css"/>
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     <script>
-        window.Laravel = { csrfToken: '{{ csrf_token() }}' };
+        window.Laravel = {csrfToken: '{{ csrf_token() }}'};
     </script>
 </head>
 <body id="app-layout">
@@ -77,6 +77,21 @@
                         </li>
                     @endif
                     <li><a href="{{route('teams.all')}}">Team List</a></li>
+                    @if(!Auth::guest())
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Surveys<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                @foreach($user_teams as $team)
+                                    @if(count($team->surveys) > 0)
+                                        @foreach($team->surveys as $survey)
+                                            <li><a href="{{route('survey.view', ['id'=>$survey->id])}}">{{$team->team_number}}: {{$survey->name}}</a></li>
+                                        @endforeach
+                                        <li role="separator" class="divider"></li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
 
                 <!-- Right Side Of Navbar -->
