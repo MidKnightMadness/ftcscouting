@@ -38,6 +38,23 @@ class SurveyController extends Controller {
         return view('survey.view', compact('survey'));
     }
 
+    public function create() {
+        return view('survey.create');
+    }
+
+    public function doCreate(Request $request) {
+        $this->validate($request, [
+            'select_team' => 'required',
+            'survey_name' => 'required|max:255'], ['select_team.required'=>'A team must own this survey', 'survey_name.required'=>'Please provide a survey name']);
+        $survey = new Survey();
+        $survey->name = $request->survey_name;
+        $survey->team_owner = $request->select_team;
+        $survey->created_by = \Auth::user()->id;
+        $survey->template = false;
+        $survey->save();
+        return redirect(route('survey.edit', ['id'=>$survey->id]));
+    }
+
     public function submitSurvey(Request $request, $survey) {
         \Log::info($request);
         $teamNumber = $request->team_number;
@@ -56,15 +73,15 @@ class SurveyController extends Controller {
             $response_data = new ResponseData();
             $response_data->question_id = $k;
             $response_data->response_id = $response->id;
-            $response_data->response_data = is_array($v)? $this->concatArray($v) : $v;
+            $response_data->response_data = is_array($v) ? $this->concatArray($v) : $v;
             $response_data->save();
         }
         return redirect(route('survey.view', $survey))->with(['message' => 'Response recorded!', 'message_type' => 'success']);
     }
 
-    private function concatArray(array $array){
+    private function concatArray(array $array) {
         $toReturn = "";
-        foreach($array as $a){
+        foreach ($array as $a) {
             $toReturn .= "$a, ";
         }
         return substr($toReturn, 0, strlen($toReturn) - 2);

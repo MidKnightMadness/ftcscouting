@@ -46,6 +46,8 @@ Route::group(['prefix'=>'profile'], function(){
 
 // Survey routes
 Route::group(['prefix'=>'survey'], function(){
+    Route::post('/create', 'SurveyController@doCreate')->name('survey.doCreate');
+    Route::get('/create', 'SurveyController@create')->name('survey.create');
     Route::get('/edit/{surveyId}', 'SurveyController@edit')->name('survey.edit');
     Route::get('/delete/{surveyId}', 'SurveyController@delete')->name('survey.delete');
     Route::delete('/delete/{surveyId}', 'SurveyController@doDelete')->name('survey.doDelete');
