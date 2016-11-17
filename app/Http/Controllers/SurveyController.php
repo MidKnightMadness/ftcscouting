@@ -12,7 +12,7 @@ class SurveyController extends Controller {
 
 
     public function __construct() {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['surveyOverview']);
     }
 
     public function questions($surveyId) {
@@ -120,5 +120,25 @@ class SurveyController extends Controller {
         }
         $survey->delete();
         return redirect(route('teams.show', Team::whereId($survey->team_owner)->first()->team_number))->with(['message' => 'Survey Deleted!', 'message_type' => 'success']);
+    }
+
+    public function surveyOverview(Survey $survey, $teamNumber){
+        $responses = array();
+        $initial_response = null;
+        $questions = $survey->questions;
+
+        foreach($survey->responses as $response){
+            if($response->team == $teamNumber){
+                if($response->initial){
+                    $initial_response = $response;
+                } else {
+                    $responses[] = $response;
+                }
+            }
+        }
+
+        array_unshift($responses, $initial_response);
+
+        return view('survey.teamOverview', compact('questions', 'initial_response', 'responses'));
     }
 }

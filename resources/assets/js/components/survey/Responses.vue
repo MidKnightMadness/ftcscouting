@@ -31,6 +31,13 @@
         <transition name="fade">
             <div v-if="!viewingResponse">
                 <transition name="fade">
+                    <div v-if="overviewHtml">
+                        <div v-html="overviewHtml" class="m-top-10"></div>
+                        <button @click="overviewHtml = null" class="btn btn-sm btn-default"><i class="fa fa-backward" aria-hidden="true"></i></button>
+                        <hr/>
+                    </div>
+                </transition>
+                <transition name="fade">
                     <div v-if="allResponses" data-id="allresults">
                         <table v-if="responses.length == 0" class="table table-borderless">
                             <thead>
@@ -43,7 +50,10 @@
                             <tr v-for="team in teams">
                                 <td>{{team}}</td>
                                 <td>
-                                    <button @click="viewResponses(team)" class="btn btn-default">View</button>
+                                    <div class="btn-group">
+                                        <button @click="viewOverview(team)" class="btn btn-default">Overview</button>
+                                        <button @click="viewResponses(team)" class="btn btn-default">View</button>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -123,7 +133,8 @@
                 viewingResponse: null,
                 responsePin: -1,
                 rankedTeams: [],
-                canDelete: false
+                canDelete: false,
+                overviewHtml: null,
             }
         },
 
@@ -176,6 +187,12 @@
                             this.responses.push(r);
                     })
                 });
+            },
+
+            viewOverview(team){
+                this.$http.get('/api/survey/' + this.id + '/overview/' + team).then(resp=> {
+                    this.overviewHtml = resp.data;
+                })
             },
 
             deleteResponse(index, response){

@@ -30,6 +30,7 @@ Route::get('/survey/{survey}/questions', 'ApiController@getSurveyQuestions')->mi
 Route::get('/survey/{survey}/new-question', 'ApiController@newSurveyQuestion');
 Route::get('/survey/{survey}/allResponses', 'ApiController@getSurveyResponses');
 Route::get('/survey/{survey}/rank', 'ApiController@rankTeams');
+Route::get('/survey/{survey}/overview/{teamNumber}', 'SurveyController@surveyOverview');
 
 Route::get('/response/{response}/data', 'ApiController@getResponseData');
 Route::get('/response/{response}/pin', 'ApiController@getResponsePin');
