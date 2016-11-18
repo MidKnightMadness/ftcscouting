@@ -67,10 +67,10 @@ class ProfileController extends Controller {
 
         $userData = $user->data;
         $userData->bio = $request->get('bio');
-        if (!$request->get('gravatar')) {
-            $file = $request->file('profile');
-            if($file != null)
-                $this->processNewProfilePicture($userData, $file);
+        $profilePicture = $request->file('profile');
+        if ($profilePicture != null) {
+            if($profilePicture != null)
+                $this->processNewProfilePicture($userData, $profilePicture);
         } else {
             $userData->has_profile_photo = true;
             $userData->gravatar = true;
