@@ -207,7 +207,8 @@ class ApiController extends Controller {
                 $pin += \PINNumber::calculatePinForResponse($resp);
                 $i++;
             }
-            $pin /= $i;
+            if ($i != 0)
+                $pin /= $i;
             $teamPin[$team] = $pin;
         }
         arsort($teamPin);
@@ -251,8 +252,8 @@ class ApiController extends Controller {
         if ($user == null) {
             return response()->json(['error' => 'That user does not exist!'], 404);
         }
-        if(TeamPermission::whereUser($user->id)->whereRole($role->id)->count() > 0){
-            return response()->json(['error'=>'The user already has this role!'], 400);
+        if (TeamPermission::whereUser($user->id)->whereRole($role->id)->count() > 0) {
+            return response()->json(['error' => 'The user already has this role!'], 400);
         }
         $perm = new TeamPermission;
         $perm->user = $user->id;
@@ -260,17 +261,17 @@ class ApiController extends Controller {
         $perm->role = $role->id;
         $perm->priority = 0;
         $perm->save();
-        return response()->json(['success'=>'Saved!']);
+        return response()->json(['success' => 'Saved!']);
     }
 
-    public function removeRole($role, Request $request){
+    public function removeRole($role, Request $request) {
         $userId = $request->user;
         $user = User::whereId($userId)->first();
-        if($user == null){
-            return response()->json(['error'=>'That user was not found!'], 404);
+        if ($user == null) {
+            return response()->json(['error' => 'That user was not found!'], 404);
         }
         $perm = TeamPermission::whereUser($user->id)->whereRole($role)->first();
-        if($perm != null)
+        if ($perm != null)
             $perm->delete();
     }
 
