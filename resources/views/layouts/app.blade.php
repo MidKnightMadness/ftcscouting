@@ -15,9 +15,7 @@
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.css"/>
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
-    <script>
-        window.Laravel = {csrfToken: '{{ csrf_token() }}'};
-    </script>
+    @include('script.global')
 </head>
 <body id="app-layout">
 <div id="app">

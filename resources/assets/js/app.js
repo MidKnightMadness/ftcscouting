@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * include Vue and Vue Resource. This gives a great starting point for
@@ -27,5 +26,12 @@ Vue.component('passport-authorized-clients', require('./components/passport/Auth
 Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+
+    created: function(){
+        if (window.Scouting.user)
+            this.$http.get('/api/user').then(resp=> {
+                window.Scouting.user = resp.data;
+            })
+    }
 });
