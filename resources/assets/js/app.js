@@ -20,6 +20,7 @@ Vue.component('team-manage-members', require('./components/team/ManageMembers.vu
 Vue.component('team-manage-roles', require('./components/team/ManageRoles.vue'));
 Vue.component('edit-survey', require('./components/survey/EditSurvey.vue'));
 Vue.component('survey-responses', require('./components/survey/Responses.vue'));
+Vue.component('toggle', require('./components/Toggle.vue'));
 
 Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));

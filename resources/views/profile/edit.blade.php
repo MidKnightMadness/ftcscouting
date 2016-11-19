@@ -19,7 +19,7 @@
         @endif
     </div>
     <hr>
-    <div class="picture-setting" data-hidden="false">
+    <toggle name="remove-picture" display="Remove Profile Picture" checkbox-on-bottom="true" invert="true">
         <div class="form-group">
             @if(\Auth::user()->hasProfilePicture())
                 <img class="image-preview" src="{{\Auth::user()->profileSmall()}}"/>
@@ -27,16 +27,12 @@
             {!! Form::label('profile', 'Change Profile Picture') !!}
             {!! Form::file('profile') !!}
         </div>
-        <div class="form-group">
-            {!! Form::label('gravatar', 'Use Gravatar') !!}
-            {!! Form::checkbox('gravatar', 1, \Auth::user()->data->gravatar) !!}<br>
+        <toggle visible="{{\Auth::user()->data->gravatar? "true" : "false"}}" name="gravatar" display="Use Gravatar">
             {!! Form::label('gravatar-email', 'Gravatar Email') !!}
             {!! Form::text('gravatar-email', \Auth::user()->data->gravatar? Auth::user()->email == Auth::user()->data->photo_location? '' : \Auth::user()->data->photo_location : '', ['class'=>'form-control']) !!}
-            <p class="help-block">If lefet blank, your email address will be used</p>
-        </div>
-    </div>
-    {!! Form::label("remove-picture", "Remove Profile Picture") !!}
-    {!! Form::checkbox('remove-picture', 1, false, ['class'=>'toggle', 'data-toggle'=>'picture-setting']) !!}
+            <p class="help-block">If left blank, your email address will be used</p>
+        </toggle>
+    </toggle>
     <hr>
     <textarea-charcount content="{{(Request::session()->getOldInput('bio') != null)? Request::session()->getOldInput('bio') : Auth::user()->data->bio}}"
             maxchars=250 rows="10" columns="50" name="bio"></textarea-charcount>
