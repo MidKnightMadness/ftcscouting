@@ -64,3 +64,25 @@ Vue.component('form-select', {
             </div>'
     }
 );
+
+Vue.component('form-upload', {
+    props: ['display', 'name'],
+
+    data(){
+        return {
+            fileName: ''
+        }
+    },
+
+
+    methods: {
+        updateFile(data){
+            this.fileName = data.srcElement.files[0].name;
+        }
+    },
+
+    template: '<div><label :for="name" class="btn btn-default">\
+     <i class="fa fa-cloud-upload"></i> {{display}}\
+     </label>\
+     <input :id="name" :name="name" type="file" style="display: none" @change="updateFile"/>{{fileName}}</div>'
+});

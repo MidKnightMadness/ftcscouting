@@ -38,7 +38,10 @@ window.FormErrors = function () {
      */
     this.get = function (field) {
         if (this.has(field)) {
-            return this.errors[field];
+            if (Array.isArray(this.errors[field]))
+                return this.errors[field][0];
+            else
+                return this.errors[field];
         }
     };
 

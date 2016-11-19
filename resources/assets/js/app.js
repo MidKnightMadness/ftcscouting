@@ -29,14 +29,23 @@ Vue.component('passport-personal-access-tokens', require('./components/passport/
  * Load the form bootstrapper
  */
 require('./form/bootstrapper');
-
+require('./settings/bootstrapper');
+const eventHub = new Vue();
+Vue.mixin({
+    data: function(){
+        return {
+            eventHub: eventHub
+    }
+    }
+});
 const app = new Vue({
     el: '#app',
 
-    created: function(){
-        if (window.Scouting.user)
+    mounted: function(){
+        if (window.Scouting.user != 'null')
             this.$http.get('/api/user').then(resp=> {
                 window.Scouting.user = resp.data;
+                this.eventHub.$emit('userRetrieved', resp.data);
             })
     }
 });

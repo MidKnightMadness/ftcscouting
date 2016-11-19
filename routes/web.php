@@ -37,6 +37,9 @@ Route::get('/teams', 'TeamController@showAllTeams')->name('teams.all');
 // Profile routes
 Route::group(['prefix'=>'profile'], function(){
     Route::get('/edit', 'ProfileController@edit')->name('profile.edit')->middleware(['auth']);
+    Route::post('/edit/profile', 'ProfileController@saveProfile')->name('profile.edit.save')->middleware('auth');
+    Route::post('/changePassword', 'ProfileController@changePassword')->middleware('auth');
+    Route::post('/update', 'ProfileController@updateProfile')->middleware('auth');
     Route::get('/oauth', 'ProfileController@oauthPanel')->name('profile.oauth')->middleware(['auth']);
     Route::patch('/edit', 'ProfileController@update')->name('profile.update')->middleware(['auth']);
     Route::delete('/edit', 'ProfileController@delete')->middleware(['auth']);
