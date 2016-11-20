@@ -145,6 +145,9 @@ class ApiController extends Controller {
         $question->order = sizeof($survey->questions) + 1;
         $question->extra_data = "{\"options\":[]}";
         $question->save();
+        $pin = new PIN();
+        $pin->question = $question->id;
+        $pin->save();
         return response()->json($question);
     }
 
