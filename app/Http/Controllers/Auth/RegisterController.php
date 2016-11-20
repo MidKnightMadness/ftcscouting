@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Team;
+use App\TeamInvite;
 use App\User;
 use App\UserData;
 use Validator;
@@ -75,6 +77,19 @@ class RegisterController extends Controller
         $userData->has_profile_photo = true;
         $userData->gravatar = true;
         $userData->save();
+        if(env('AUTOJOIN_TEAM') != null){
+            $team = Team::whereTeamNumber(env('AUTOJOIN_TEAM'))->first();
+            if($team != null){
+                $teamInvite = new TeamInvite();
+                $teamInvite->accepted = true;
+                $teamInvite->pending = false;
+                $teamInvite->sender = $team->owner;
+                $teamInvite->receiver = $user->id;
+                $teamInvite->team_id = $team->id;
+                $teamInvite->save();
+            }
+
+        }
         return $user;
     }
 }
