@@ -44,7 +44,6 @@ Route::group(['prefix'=>'profile'], function(){
     Route::patch('/edit', 'ProfileController@update')->name('profile.update')->middleware(['auth']);
     Route::delete('/edit', 'ProfileController@delete')->middleware(['auth']);
     Route::get('/image/{image}/{size}', 'ProfileController@image')->name('profile.image');
-    Route::get('/{number}', 'ProfileController@profile')->name('profile.show');
 });
 
 // Survey routes

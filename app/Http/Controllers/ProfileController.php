@@ -20,22 +20,12 @@ class ProfileController extends Controller {
         $this->middleware('auth', ['except' => 'profile', 'image']);
     }
 
-    public function profile($userName) {
-        $user = User::whereName($userName)->firstOrFail();
-        $bio = $user->data;
-        $part_of = $user->teams();
-        if (\Auth::guest() || \Auth::user()->name != $userName) {
-            $part_of = $user->publicTeams();
-        }
-        return view('profile.profile', compact('user', 'part_of', 'bio'));
-    }
-
     public function edit() {
         $data = ['tab' => 'profile',
             'tabs' => App\Scouting::getSettingsTabs()];
         return view('profile.edit', compact('data'));
     }
-    
+
 
     public function saveProfile(Request $request) {
         $userData = \Auth::user()->data;
@@ -72,7 +62,7 @@ class ProfileController extends Controller {
 
     public function updateProfile(Request $request) {
         $this->validate($request, [
-            'name' => 'required|alpha_num|max:255',
+            'name' => 'required|max:255',
             'email' => 'required|email',
         ]);
 

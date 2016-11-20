@@ -109,7 +109,7 @@
                                 @if(\Auth::user()->data->superadmin)
                                     <li><a href="{{url('/admin')}}"><i class="fa fa-btn fa-cogs"></i>Admin</a></li>
                                 @endif
-                                <li><a href="{{url('/profile/'.Auth::user()->name)}}"><i class="fa fa-btn fa-user"></i>Profile</a>
+                                <li><a href="{{route('profile.edit')}}"><i class="fa fa-address-card" aria-hidden="true"></i>Settings</a>
                                 </li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>

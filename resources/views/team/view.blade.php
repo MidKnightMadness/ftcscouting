@@ -32,7 +32,7 @@
                 @foreach($members as $member)
                     <div class="col-md-2 col-xs-4 col-sm-4">
                         <div class="member">
-                            <a href="{{route('profile.show', $member->name)}}"><img src="{{$member->profileSmall()}}" class="member-image"/></a>
+                            <img src="{{$member->profileSmall()}}" class="member-image"/>
                             <div class="member-badge">{{$member->name}}</div>
                         </div>
                     </div>
