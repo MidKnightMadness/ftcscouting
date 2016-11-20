@@ -134,7 +134,6 @@
         crossorigin="anonymous"></script>
 <script src="{{asset('js/app.js')}}"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.js"></script>
-<script src="{{asset('js/all.js')}}"></script>
 @stack('js')
 </body>
 </html>
