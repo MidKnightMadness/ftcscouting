@@ -21,6 +21,9 @@ class TeamController extends Controller {
     }
 
     public function showCreate() {
+        if(env('DISABLE_TEAM_CREATE')){
+            abort(404);
+        }
         return view('team.create');
     }
 

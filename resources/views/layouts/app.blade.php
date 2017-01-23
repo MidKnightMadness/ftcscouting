@@ -67,10 +67,12 @@
                                         </li>
                                     @endforeach
                                 @endif
-                                <li role="separator" class="divider"></li>
-                                <li>
-                                    <a href="{{route('teams.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>Create a new team</a>
-                                </li>
+                                @if(!env('DISABLE_TEAM_CREATE'))
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a href="{{route('teams.create')}}"><i class="fa fa-plus" aria-hidden="true"></i>Create a new team</a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                     @endif
