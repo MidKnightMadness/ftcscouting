@@ -15,6 +15,10 @@ class Team extends Model {
     }
 
     public function surveys() {
+        return $this->hasMany('App\Survey', 'team_owner', 'id')->where('archived', '=', '0');
+    }
+
+    public function surveysWithArchived(){
         return $this->hasMany('App\Survey', 'team_owner', 'id');
     }
 

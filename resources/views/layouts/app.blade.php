@@ -9,7 +9,7 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
-            integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous" />
+            integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
 
     <!-- Styles -->
@@ -82,9 +82,13 @@
                                 @foreach($user_teams as $team)
                                     @if(count($team->surveys) > 0)
                                         @foreach($team->surveys as $survey)
-                                            <li><a href="{{route('survey.view', ['id'=>$survey->id])}}">{{$team->team_number}}: {{$survey->name}}</a></li>
+                                            <li>
+                                                <a href="{{route('survey.view', ['id'=>$survey->id])}}">{{$team->team_number}}: {{$survey->name}}</a>
+                                            </li>
                                         @endforeach
                                         <li role="separator" class="divider"></li>
+                                    @else
+                                        <li><a>No surveys currently exist</a></li>
                                     @endif
                                 @endforeach
                             </ul>
@@ -109,7 +113,8 @@
                                 @if(\Auth::user()->data->superadmin)
                                     <li><a href="{{url('/admin')}}"><i class="fa fa-btn fa-cogs"></i>Admin</a></li>
                                 @endif
-                                <li><a href="{{route('profile.edit')}}"><i class="fa fa-address-card" aria-hidden="true"></i>Settings</a>
+                                <li>
+                                    <a href="{{route('profile.edit')}}"><i class="fa fa-address-card" aria-hidden="true"></i>Settings</a>
                                 </li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>

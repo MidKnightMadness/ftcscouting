@@ -35,6 +35,8 @@ class SurveyController extends Controller {
         $survey = Survey::findOrFail($survey);
         if (\Auth::guest() || !\Auth::user()->can('survey_respond', Team::whereId($survey->team_owner)->first()))
             return back()->with(['message' => 'Error:You cannot respond to this survey', 'message_type' => 'danger']);
+        if($survey->archived)
+            return back()->with(['message'=>'Error:That survey is archived!', 'message_type'=>'danger']);
         return view('survey.view', compact('survey'));
     }
 
@@ -95,6 +97,24 @@ class SurveyController extends Controller {
         return view('confirmAction')->with(['action' => "Delete Survey \"$survey->name\"",
             'route' => ['survey.doDelete', $survey->id], 'method' => 'delete', 'extra_desc' => ['Deletion of surveys will delete 
             all questions and allResponses associated with it. This action is PERMANENT and cannot be undone']]);
+    }
+
+    public function archive($survey){
+        $survey = Survey::findOrFail($survey);
+
+        return view('confirmAction')->with(['action'=> "Archive Survey \"$survey->name\"", 'route'=>['survey.doArchive', $survey->id],
+        'method'=>'patch', 'extra_desc'=>['Archiving this survey will hide it from the list and it can no longer be responded to. You can
+        unarchive it later from the team settings page']]);
+    }
+
+    public function doArchive($survey){
+        $survey = Survey::findOrFail($survey);
+
+        $team = Team::whereId($survey->id)->first();
+
+        $survey->archived = true;
+        $survey->save();
+        return redirect()->route('teams.show', $team->team_number);
     }
 
     public function showResponses(Survey $survey) {

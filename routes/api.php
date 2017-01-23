@@ -22,6 +22,7 @@ Route::get('/user/{username}', 'ApiController@getUser')->middleware('auth:api');
 Route::get('/teams', 'ApiController@getTeams');
 Route::get('/team/{number}', 'ApiController@getTeam')->middleware('auth:api');
 Route::get('/team/{number}/members', 'ApiController@teamMembers')->middleware('auth:api');
+Route::get('/team/{number}/surveys', 'ApiController@getSurveys')->middleware('auth:api');
 
 Route::post('/invite', 'ApiController@sendInvite')->middleware('auth:api');
 Route::post('/invite/cancel', 'ApiController@cancelInvite')->middleware('auth:api');
@@ -31,6 +32,8 @@ Route::get('/survey/{survey}/new-question', 'ApiController@newSurveyQuestion');
 Route::get('/survey/{survey}/allResponses', 'ApiController@getSurveyResponses');
 Route::get('/survey/{survey}/rank', 'ApiController@rankTeams');
 Route::get('/survey/{survey}/overview/{teamNumber}', 'SurveyController@surveyOverview');
+Route::post('/survey/{survey}/archive', 'ApiController@setArchived')->middleware('auth:api');
+Route::post('/survey/{survey}/delete', 'SurveyController@doDelete')->middleware('auth:api');
 
 Route::get('/response/{response}/data', 'ApiController@getResponseData');
 Route::get('/response/{response}/pin', 'ApiController@getResponsePin');
@@ -42,7 +45,7 @@ Route::get('/question/{id}/pin', 'ApiController@pinQuestion');
 Route::post('/question/{id}/pin', 'ApiController@setPinQuestion')->middleware('auth:api');
 Route::get('/can/{perm}/{team}', 'ApiController@verifyPermission')->middleware('auth:api');
 
-Route::group(['prefix'=>'role'], function(){
+Route::group(['prefix' => 'role'], function () {
     Route::get('/{role}/assigned', 'ApiController@getAllAssigned');
     Route::post('/{role}/assign', 'ApiController@assignRole');
     Route::post('/{role}/remove', 'ApiController@removeRole');

@@ -278,6 +278,21 @@ class ApiController extends Controller {
             $perm->delete();
     }
 
+    public function getSurveys($team){
+        $team = Team::whereTeamNumber($team)->first();
+        if($team == null){
+            return response()->json(['error'=>'That team was not found!'], 404);
+        }
+        return $team->surveysWithArchived;
+    }
+
+    public function setArchived($survey, Request $request){
+        $archived = $request->archived;
+        $survey = Survey::whereId($survey)->first();
+        $survey->archived = $archived;
+        $survey->save();
+    }
+
     private function userJson(User $user) {
         return ['id' => $user->id,
             'name' => $user->name,

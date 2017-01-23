@@ -72,6 +72,9 @@
                                     @can('delete_survey', $team)
                                         <a href="{{route('survey.delete', $survey->id)}}" class="btn btn-danger">Delete Survey</a>
                                     @endcan
+                                    @can('survey_modify', $team)
+                                        <a href="{{route('survey.archive', $survey->id)}}" class="btn btn-default">Archive Survey</a>
+                                    @endcan
                                 </div>
                             </td>
                             <td>

@@ -52,6 +52,8 @@ Route::group(['prefix'=>'survey'], function(){
     Route::get('/create', 'SurveyController@create')->name('survey.create');
     Route::get('/edit/{surveyId}', 'SurveyController@edit')->name('survey.edit');
     Route::get('/delete/{surveyId}', 'SurveyController@delete')->name('survey.delete');
+    Route::get('/archive/{surveyId}', 'SurveyController@archive')->name('survey.archive');
+    Route::patch('/archive/{surveyId}', 'SurveyController@doArchive')->name('survey.doArchive');
     Route::delete('/delete/{surveyId}', 'SurveyController@doDelete')->name('survey.doDelete');
     Route::get('/questions/{surveyId}', 'SurveyController@questions')->name('survey.questions');
     Route::get('/{survey}', 'SurveyController@showSurvey')->name('survey.view');
