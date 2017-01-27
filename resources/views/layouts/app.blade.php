@@ -136,11 +136,11 @@
     @yield('content')
 </div>
 <!-- JavaScripts -->
+<script src="{{mix('js/app.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"
         integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb"
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.12/r-2.1.0/datatables.min.js"></script>
-<script src="{{mix('js/app.js')}}"></script>
 @stack('js')
 </body>
 </html>
