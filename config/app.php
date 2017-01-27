@@ -189,6 +189,9 @@ return [
 
         Laravel\Passport\PassportServiceProvider::class,
 
+        // Bugsnag
+        \Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class
+
     ],
 
     /*
@@ -245,6 +248,8 @@ return [
 
         'Random' => App\Facades\RandomFacade::class,
         'PINNumber' => App\Facades\PinFacade::class,
+
+        'Bugsnag' => \Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
 
     ],
 

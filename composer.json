@@ -11,7 +11,8 @@
         "doctrine/dbal": "^2.5",
         "laravelcollective/html": "^5.4",
         "barryvdh/laravel-ide-helper": "^2.2",
-        "laravel/passport": "^2.0"
+        "laravel/passport": "^2.0",
+        "bugsnag/bugsnag-laravel": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
