@@ -25,10 +25,6 @@
                 </div>
 
                 <div class="panel-body">
-                    <p>
-                        Personal access tokens are OAuth tokens that can be used to interact with the FTCScouting API.
-                    </p>
-                    <hr/>
                     <!-- No Tokens Notice -->
                     <p class="m-b-none" v-if="tokens.length === 0">
                         You have not created any personal access tokens.
@@ -213,7 +209,7 @@
              * Get all of the personal access tokens for the user.
              */
             getTokens() {
-                this.$http.get('/oauth/personal-access-tokens')
+                axios.get('/oauth/personal-access-tokens')
                         .then(response => {
                             this.tokens = response.data;
                         });
@@ -223,7 +219,7 @@
              * Get all of the available scopes.
              */
             getScopes() {
-                this.$http.get('/oauth/scopes')
+                axios.get('/oauth/scopes')
                         .then(response => {
                             this.scopes = response.data;
                         });
@@ -244,7 +240,7 @@
 
                 this.form.errors = [];
 
-                this.$http.post('/oauth/personal-access-tokens', this.form)
+                axios.post('/oauth/personal-access-tokens', this.form)
                         .then(response => {
                             this.form.name = '';
                             this.form.scopes = [];
@@ -296,7 +292,7 @@
              * Revoke the given token.
              */
             revoke(token) {
-                this.$http.delete('/oauth/personal-access-tokens/' + token.id)
+                axios.delete('/oauth/personal-access-tokens/' + token.id)
                         .then(response => {
                             this.getTokens();
                         });

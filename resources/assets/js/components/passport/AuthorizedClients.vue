@@ -10,52 +10,44 @@
 
 <template>
     <div>
-        <div class="panel panel-default">
-            <div class="panel-heading">Authorized Applications</div>
+        <div v-if="tokens.length > 0">
+            <div class="panel panel-default">
+                <div class="panel-heading">Authorized Applications</div>
 
-            <div class="panel-body">
-                <!-- Authorized Tokens -->
-                <div v-if="tokens.length > 0">
-                    <p>
-                        The following applications have access to your account
-                    </p>
+                <div class="panel-body">
+                    <!-- Authorized Tokens -->
                     <table class="table table-borderless m-b-none">
                         <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Scopes</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Scopes</th>
+                                <th></th>
+                            </tr>
                         </thead>
 
                         <tbody>
-                        <tr v-for="token in tokens">
-                            <!-- Client Name -->
-                            <td style="vertical-align: middle;">
-                                {{ token.client.name }}
-                            </td>
+                            <tr v-for="token in tokens">
+                                <!-- Client Name -->
+                                <td style="vertical-align: middle;">
+                                    {{ token.client.name }}
+                                </td>
 
-                            <!-- Scopes -->
-                            <td style="vertical-align: middle;">
+                                <!-- Scopes -->
+                                <td style="vertical-align: middle;">
                                     <span v-if="token.scopes.length > 0">
                                         {{ token.scopes.join(', ') }}
                                     </span>
-                            </td>
+                                </td>
 
-                            <!-- Revoke Button -->
-                            <td style="vertical-align: middle;">
-                                <a class="action-link text-danger" @click="revoke(token)">
-                                    Revoke
-                                </a>
-                            </td>
-                        </tr>
+                                <!-- Revoke Button -->
+                                <td style="vertical-align: middle;">
+                                    <a class="action-link text-danger" @click="revoke(token)">
+                                        Revoke
+                                    </a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
-                </div>
-                <div v-else>
-                    <p>
-                        No applications currently have access to your account.
-                    </p>
                 </div>
             </div>
         </div>
@@ -99,7 +91,7 @@
              * Get all of the authorized tokens for the user.
              */
             getTokens() {
-                this.$http.get('/oauth/tokens')
+                axios.get('/oauth/tokens')
                         .then(response => {
                             this.tokens = response.data;
                         });
@@ -109,7 +101,7 @@
              * Revoke the given token.
              */
             revoke(token) {
-                this.$http.delete('/oauth/tokens/' + token.id)
+                axios.delete('/oauth/tokens/' + token.id)
                         .then(response => {
                             this.getTokens();
                         });

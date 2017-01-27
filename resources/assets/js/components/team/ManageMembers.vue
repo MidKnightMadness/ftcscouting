@@ -167,7 +167,7 @@
 
             sendInvite(){
                 // Check if user exists
-                this.$http.get('/api/user/' + this.forms.inviteUser.username).then(resp => {
+                axios.get('/api/user/' + this.forms.inviteUser.username).then(resp => {
                     // User exists, send invite
                     this.$http.post('/api/invite', {
                         username: this.forms.inviteUser.username,

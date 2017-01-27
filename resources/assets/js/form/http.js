@@ -23,9 +23,8 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             form.start();
 
-            Vue.http[method](uri, form).then(function (response) {
+            axios[method](uri, form).then(function (response) {
                     form.finish();
-
                     resolve(response);
                 }).catch(function (errors) {
                     form.errors.set(errors.data);

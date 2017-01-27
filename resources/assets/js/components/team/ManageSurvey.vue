@@ -10,64 +10,88 @@
     .fade-enter, .fade-leave-active {
         opacity: 0
     }
-
-    .archive {
-        font-style: oblique;
-        color: #ACACAC;
-    }
 </style>
 
 <template>
     <div>
-        <a href="/survey/create" class="btn btn-default btn-block">Create Survey</a>
-        <table class="table table-borderless" v-if="surveys.length > 0">
-            <thead>
-            <tr>
-                <th><b>Name</b></th>
-                <th></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="survey in surveys">
-                <td>{{survey.name}} <span v-if="survey.archived" class="archive">(Archived)</span></td>
-                <td>
-                    <div class="btn-group">
-                        <button @click="deleteSurvey(survey)" class="btn btn-danger">Delete</button>
-                        <a :href="'/survey/edit/' + survey.id" class="btn btn-default">Edit</a>
-                        <a :href="'/survey/'+survey.id+'/responses'" class="btn btn-default">Responses</a>
-                    </div>
-                </td>
-                <td>
-                    <div v-if="survey.archived">
-                        <button @click="unarchive(survey.id)" class="btn btn-default">Unarchive</button>
-                    </div>
-                    <div v-else>
-                        <button @click="archive(survey.id)" class="btn btn-default">Archive</button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="m-t-10" v-else>
-            <p>No surveys currently exist. Why not create one?</p>
+        <p class="help-text">
+            Please choose a role from the list below to edit its permissions
+        </p>
+        <div class="col-md-4" v-for="role in roles">
+            <button class="btn btn-default form-control m-t-10" @click="editRole(role)">{{role.name}}</button>
         </div>
-
-        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog">
+        <div class="col-md-4">
+            <button class="btn btn-success form-control m-t-10">Add Role</button>
+        </div>
+        <div class="modal fade" id="manage-role" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Delete Survey</h4>
+                        <h3>Edit Role {{editingRole.name}}</h3>
                     </div>
                     <div class="modal-body">
-                        <p>
-                            Are you sure you want to delete this survey?
-                            It will delete all responses associated with it and <b>CANNOT</b> be undone
-                        </p>
-                        <button @click="doDelete(toDelete.id)" class="btn btn-danger btn-block">Delete</button>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label for="invite-member">Invite Members</label>
+                                    <input type="checkbox" id="invite-member" v-model="editingRole.invite_member">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="remove-member">Remove Members</label>
+                                    <input type="checkbox" id="remove-member" v-model="editingRole.remove_member">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="survey-view">View Surveys</label>
+                                    <input type="checkbox" id="survey-view" v-model="editingRole.survey_view">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="survey-create">Create Survey</label>
+                                    <input type="checkbox" id="survey-create" v-model="editingRole.survey_create">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="edit-survey">Edit Surveys</label>
+                                    <input type="checkbox" id="edit-survey" v-model="editingRole.survey_modify">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="survey-delete">Delete Surveys</label>
+                                    <input type="checkbox" id="survey-delete" v-model="editingRole.survey_delete">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="respond-survey">Respond to Survey</label>
+                                    <input type="checkbox" id="respond-survey" v-model="editingRole.survey_respond">
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <h3>Users with the role</h3>
+                        <div class="alert alert-danger" v-if="errors.length > 0">
+                            <p><strong>Whoops!</strong> Something went wrong!</p>
+                            <br/>
+                            <ul>
+                                <li v-for="error in errors">
+                                    {{ error }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4" v-for="mem in membersWithRole">
+                                <h4>{{mem.name}}</h4>
+                                <button class="btn btn-danger m-t-10 form-control" @click="removeUser(mem)">Remove Role</button>
+                            </div>
+                            <div class="col-md-4">
+                                <transition name="fade">
+                                    <form v-if="showAddUser" @submit.prevent="addUser">
+                                        <input type="text" class="form-control" id="add-user" placeholder="Enter Username" v-model="userToAdd" :disabled="addingUser"/>
+                                    </form>
+                                </transition>
+                                <transition name="fade">
+                                    <button class="form-control btn btn-default" v-if="!showAddUser" @click="showAddUser = true">Add User</button>
+                                </transition>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
+
                     </div>
                 </div>
             </div>
@@ -77,43 +101,76 @@
 
 <script>
     export default {
+
         data(){
             return {
-                surveys: [],
-                toDelete: null
+                roles: [],
+                editingRole: {
+                    name: ''
+                },
+                membersWithRole: [],
+                showAddUser: false,
+                userToAdd: "",
+                addingUser: false,
+                errors: []
             }
         },
+
+        props: ['id'],
 
         mounted(){
-            this.fetchSurveys()
-        },
-
-        props: {
-            number: {
-                type: String,
-                required: true
-            }
+            this.loadRoles();
         },
 
         methods: {
-            fetchSurveys(){
-                this.$http.get('/api/team/' + this.number + '/surveys').then(response => {
-                    this.surveys = response.data;
+            loadRoles(){
+                this.errors = [];
+                axios.get('/api/role/' + this.id).then(resp=> {
+                    this.roles = resp.data;
                 });
             },
-            archive(id){
-                this.$http.post('/api/survey/' + id + '/archive', {archived: true}).then(r => this.fetchSurveys())
+
+            editRole(role){
+                this.editingRole = role;
+                this.retrieveAssigned(role.id);
+                this.showAddUser = false;
+                $('#manage-role').modal('show');
             },
-            unarchive(id){
-                this.$http.post('/api/survey/' + id + '/archive', {archived: false}).then(r => this.fetchSurveys())
+
+            retrieveAssigned(role){
+                axios.get('/api/role/' + role + '/assigned').then(resp=> {
+                    this.membersWithRole = resp.data;
+                });
             },
-            deleteSurvey(survey){
-                this.toDelete = survey;
-                $("#confirm-delete").modal("show");
+
+            showUser(){
+                this.showAddUser = true;
+                $("#add-user").focus();
             },
-            doDelete(id){
-                $("#confirm-delete").modal("hide");
-                this.$http.post('/api/survey/'+id+'/delete').then(r => this.fetchSurveys())
+
+            addUser(){
+                this.addingUser = true;
+                this.errors = [];
+                axios.post('/api/role/' + this.editingRole.id + '/assign', {
+                    user: this.userToAdd
+                }).then(resp=> {
+                    this.retrieveAssigned(this.editingRole.id);
+                    this.addingUser = false;
+                    this.userToAdd = "";
+                }).catch(response => {
+                    if (typeof response.data === 'object') {
+                        this.errors = _.flatten(_.toArray(response.data));
+                    } else {
+                        this.errors = ['Something went wrong. Please try again.'];
+                    }
+                    this.addingUser = false;
+                });
+            },
+
+            removeUser(user){
+                axios.post('/api/role/' + this.editingRole.id + '/remove', {user: user.id}).then(resp=> {
+                    this.retrieveAssigned(this.editingRole.id);
+                });
             }
         }
     }

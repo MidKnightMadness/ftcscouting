@@ -149,7 +149,7 @@
             },
 
             retrieveSurveyQuestions(){
-                this.$http.get('/api/survey/' + this.id + '/questions').then(resp => {
+                axios.get('/api/survey/' + this.id + '/questions').then(resp => {
                     this.questions = resp.data;
                 });
             },
@@ -189,27 +189,27 @@
             },
 
             del(){
-                this.$http.post('/api/question/' + this.editingQuestion.id + '/delete', {id: this.editingQuestion.id}).then(e => {
+                axios.post('/api/question/' + this.editingQuestion.id + '/delete', {id: this.editingQuestion.id}).then(e => {
                     $('#edit-question').modal('hide');
                     this.retrieveSurveyQuestions();
                 });
             },
 
             save(){
-                this.$http.post('/api/question/' + this.editingQuestion.id + '/update', {data: this.editingQuestion}).then(e=> {
+                axios.post('/api/question/' + this.editingQuestion.id + '/update', {data: this.editingQuestion}).then(e=> {
                     $('#edit-question').modal('hide');
                     this.retrieveSurveyQuestions();
                 })
             },
 
             newQuestion(){
-                this.$http.get('/api/survey/' + this.id + '/new-question', {id: this.id}).then(e=> {
+                axios.get('/api/survey/' + this.id + '/new-question', {id: this.id}).then(e=> {
                     this.questions.push(e.data);
                 })
             },
 
             showPinDialog(){
-                this.$http.get('/api/question/'+this.editingQuestion.id+'/pin').then(e=>{
+                axios.get('/api/question/'+this.editingQuestion.id+'/pin').then(e=>{
                     this.pinData = JSON.parse(e.data.pin_data);
                     $("#edit-question").modal('hide');
                     $("#edit-pin").modal('show');
@@ -219,7 +219,7 @@
             updatePin(e){
                 var data = $(e.target).serializeArray();
                 console.log(data);
-                this.$http.post('/api/question/'+this.editingQuestion.id+'/pin', _.flatten(data)).then(e=>{
+                axios.post('/api/question/'+this.editingQuestion.id+'/pin', _.flatten(data)).then(e=>{
                     $("#edit-question").modal('show');
                     $("#edit-pin").modal('hide');
                 })

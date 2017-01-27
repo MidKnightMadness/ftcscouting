@@ -44,7 +44,7 @@ const app = new Vue({
 
     mounted: function(){
         if (window.Scouting.user != 'null')
-            this.$http.get('/api/user').then(resp=> {
+            axios.get('/api/user').then(resp=> {
                 window.Scouting.user = resp.data;
                 this.eventHub.$emit('userRetrieved', resp.data);
             })

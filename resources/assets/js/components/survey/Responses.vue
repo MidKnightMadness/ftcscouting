@@ -79,7 +79,7 @@
                                 <td>{{response.pin}}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" @click="viewResponse(response.id, response.initial)" class="btn btn-default">View</button>
+                                        <button type="button" @click="viewResponse(response.id)" class="btn btn-default">View</button>
                                         <button type="button" @click="deleteResponse(index, response)" class="btn btn-danger" v-if="canDelete">Delete</button>
                                     </div>
                                 </td>
@@ -166,20 +166,20 @@
 
         methods: {
             getSurveyData(){
-                this.$http.get('/api/survey/' + this.id + '/allResponses').then(resp => {
+                axios.get('/api/survey/' + this.id + '/allResponses').then(resp => {
                     this.allResponses = resp.data;
                 })
             },
 
-            viewResponse(id, initial){
+            viewResponse(id){
                 this.getPin(id);
-                this.$http.get('/api/response/' + id + '/data').then(resp=> {
+                axios.get('/api/response/' + id + '/data').then(resp=> {
                     this.viewingResponse = resp.data;
                 });
             },
 
             viewResponses(team){
-                this.$http.get('/api/can/delete_survey/' + this.id).then(resp=> {
+                axios.get('/api/can/delete_survey/' + this.id).then(resp=> {
                     this.canDelete = (resp.data == "true");
                     this.responses = [];
                     this.allResponses.forEach(r => {
@@ -190,26 +190,26 @@
             },
 
             viewOverview(team){
-                this.$http.get('/api/survey/' + this.id + '/overview/' + team).then(resp=> {
+                axios.get('/api/survey/' + this.id + '/overview/' + team).then(resp=> {
                     this.overviewHtml = resp.data;
                 })
             },
 
             deleteResponse(index, response){
-                this.$http.post('/api/response/' + response.id + '/delete').then(resp=> {
+                axios.post('/api/response/' + response.id + '/delete').then(resp=> {
                     this.responses.splice(index, 1);
                     this.getSurveyData();
                 });
             },
 
             getPin(id){
-                this.$http.get('/api/response/' + id + '/pin').then(resp => {
+                axios.get('/api/response/' + id + '/pin').then(resp => {
                     this.responsePin = resp.data;
                 })
             },
 
             rank(){
-                this.$http.get('/api/survey/' + this.id + '/rank').then(resp => {
+                axios.get('/api/survey/' + this.id + '/rank').then(resp => {
                     this.rankedTeams = resp.data;
                     $("#ranked").modal('show');
                 })

@@ -125,7 +125,7 @@
         methods: {
             loadRoles(){
                 this.errors = [];
-                this.$http.get('/api/role/' + this.id).then(resp=> {
+                axios.get('/api/role/' + this.id).then(resp=> {
                     this.roles = resp.data;
                 });
             },
@@ -138,7 +138,7 @@
             },
 
             retrieveAssigned(role){
-                this.$http.get('/api/role/' + role + '/assigned').then(resp=> {
+                axios.get('/api/role/' + role + '/assigned').then(resp=> {
                     this.membersWithRole = resp.data;
                 });
             },
@@ -151,7 +151,7 @@
             addUser(){
                 this.addingUser = true;
                 this.errors = [];
-                this.$http.post('/api/role/' + this.editingRole.id + '/assign', {
+                axios.post('/api/role/' + this.editingRole.id + '/assign', {
                     user: this.userToAdd
                 }).then(resp=> {
                     this.retrieveAssigned(this.editingRole.id);
@@ -168,7 +168,7 @@
             },
 
             removeUser(user){
-                this.$http.post('/api/role/' + this.editingRole.id + '/remove', {user: user.id}).then(resp=> {
+                axios.post('/api/role/' + this.editingRole.id + '/remove', {user: user.id}).then(resp=> {
                     this.retrieveAssigned(this.editingRole.id);
                 });
             }
