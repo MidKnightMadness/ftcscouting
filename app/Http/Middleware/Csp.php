@@ -22,7 +22,7 @@ class Csp {
      */
     public function handle($request, Closure $next) {
         $response = $next($request);
-        if ($response instanceof \Illuminate\Http\Response) {
+        if ($response instanceof \Illuminate\Http\Response && app()->environment() == 'production') {
             $this->addPolicies();
             if(env('CSP_REPORT_URL') != null){
                 $this->report(env('CSP_REPORT_URL'));
