@@ -19,11 +19,11 @@ Route::auth();
 Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-Route::get('/home', function(){
+Route::get('/home', function () {
     return redirect(route('dashboard'));
 });
 
-Route::group(['prefix'=>'team'], function(){
+Route::group(['prefix' => 'team'], function () {
     Route::put('/create', 'TeamController@doCreate')->name('teams.doCreate');
     Route::get('/create', 'TeamController@showCreate')->name('teams.create');
     Route::get('/{number}', 'TeamController@viewTeam')->name('teams.show');
@@ -35,7 +35,7 @@ Route::get('/teams', 'TeamController@showAllTeams')->name('teams.all');
 
 
 // Profile routes
-Route::group(['prefix'=>'profile'], function(){
+Route::group(['prefix' => 'profile'], function () {
     Route::get('/edit', 'ProfileController@edit')->name('profile.edit')->middleware(['auth']);
     Route::post('/edit/profile', 'ProfileController@saveProfile')->name('profile.edit.save')->middleware('auth');
     Route::post('/changePassword', 'ProfileController@changePassword')->middleware('auth');
@@ -47,7 +47,7 @@ Route::group(['prefix'=>'profile'], function(){
 });
 
 // Survey routes
-Route::group(['prefix'=>'survey'], function(){
+Route::group(['prefix' => 'survey'], function () {
     Route::post('/create', 'SurveyController@doCreate')->name('survey.doCreate');
     Route::get('/create', 'SurveyController@create')->name('survey.create');
     Route::get('/edit/{surveyId}', 'SurveyController@edit')->name('survey.edit');

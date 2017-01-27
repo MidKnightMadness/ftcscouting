@@ -41,7 +41,7 @@ class Csp {
         $this->set('font', ['https://fonts.gstatic.com']);
         $this->set('style', ['https://fonts.googleapis.com', "'unsafe-inline'", 'https://cdn.datatables.net']);
         $this->set('script', ['https://cdn.datatables.net', "'unsafe-inline'", "'unsafe-eval'"]);
-        $this->set('img',['https://placeholdit.imgix.net/','http://placehold.it', 'https://www.gravatar.com']);
+        $this->set('img',['https://placeholdit.imgix.net/','http://placehold.it', 'https://www.gravatar.com', 'https://http.cat']);
     }
 
     private function defaultDenyAll() {
