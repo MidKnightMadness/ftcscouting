@@ -18,4 +18,15 @@ class Survey extends Model
     public function responses(){
         return $this->hasMany('App\Response', 'survey', 'id')->orderBy('team')->orderBy('initial', 'DESC');
     }
+
+    public function teams(){
+        $group = $this->hasMany('App\Response', 'survey', 'id')->orderBy('team')->get();
+        $array = [];
+        foreach($group as $item){
+            if(!in_array($item->team, $array)){
+                $array[] = $item->team;
+            }
+        }
+        return $array;
+    }
 }

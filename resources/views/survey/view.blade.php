@@ -5,8 +5,13 @@
 @section('body')
     {!! Form::open(['route'=>['survey.submit', $survey->id], 'method'=>'put'])!!}
     <div class="form-group">
-        {!! Form::label('team_number', 'Team Number') !!}
-        {!! Form::number('team_number', null, ['class' => 'form-control']) !!}
+        <label for="team_number">Team Number</label>
+        <input class="form-control" list="teams" type="number" name="team_number" id="team_number">
+        <datalist id="teams">
+            @foreach($survey->teams() as $team)
+                <option value="{{$team}}"></option>
+            @endforeach
+        </datalist>
     </div>
     <div class="form-group">
         {!! Form::label('initial', 'Initial Scouting') !!}
