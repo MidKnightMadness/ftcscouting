@@ -52,7 +52,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="edit-name">Name</label>
+                            <label for="edit-name" @keyup.enter="save()">Name</label>
                             <input id="edit-name" type="text" v-model="editingQuestion.question_name" class="form-control">
                         </div>
                         <div class="form-group">
@@ -127,7 +127,7 @@
                         options: []
                     },
                 },
-                pinData:[],
+                pinData: [],
             }
         },
 
@@ -196,20 +196,20 @@
             },
 
             save(){
-                axios.post('/api/question/' + this.editingQuestion.id + '/update', {data: this.editingQuestion}).then(e=> {
+                axios.post('/api/question/' + this.editingQuestion.id + '/update', {data: this.editingQuestion}).then(e => {
                     $('#edit-question').modal('hide');
                     this.retrieveSurveyQuestions();
                 })
             },
 
             newQuestion(){
-                axios.get('/api/survey/' + this.id + '/new-question', {id: this.id}).then(e=> {
+                axios.get('/api/survey/' + this.id + '/new-question', {id: this.id}).then(e => {
                     this.questions.push(e.data);
                 })
             },
 
             showPinDialog(){
-                axios.get('/api/question/'+this.editingQuestion.id+'/pin').then(e=>{
+                axios.get('/api/question/' + this.editingQuestion.id + '/pin').then(e => {
                     this.pinData = JSON.parse(e.data.pin_data);
                     $("#edit-question").modal('hide');
                     $("#edit-pin").modal('show');
@@ -219,7 +219,7 @@
             updatePin(e){
                 var data = $(e.target).serializeArray();
                 console.log(data);
-                axios.post('/api/question/'+this.editingQuestion.id+'/pin', _.flatten(data)).then(e=>{
+                axios.post('/api/question/' + this.editingQuestion.id + '/pin', _.flatten(data)).then(e => {
                     $("#edit-question").modal('show');
                     $("#edit-pin").modal('hide');
                 })
