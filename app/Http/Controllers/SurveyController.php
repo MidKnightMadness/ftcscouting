@@ -33,11 +33,15 @@ class SurveyController extends Controller {
 
     public function showSurvey($survey) {
         $survey = Survey::findOrFail($survey);
+        $team = Team::whereId($survey->team_owner)->first();
+        if($team == null){
+            return back()->with(['message'=>'Error:That survey has no team associated with it!', 'message_type'=>'danger']);
+        }
         if (\Auth::guest() || !\Auth::user()->can('survey_respond', Team::whereId($survey->team_owner)->first()))
             return back()->with(['message' => 'Error:You cannot respond to this survey', 'message_type' => 'danger']);
         if($survey->archived)
             return back()->with(['message'=>'Error:That survey is archived!', 'message_type'=>'danger']);
-        return view('survey.view', compact('survey'));
+        return view('survey.view', compact('survey', 'team'));
     }
 
     public function create() {
