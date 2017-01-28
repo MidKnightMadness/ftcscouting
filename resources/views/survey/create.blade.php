@@ -34,8 +34,8 @@
             <select class="form-control" id="clone_from" name="clone_from">
                 <option value="-1">None</option>
                 @foreach($user_teams as $team)
-                    @foreach($team->surveys as $survey)
-                        <option value="{{$survey->id}}">Team {{$team->team_number}}: {{$survey->name}}</option>
+                    @foreach($team->surveysWithArchived as $survey)
+                        <option value="{{$survey->id}}">Team {{$team->team_number}}: {{$survey->name}} {{$survey->archived? '(Archived)' : ''}}</option>
                     @endforeach
                 @endforeach
             </select>
