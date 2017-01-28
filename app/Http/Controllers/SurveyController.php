@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\PIN;
+use App\Question;
 use App\Response;
 use App\ResponseData;
 use App\Survey;
@@ -34,13 +36,13 @@ class SurveyController extends Controller {
     public function showSurvey($survey) {
         $survey = Survey::findOrFail($survey);
         $team = Team::whereId($survey->team_owner)->first();
-        if($team == null){
-            return back()->with(['message'=>'Error:That survey has no team associated with it!', 'message_type'=>'danger']);
+        if ($team == null) {
+            return back()->with(['message' => 'Error:That survey has no team associated with it!', 'message_type' => 'danger']);
         }
         if (\Auth::guest() || !\Auth::user()->can('survey_respond', Team::whereId($survey->team_owner)->first()))
             return back()->with(['message' => 'Error:You cannot respond to this survey', 'message_type' => 'danger']);
-        if($survey->archived)
-            return back()->with(['message'=>'Error:That survey is archived!', 'message_type'=>'danger']);
+        if ($survey->archived)
+            return back()->with(['message' => 'Error:That survey is archived!', 'message_type' => 'danger']);
         return view('survey.view', compact('survey', 'team'));
     }
 
@@ -51,14 +53,33 @@ class SurveyController extends Controller {
     public function doCreate(Request $request) {
         $this->validate($request, [
             'select_team' => 'required',
-            'survey_name' => 'required|max:255'], ['select_team.required'=>'A team must own this survey', 'survey_name.required'=>'Please provide a survey name']);
+            'survey_name' => 'required|max:255',
+            'clone_from' => 'exists:surveys,id'], ['select_team.required' => 'A team must own this survey', 'survey_name.required' => 'Please provide a survey name']);
         $survey = new Survey();
         $survey->name = $request->survey_name;
         $survey->team_owner = $request->select_team;
         $survey->created_by = \Auth::user()->id;
         $survey->template = false;
         $survey->save();
-        return redirect(route('survey.edit', ['id'=>$survey->id]));
+        if ($request->clone_from != "-1") {
+            // Clone questions
+            $template = Survey::whereId($request->clone_from)->first();
+            foreach ($template->questions as $template_question) {
+                $question = new Question();
+                $question->survey_id = $survey->id;
+                $question->order = $template_question->order;
+                $question->question_type = $template_question->question_type;
+                $question->question_name = $template_question->question_name;
+                $question->extra_data = $template_question->extra_data;
+                $question->save();
+                // Save pin
+                $pin = new PIN();
+                $pin->pin_data = $template_question->pin->pin_data;
+                $pin->question = $question->id;
+                $pin->save();
+            }
+        }
+        return redirect(route('survey.edit', ['id' => $survey->id]));
     }
 
     public function submitSurvey(Request $request, $survey) {
@@ -103,15 +124,15 @@ class SurveyController extends Controller {
             all questions and allResponses associated with it. This action is PERMANENT and cannot be undone']]);
     }
 
-    public function archive($survey){
+    public function archive($survey) {
         $survey = Survey::findOrFail($survey);
 
-        return view('confirmAction')->with(['action'=> "Archive Survey \"$survey->name\"", 'route'=>['survey.doArchive', $survey->id],
-        'method'=>'patch', 'extra_desc'=>['Archiving this survey will hide it from the list and it can no longer be responded to. You can
+        return view('confirmAction')->with(['action' => "Archive Survey \"$survey->name\"", 'route' => ['survey.doArchive', $survey->id],
+            'method' => 'patch', 'extra_desc' => ['Archiving this survey will hide it from the list and it can no longer be responded to. You can
         unarchive it later from the team settings page']]);
     }
 
-    public function doArchive($survey){
+    public function doArchive($survey) {
         $survey = Survey::findOrFail($survey);
 
         $team = Team::whereId($survey->id)->first();
@@ -146,14 +167,14 @@ class SurveyController extends Controller {
         return redirect(route('teams.show', Team::whereId($survey->team_owner)->first()->team_number))->with(['message' => 'Survey Deleted!', 'message_type' => 'success']);
     }
 
-    public function surveyOverview(Survey $survey, $teamNumber){
+    public function surveyOverview(Survey $survey, $teamNumber) {
         $responses = array();
         $initial_response = null;
         $questions = $survey->questions;
 
-        foreach($survey->responses as $response){
-            if($response->team == $teamNumber){
-                if($response->initial){
+        foreach ($survey->responses as $response) {
+            if ($response->team == $teamNumber) {
+                if ($response->initial) {
                     $initial_response = $response;
                 } else {
                     $responses[] = $response;

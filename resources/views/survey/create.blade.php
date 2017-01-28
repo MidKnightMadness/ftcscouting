@@ -28,6 +28,19 @@
         {!! Form::label('survey_name', 'Survey Name') !!}
         {!! Form::text('survey_name', null, ['class' => 'form-control']) !!}
     </div>
+    <toggle visible="false" name="clone" display="Clone From Existing">
+        <div class="form-group">
+            {!! Form::label('clone_from', 'Survey') !!}
+            <select class="form-control" id="clone_from" name="clone_from">
+                <option value="-1">None</option>
+                @foreach($user_teams as $team)
+                    @foreach($team->surveys as $survey)
+                        <option value="{{$survey->id}}">Team {{$team->team_number}}: {{$survey->name}}</option>
+                    @endforeach
+                @endforeach
+            </select>
+        </div>
+    </toggle>
     <div class="form-group">
         {!! Form::submit('Create', ['class'=>'btn btn-success form-control']) !!}
     </div>
