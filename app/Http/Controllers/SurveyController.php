@@ -83,7 +83,10 @@ class SurveyController extends Controller {
     }
 
     public function submitSurvey(Request $request, $survey) {
-        \Log::info($request);
+        $this->validate($request, [
+            'team_number'=>'required|numeric',
+            'match_number'=>'required|numeric'
+        ]);
         $teamNumber = $request->team_number;
         $response = new Response();
         $response->submitted_by = $request->user()->id;
