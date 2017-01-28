@@ -142,6 +142,10 @@
             id: {
                 type: String,
                 required: true
+            },
+            team: {
+                type: String,
+                required: true
             }
         },
 
@@ -179,7 +183,7 @@
             },
 
             viewResponses(team){
-                axios.get('/api/can/delete_survey/' + this.id).then(resp=> {
+                axios.get('/api/can/delete_survey/' + this.team).then(resp=> {
                     this.canDelete = resp.data;
                     this.responses = [];
                     this.allResponses.forEach(r => {
