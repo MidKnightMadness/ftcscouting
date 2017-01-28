@@ -134,7 +134,7 @@
             },
 
             fetchUsers(){
-                this.$http.get('/api/team/' + this.number + '/members').then(response=> {
+                axios.get('/api/team/' + this.number + '/members').then(response=> {
                     for (var i = 0; i < response.data.length; i++) {
                         if (response.data[i].pending) {
                             this.pending.push(response.data[i]);
@@ -146,10 +146,10 @@
             },
 
             fetchPerms(){
-                this.$http.get('/api/can/invite/' + this.id).then(resp => {
+                axios.get('/api/can/invite/' + this.id).then(resp => {
                     this.perms.invite = resp.data == "true";
                 });
-                this.$http.get('/api/can/remove_member/' + this.id).then(resp=> {
+                axios.get('/api/can/remove_member/' + this.id).then(resp=> {
                     this.perms.remove = resp.data == "true";
                 })
             },
@@ -169,7 +169,7 @@
                 // Check if user exists
                 axios.get('/api/user/' + this.forms.inviteUser.username).then(resp => {
                     // User exists, send invite
-                    this.$http.post('/api/invite', {
+                    axios.post('/api/invite', {
                         username: this.forms.inviteUser.username,
                         teamNumber: this.number
                     }).then(response => {
@@ -194,7 +194,7 @@
             },
 
             cancelInvite(id){
-                this.$http.post('/api/invite/cancel', {id: id}).then(resp => {
+                axios.post('/api/invite/cancel', {id: id}).then(resp => {
                     this.members = [];
                     this.pending = [];
                     $('#manage-member').modal('hide');
