@@ -14,10 +14,6 @@
         </datalist>
     </div>
     <div class="form-group">
-        {!! Form::label('initial', 'Initial Scouting') !!}
-        {!! Form::checkbox('initial') !!}
-    </div>
-    <div class="form-group">
         {!! Form::label('match_number', 'Match Number') !!}
         {!! Form::number('match_number', null, ['class'=>'form-control']) !!}
     </div>
