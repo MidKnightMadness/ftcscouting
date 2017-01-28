@@ -180,7 +180,7 @@
 
             viewResponses(team){
                 axios.get('/api/can/delete_survey/' + this.id).then(resp=> {
-                    this.canDelete = (resp.data == "true");
+                    this.canDelete = resp.data;
                     this.responses = [];
                     this.allResponses.forEach(r => {
                         if (r.team == team)

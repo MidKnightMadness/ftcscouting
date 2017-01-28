@@ -146,11 +146,12 @@
             },
 
             fetchPerms(){
+                console.log("fetching perms");
                 axios.get('/api/can/invite/' + this.id).then(resp => {
-                    this.perms.invite = resp.data == "true";
+                    this.perms.invite = resp.data;
                 });
                 axios.get('/api/can/remove_member/' + this.id).then(resp=> {
-                    this.perms.remove = resp.data == "true";
+                    this.perms.remove = resp.data;
                 })
             },
 
