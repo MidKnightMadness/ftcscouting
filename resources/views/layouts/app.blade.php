@@ -19,6 +19,14 @@
 </head>
 <body id="app-layout">
 <div id="app">
+    @if(config('app.env') == "local")
+        <div class="container">
+            <div class="alert alert-danger dev-warning text-center">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i><b> You are currently in a development environment </b>
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            </div>
+        </div>
+    @endif
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
