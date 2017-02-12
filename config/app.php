@@ -190,7 +190,9 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
 
         // Bugsnag
-        \Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class
+        \Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -250,6 +252,8 @@ return [
         'PINNumber' => App\Facades\PinFacade::class,
 
         'Bugsnag' => \Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
+
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

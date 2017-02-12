@@ -12,7 +12,8 @@
         "laravelcollective/html": "^5.4",
         "barryvdh/laravel-ide-helper": "^2.2",
         "laravel/passport": "^2.0",
-        "bugsnag/bugsnag-laravel": "^2.0"
+        "bugsnag/bugsnag-laravel": "^2.0",
+        "barryvdh/laravel-debugbar": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
