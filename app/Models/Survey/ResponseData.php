@@ -10,6 +10,6 @@ class ResponseData extends Model
 
 
     public function question(){
-        return $this->hasOne('App\Question', 'id', 'question_id');
+        return $this->belongsTo(Question::class);
     }
 }

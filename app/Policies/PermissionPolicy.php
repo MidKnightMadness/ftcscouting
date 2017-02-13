@@ -50,6 +50,7 @@ trait PermissionPolicy {
                 }
             }
         }
-        return isset($perm_matrix[$permission]) ? $perm_matrix[$permission] : 0;
+        $matrix = isset($perm_matrix[$permission]) ? $perm_matrix[$permission] : 0;
+        return $matrix;
     }
 }

@@ -11,15 +11,15 @@ class TeamInvite extends Model
     protected $guarded = [];
     
     
-    public function recUser(){
-        return $this->hasOne('App\User', 'id', 'receiver');
+    public function receiver(){
+        return $this->belongsTo(\App\User::class);
     }
     
-    public function sendUser(){
-        return $this->hasOne('App\User', 'id', 'sender');
+    public function sender(){
+        return $this->belongsTo(\App\User::class);
     }
 
     public function team(){
-        return $this->hasOne('App\Team', 'id', 'team_id');
+        return $this->belongsTo(\App\Team::class);
     }
 }

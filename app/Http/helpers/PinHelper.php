@@ -13,13 +13,13 @@ class PinHelper {
 
 
     public function getPinData(Question $question) {
-        $rawJson = PIN::firstOrCreate(['question' => $question->id])->pin_data;
+        $rawJson = PIN::firstOrCreate(['question_id' => $question->id])->pin_data;
         $object = json_decode($rawJson);
         return $object;
     }
 
     public function setPinData(Question $question, $data) {
-        PIN::updateOrCreate(['question' => $question->id], ['pin_data' => json_encode($data)]);
+        PIN::updateOrCreate(['question_id' => $question->id], ['pin_data' => json_encode($data)]);
     }
 
     public function calculatePinForResponseData(ResponseData $data) {

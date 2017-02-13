@@ -28,18 +28,18 @@ class SurveyController extends Controller {
 
     public function edit($surveyId) {
         $survey = Survey::findOrFail($surveyId);
-        if (\Auth::guest() || !\Auth::user()->can('edit_survey', Team::whereId($survey->team_owner)->first()))
-            return back()->with(['message' => 'Error:You cannot respond to this survey', 'message_type' => 'danger']);
+        if (\Auth::guest() || !\Auth::user()->can('edit_survey', $survey->owner))
+            return back()->with(['message' => 'Error:You cannot edit this survey', 'message_type' => 'danger']);
         return view('survey.edit', compact('survey'));
     }
 
     public function showSurvey($survey) {
         $survey = Survey::findOrFail($survey);
-        $team = Team::whereId($survey->team_owner)->first();
+        $team = $survey->owner;
         if ($team == null) {
             return back()->with(['message' => 'Error:That survey has no team associated with it!', 'message_type' => 'danger']);
         }
-        if (\Auth::guest() || !\Auth::user()->can('survey_respond', Team::whereId($survey->team_owner)->first()))
+        if (\Auth::guest() || !\Auth::user()->can('survey_respond', $team))
             return back()->with(['message' => 'Error:You cannot respond to this survey', 'message_type' => 'danger']);
         if ($survey->archived)
             return back()->with(['message' => 'Error:That survey is archived!', 'message_type' => 'danger']);
@@ -57,8 +57,8 @@ class SurveyController extends Controller {
             'clone_from' => 'exists:surveys,id'], ['select_team.required' => 'A team must own this survey', 'survey_name.required' => 'Please provide a survey name']);
         $survey = new Survey();
         $survey->name = $request->survey_name;
-        $survey->team_owner = $request->select_team;
-        $survey->created_by = \Auth::user()->id;
+        $survey->team_id = $request->select_team;
+        $survey->creator_id = \Auth::user()->id;
         $survey->template = false;
         $survey->save();
         if (isset($request->clone_from))
@@ -90,8 +90,8 @@ class SurveyController extends Controller {
         ]);
         $teamNumber = $request->team_number;
         $response = new Response();
-        $response->submitted_by = $request->user()->id;
-        $response->survey = $survey;
+        $response->submitter_id = $request->user()->id;
+        $response->survey_id= $survey;
         $response->team = $teamNumber;
         $response->initial = $request->initial ? $request->initial : 0;
         $response->match_number = !$response->initial ? $request->match_number : -1;
@@ -147,8 +147,8 @@ class SurveyController extends Controller {
     }
 
     public function showResponses(Survey $survey) {
-        $team = Team::whereId($survey->team_owner)->first();
-        if (\Auth::guest() || !\Auth::user()->can('view_survey', $team))
+        $team = $survey->owner;
+        if (\Auth::guest() || !\Auth::user()->can('view_survey', $survey->owner))
             return back()->with(['message' => 'Error;You cannot view the results of this survey', 'message_type' => 'danger']);
         return view('survey.response')->with(compact('survey', 'team'));
     }

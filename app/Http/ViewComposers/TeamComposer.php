@@ -28,14 +28,14 @@ class TeamComposer {
             $view->with('pending_teams', array());
         } else {
             $user = Auth::user();
-            $teamInvites = $this->teamInvite->whereReceiver($user->id)->whereAccepted(true)->get();
+            $teamInvites = $this->teamInvite->whereReceiverId($user->id)->whereAccepted(true)->get();
             $user_teams = array();
             foreach ($teamInvites as $invite) {
                 $user_teams[] = $invite->team;
             }
             $view->with('user_teams', $user_teams);
             
-            $pendingInvites = $this->teamInvite->whereReceiver($user->id)->whereAccepted(false)->wherePending(true)->get();
+            $pendingInvites = $this->teamInvite->whereReceiverId($user->id)->whereAccepted(false)->wherePending(true)->get();
             $pending = array();
             foreach($pendingInvites as $pending_invite){
                 $pending[$pending_invite->id] = $pending_invite->team;

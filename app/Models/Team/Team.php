@@ -11,22 +11,22 @@ class Team extends Model {
 
 
     public function members() {
-        return $this->hasMany('App\TeamInvite', 'team_id', 'id');
+        return $this->hasMany('App\TeamInvite');
     }
 
     public function surveys() {
-        return $this->hasMany('App\Survey', 'team_owner', 'id')->where('archived', '=', '0');
+        return $this->hasMany('App\Survey')->where('archived', '=', '0');
     }
 
     public function surveysWithArchived(){
-        return $this->hasMany('App\Survey', 'team_owner', 'id');
+        return $this->hasMany('App\Survey');
     }
 
     public function roles(){
-        return $this->hasMany('App\TeamRole', 'owning_team', 'id');
+        return $this->hasMany('App\TeamRole');
     }
 
     public function isOwner($userId){
-        return $this->owner == $userId;
+        return $this->owner_id == $userId;
     }
 }

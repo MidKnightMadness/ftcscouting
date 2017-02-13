@@ -80,8 +80,8 @@ class ApiController extends Controller {
         $inv = new TeamInvite();
         $inv->accepted = false;
         $inv->pending = true;
-        $inv->sender = $sendingUser->id;
-        $inv->receiver = User::whereName($toInvite)->first()->id;
+        $inv->sender_id = $sendingUser->id;
+        $inv->receiver_id = User::whereName($toInvite)->first()->id;
         $inv->team_id = $team->id;
         $inv->save();
         return response()->json(['status' => 'Invite Sent!']);
@@ -155,7 +155,7 @@ class ApiController extends Controller {
         $result = array();
         foreach ($survey->responses as $resp) {
             $resp['submitted_by_id'] = $resp->submitted_by;
-            $resp['submitted_by'] = User::whereId($resp->submitted_by)->first()->name;
+            $resp['submitted_by'] = User::whereId($resp->submitter_id)->first()->name;
             $resp['pin'] = \PINNumber::calculatePinForResponse($resp);
             $result[] = $resp;
         }

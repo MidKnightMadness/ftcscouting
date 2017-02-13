@@ -40,15 +40,15 @@ class TeamController extends Controller {
         $user = \Auth::user();
         $team->name = $request->get('team-name');
         $team->team_number = $request->get('team-number');
-        $team->owner = $user->id;
+        $team->owner_id = $user->id;
         $team->save();
 
         $team_id = $team->id;
         // Create a team invite for the user.
         $invite = new TeamInvite();
         $invite->team_id = $team_id;
-        $invite->sender = $user->id;
-        $invite->receiver = $user->id;
+        $invite->sender_id = $user->id;
+        $invite->receiver_id = $user->id;
         $invite->pending = false;
         $invite->accepted = true;
         $invite->save();
@@ -56,7 +56,7 @@ class TeamController extends Controller {
         $default = new TeamRole;
         $default->name = "Default";
         $default->default = true;
-        $default->owning_team = $team->id;
+        $default->team_id = $team->id;
         $default->save();
 
         return redirect()->route('teams.all')->with(['message' => 'Team created successfully', 'message_type' => 'success']);
@@ -66,7 +66,7 @@ class TeamController extends Controller {
         $team = $this->team->whereTeamNumber($number)->firstOrFail();
         $members = array();
         foreach ($team->members as $invite) {
-            if ($invite->recUser->id == $team->owner) {
+            if ($invite->receiver->id == $team->owner) {
                 if ($invite->public)
                     array_unshift($members, $invite->recUser);
                 else if (!\Auth::guest() && \Auth::user()->teamInCommon($invite->recUser, $team->id))
@@ -76,7 +76,7 @@ class TeamController extends Controller {
             if ($invite->pending || !$invite->accepted)
                 continue;
             if ($invite->public) {
-                $members[] = $invite->recUser;
+                $members[] = $invite->receiver;
             } else {
                 // The member is private, only show if they share the team
                 if (!\Auth::guest()) {
