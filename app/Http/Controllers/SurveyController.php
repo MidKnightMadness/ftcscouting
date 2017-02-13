@@ -61,31 +61,32 @@ class SurveyController extends Controller {
         $survey->created_by = \Auth::user()->id;
         $survey->template = false;
         $survey->save();
-        if ($request->clone_from != "-1") {
-            // Clone questions
-            $template = Survey::whereId($request->clone_from)->first();
-            foreach ($template->questions as $template_question) {
-                $question = new Question();
-                $question->survey_id = $survey->id;
-                $question->order = $template_question->order;
-                $question->question_type = $template_question->question_type;
-                $question->question_name = $template_question->question_name;
-                $question->extra_data = $template_question->extra_data;
-                $question->save();
-                // Save pin
-                $pin = new PIN();
-                $pin->pin_data = $template_question->pin->pin_data;
-                $pin->question = $question->id;
-                $pin->save();
+        if (isset($request->clone_from))
+            if ($request->clone_from != "-1") {
+                // Clone questions
+                $template = Survey::whereId($request->clone_from)->first();
+                foreach ($template->questions as $template_question) {
+                    $question = new Question();
+                    $question->survey_id = $survey->id;
+                    $question->order = $template_question->order;
+                    $question->question_type = $template_question->question_type;
+                    $question->question_name = $template_question->question_name;
+                    $question->extra_data = $template_question->extra_data;
+                    $question->save();
+                    // Save pin
+                    $pin = new PIN();
+                    $pin->pin_data = $template_question->pin->pin_data;
+                    $pin->question = $question->id;
+                    $pin->save();
+                }
             }
-        }
         return redirect(route('survey.edit', ['id' => $survey->id]));
     }
 
     public function submitSurvey(Request $request, $survey) {
         $this->validate($request, [
-            'team_number'=>'required|numeric',
-            'match_number'=>'required|numeric'
+            'team_number' => 'required|numeric',
+            'match_number' => 'required|numeric'
         ]);
         $teamNumber = $request->team_number;
         $response = new Response();
