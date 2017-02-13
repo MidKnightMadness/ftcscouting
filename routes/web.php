@@ -11,6 +11,8 @@
 |
 */
 
+use App\Team;
+
 Route::get('/', function () {
     return view('welcome');
 })->middleware(['web']);

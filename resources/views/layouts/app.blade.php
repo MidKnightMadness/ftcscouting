@@ -51,14 +51,18 @@
                 <ul class="nav navbar-nav">
                     {{-- Only show the dashboard link if the user is logged in--}}
                     @if(!Auth::guest())
+                        <?php
+                        $invites = TeamHelper::invites();
+                        $teams = TeamHelper::teams();
+                        ?>
                         <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Teams
-                                <span class="badge">{{count($pending_teams) == 0? '' : count($pending_teams)}}</span><span class="caret"></span></a>
+                                <span class="badge">{{count($invites) == 0? '' : count($invites)}}</span><span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                @if(count($pending_teams) != 0)
+                                @if(count($invites) != 0)
                                     <li class="dropdown-header">Pending team invites. Click to accept</li>
-                                    @foreach($pending_teams as $invite_id => $pending_team)
+                                    @foreach($invites as $invite_id => $pending_team)
                                         {{--TODO: Add team accept URL--}}
                                         <li>
                                             <a href="{{route('teams.acceptInvite', [$invite_id])}}">Team {{$pending_team->team_number}}, {{$pending_team->name}}</a>
@@ -66,10 +70,10 @@
                                     @endforeach
                                     <li role="separator" class="divider"></li>
                                 @endif
-                                @if(count($user_teams) == 0)
+                                @if(count($teams) == 0)
                                     <li><a>You are not a member of any team</a></li>
                                 @else
-                                    @foreach($user_teams as $team)
+                                    @foreach($teams as $team)
                                         <li>
                                             <a href="{{route('teams.show', [$team->team_number])}}">Team {{$team->team_number}}, {{$team->name}}</a>
                                         </li>
@@ -89,17 +93,18 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Surveys<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                @foreach($user_teams as $team)
+                                @foreach($teams as $team)
+                                    <li><a>Surveys for {{$team->team_number}}</a></li>
                                     @if(count($team->surveys) > 0)
                                         @foreach($team->surveys as $survey)
                                             <li>
                                                 <a href="{{route('survey.view', ['id'=>$survey->id])}}">{{$team->team_number}}: {{$survey->name}}</a>
                                             </li>
                                         @endforeach
-                                        <li role="separator" class="divider"></li>
                                     @else
                                         <li><a>No surveys currently exist</a></li>
                                     @endif
+                                    <li role="separator" class="divider"></li>
                                 @endforeach
                             </ul>
                         </li>

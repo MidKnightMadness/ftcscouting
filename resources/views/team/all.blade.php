@@ -12,7 +12,7 @@
         <th>Team Name</th>
         </thead>
         <tbody>
-        @foreach($teams as $team)
+        @foreach(TeamHelper::teams() as $team)
             <tr>
                 <td><a href="{{route('teams.show', [$team->team_number])}}">{{$team->team_number}}</a></td>
                 <td>{{$team->name}}</td>
@@ -23,12 +23,12 @@
 @endsection
 
 @push('js')
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#all-teams").DataTable({
-                "ordering": false,
-                "lengthMenu": [[50, 100, 300, -1], [50, 100, 300, "All"]]
-            });
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#all-teams").DataTable({
+            "ordering": false,
+            "lengthMenu": [[50, 100, 300, -1], [50, 100, 300, "All"]]
         });
-    </script>
+    });
+</script>
 @endpush

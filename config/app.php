@@ -251,6 +251,8 @@ return [
         'Random' => App\Facades\RandomFacade::class,
         'PINNumber' => App\Facades\PinFacade::class,
 
+        'TeamHelper' => App\Facades\TeamHelperFacade::class,
+
         'Bugsnag' => \Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,

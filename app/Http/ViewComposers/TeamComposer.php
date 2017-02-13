@@ -8,7 +8,6 @@ use App\Team;
 use App\TeamInvite;
 use Auth;
 use Illuminate\Contracts\View\View;
-use Log;
 
 class TeamComposer {
 
@@ -22,25 +21,24 @@ class TeamComposer {
     }
 
     public function compose(View $view) {
-        $view->with('teams', $this->teams->orderBy('team_number')->get());
+        $view->with('teams', Team::orderBy('team_number')->get());
         if (Auth::guest()) {
             $view->with('user_teams', array());
             $view->with('pending_teams', array());
         } else {
             $user = Auth::user();
-            $teamInvites = $this->teamInvite->whereReceiverId($user->id)->whereAccepted(true)->get();
-            $user_teams = array();
+            $teamInvites = TeamInvite::whereReceiverId($user->id)->with('team')->get();
+            $teams = array();
+            $pending_teams = array();
             foreach ($teamInvites as $invite) {
-                $user_teams[] = $invite->team;
+                if ($invite->pending) {
+                    $pending_teams[] = $invite->team;
+                } else {
+                    $teams[] = $invite->team;
+                }
             }
-            $view->with('user_teams', $user_teams);
-            
-            $pendingInvites = $this->teamInvite->whereReceiverId($user->id)->whereAccepted(false)->wherePending(true)->get();
-            $pending = array();
-            foreach($pendingInvites as $pending_invite){
-                $pending[$pending_invite->id] = $pending_invite->team;
-            }
-            $view->with('pending_teams', $pending);
+            $view->with('user_teams', $teams);
+            $view->with('pending_teams', $pending_teams);
         }
     }
 }
