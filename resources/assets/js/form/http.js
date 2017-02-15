@@ -27,7 +27,7 @@ module.exports = {
                     form.finish();
                     resolve(response);
                 }).catch(function (errors) {
-                    form.errors.set(errors.data);
+                    form.errors.set(errors.response.data);
                     form.busy = false;
 
                     reject(errors);

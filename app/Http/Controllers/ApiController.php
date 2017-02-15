@@ -60,13 +60,16 @@ class ApiController extends Controller {
 
     public function sendInvite(Request $request) {
         $sendingUser = $request->user();
-        $toInvite = $request->username;
+        $toInvite = User::whereEmail($request->username)->first();
+        if($toInvite == null){
+            return response()->json(['error'=>"\"{$request->username}\" does not have an account!"], 422);
+        }
         $teamNumber = $request->teamNumber;
         // Check if the user is already on the team
         $team = Team::whereTeamNumber($teamNumber)->first();
         $alreadyOnTeam = false;
         foreach ($team->members as $invite) {
-            if ($invite->recUser->name == $toInvite) {
+            if ($invite->receiver_id == $toInvite->id) {
                 if (!$invite->pending && !$invite->accepted)
                     continue;
                 $alreadyOnTeam = true;
@@ -81,7 +84,7 @@ class ApiController extends Controller {
         $inv->accepted = false;
         $inv->pending = true;
         $inv->sender_id = $sendingUser->id;
-        $inv->receiver_id = User::whereName($toInvite)->first()->id;
+        $inv->receiver_id = $toInvite->id;
         $inv->team_id = $team->id;
         $inv->save();
         return response()->json(['status' => 'Invite Sent!']);
@@ -238,7 +241,7 @@ class ApiController extends Controller {
     }
 
     public function getAllRolesForTeam(Team $team) {
-        return TeamRole::whereOwningTeam($team->id)->get();
+        return TeamRole::whereTeamId($team->id)->get();
     }
 
     public function getAllAssigned($roleId) {

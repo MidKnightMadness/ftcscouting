@@ -67,11 +67,11 @@
                             </ul>
                         </div>
                         <p>
-                            Enter the username of the member you wish to invite
+                            Enter the email of the member you wish to invite
                         </p>
                         <form @submit.prevent="sendInvite">
                             <div class="input-group">
-                                <input type="text" name="username" v-model="forms.inviteUser.username" placeholder="Enter Username" class="form-control"/>
+                                <input type="text" name="username" v-model="forms.inviteUser.username" placeholder="Enter Email" class="form-control"/>
                                 <span class="input-group-btn">
                                     <button class="btn btn-success" type="button" @click="sendInvite">Send Invite!</button>
                                 </span>
@@ -102,7 +102,7 @@
                 forms: {
                     inviteUser: {
                         errors: [],
-                        username: ''
+                        email: ''
                     }
                 },
                 perms: {
@@ -134,7 +134,7 @@
             },
 
             fetchUsers(){
-                axios.get('/api/team/' + this.number + '/members').then(response=> {
+                axios.get('/api/team/' + this.number + '/members').then(response => {
                     for (var i = 0; i < response.data.length; i++) {
                         if (response.data[i].pending) {
                             this.pending.push(response.data[i]);
@@ -150,7 +150,7 @@
                 axios.get('/api/can/invite/' + this.id).then(resp => {
                     this.perms.invite = resp.data;
                 });
-                axios.get('/api/can/remove_member/' + this.id).then(resp=> {
+                axios.get('/api/can/remove_member/' + this.id).then(resp => {
                     this.perms.remove = resp.data;
                 })
             },
@@ -167,27 +167,17 @@
             },
 
             sendInvite(){
-                // Check if user exists
-                axios.get('/api/user/' + this.forms.inviteUser.username).then(resp => {
-                    // User exists, send invite
-                    axios.post('/api/invite', {
-                        username: this.forms.inviteUser.username,
-                        teamNumber: this.number
-                    }).then(response => {
-                        this.members = [];
-                        this.pending = [];
-                        this.fetchUsers();
-                        $('#invite-user').modal('hide');
-                    }).catch(response => {
-                        if (typeof response.data === 'object') {
-                            this.forms.inviteUser.errors = _.flatten(_.toArray(response.data));
-                        } else {
-                            this.forms.inviteUser.errors = ['Something went wrong. Please try again.'];
-                        }
-                    });
-                }).catch(response => {
-                    if (typeof response.data === 'object') {
-                        this.forms.inviteUser.errors = _.flatten(_.toArray(response.data));
+                axios.post('/api/invite', {
+                    username: this.forms.inviteUser.username,
+                    teamNumber: this.number
+                }).then(response => {
+                    this.members = [];
+                    this.pending = [];
+                    this.fetchUsers();
+                    $('#invite-user').modal('hide');
+                }).catch((data) => {
+                    if (typeof data.response.data === 'object') {
+                        this.forms.inviteUser.errors = _.flatten(_.toArray(data.response.data));
                     } else {
                         this.forms.inviteUser.errors = ['Something went wrong. Please try again.'];
                     }

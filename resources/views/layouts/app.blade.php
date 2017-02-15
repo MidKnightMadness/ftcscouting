@@ -62,10 +62,9 @@
                             <ul class="dropdown-menu" role="menu">
                                 @if(count($invites) != 0)
                                     <li class="dropdown-header">Pending team invites. Click to accept</li>
-                                    @foreach($invites as $invite_id => $pending_team)
-                                        {{--TODO: Add team accept URL--}}
+                                    @foreach($invites as $invite)
                                         <li>
-                                            <a href="{{route('teams.acceptInvite', [$invite_id])}}">Team {{$pending_team->team_number}}, {{$pending_team->name}}</a>
+                                            <a href="{{route('teams.acceptInvite', [$invite->id])}}">Team {{$invite->team->team_number}}, {{$invite->team->name}}</a>
                                         </li>
                                     @endforeach
                                     <li role="separator" class="divider"></li>

@@ -35,11 +35,11 @@ class TeamHelper {
             return array();
         $user = \Auth::user();
         $teamInvites = TeamInvite::whereReceiverId($user->id)->whereAccepted(false)->wherePending(true)->with('team')->get();
-        $teams = array();
+        $invites = array();
         foreach ($teamInvites as $invite) {
-            $teams[] = $invite->team;
+            $invites[] = $invite;
         }
-        return $teams;
+        return $invites;
     }
 
     /**
