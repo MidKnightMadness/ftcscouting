@@ -43,7 +43,7 @@ class ApiController extends Controller {
                 continue;
             $data = array();
             $data['invite_id'] = $invite->id;
-            $data['user'] = $this->userJson($invite->recUser);
+            $data['user'] = $this->userJson(User::whereId($invite->receiver_id)->with('data')->first());
             $data['pending'] = $invite->pending;
             if (!$invite->public) {
                 if ($invite->recUser->teamInCommon($user, $team->id)) {
@@ -293,7 +293,7 @@ class ApiController extends Controller {
         $survey->save();
     }
 
-    private function userJson(User $user) {
+    private function userJson($user) {
         return ['id' => $user->id,
             'name' => $user->name,
             'created_at' => $user->created_at->toDateTimeString(),
