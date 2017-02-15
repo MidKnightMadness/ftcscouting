@@ -13,7 +13,7 @@
                 <a href="{{route('teams.manage', [$team->team_number])}}" class="btn btn-sm btn-default" style="float:right">Manage Team</a>
             </div>
         @endcan
-        @if(in_array($team, $pending_teams))
+        @if(in_array($team, TeamHelper::invites()))
             <a href="{{route('teams.teamAcceptInvite', [$team->id])}}" class="btn btn-lg btn-default">Accept Invite</a>
         @endif
     </div>
