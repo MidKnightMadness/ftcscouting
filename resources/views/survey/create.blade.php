@@ -18,7 +18,7 @@
         <?php
         // Build an array of teams
         $teams = array();
-        foreach ($user_teams as $team) {
+        foreach (TeamHelper::teams() as $team) {
             $teams[$team->id] = $team->team_number . ": " . $team->name;
         }
         ?>
@@ -33,7 +33,7 @@
             {!! Form::label('clone_from', 'Survey') !!}
             <select class="form-control" id="clone_from" name="clone_from">
                 <option value="-1">None</option>
-                @foreach($user_teams as $team)
+                @foreach(TeamHelper::teams() as $team)
                     @foreach($team->surveysWithArchived as $survey)
                         <option value="{{$survey->id}}">Team {{$team->team_number}}: {{$survey->name}} {{$survey->archived? '(Archived)' : ''}}</option>
                     @endforeach
