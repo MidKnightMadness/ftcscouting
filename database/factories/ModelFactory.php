@@ -29,7 +29,7 @@ $factory->define(App\Team::class, function (Faker\Generator $faker) {
     return [
         'team_number' => $number,
         'name' => $faker->name,
-        'owner' => -1
+        'owner_id' => -1
     ];
 });
 $factory->define(App\UserData::class, function (Faker\Generator $faker) {
@@ -40,9 +40,11 @@ $factory->define(App\UserData::class, function (Faker\Generator $faker) {
 });
 $factory->define(App\Survey::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
+        'name' => $faker->sentence,
         'template' => false,
-        'archived' => 0
+        'archived' => 0,
+        'creator_id' => -1,
+        'team_id' => -1
     ];
 });
 $factory->define(App\Question::class, function (Faker\Generator $faker) {
@@ -55,6 +57,6 @@ $factory->define(App\Question::class, function (Faker\Generator $faker) {
         'order' => 1,
         'question_name' => $faker->sentence,
         'question_type' => $question_types[random_int(0, sizeof($question_types) - 1)],
-        'extra_data' => json_encode(['options'=>$data_array])
+        'extra_data' => json_encode(['options' => $data_array])
     ];
 });

@@ -149,7 +149,7 @@ class ApiController extends Controller {
         $question->extra_data = "{\"options\":[]}";
         $question->save();
         $pin = new PIN();
-        $pin->question = $question->id;
+        $pin->question_id = $question->id;
         $pin->save();
         return response()->json($question);
     }
