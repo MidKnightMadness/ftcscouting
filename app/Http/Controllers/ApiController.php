@@ -77,7 +77,7 @@ class ApiController extends Controller {
             }
         }
         if ($alreadyOnTeam) {
-            return response()->json(['error' => "$toInvite is already invited!"], 400);
+            return response()->json(['error' => "$toInvite->email is already invited!"], 400);
         }
 
         $inv = new TeamInvite();
