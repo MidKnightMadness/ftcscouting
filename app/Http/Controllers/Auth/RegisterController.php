@@ -61,7 +61,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return User
+     * @return User|\Illuminate\Database\Eloquent\Model
      */
     protected function create(array $data)
     {
@@ -83,8 +83,8 @@ class RegisterController extends Controller
                 $teamInvite = new TeamInvite();
                 $teamInvite->accepted = true;
                 $teamInvite->pending = false;
-                $teamInvite->sender = $team->owner;
-                $teamInvite->receiver = $user->id;
+                $teamInvite->sender_id = $team->owner;
+                $teamInvite->receiver_id = $user->id;
                 $teamInvite->team_id = $team->id;
                 $teamInvite->save();
             }
