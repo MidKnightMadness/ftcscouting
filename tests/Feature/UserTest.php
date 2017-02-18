@@ -27,6 +27,12 @@ class UserTest extends TestCase {
     public function testChangePassword() {
         $user = $this->createUser();
 
+        // assert invalid password
+        $this->actingAs($user)->post('/profile/changePassword', [
+            'current_password'=>str_random(10),
+            'password'=>'testing',
+            'password_confirmation' => 'testing'
+        ]);
         $this->actingAs($user)->post('/profile/changePassword', [
             'current_password' => 'secret',
             'password' => 'testing',

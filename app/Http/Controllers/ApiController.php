@@ -91,7 +91,7 @@ class ApiController extends Controller {
     }
 
     public function cancelInvite(Request $request) {
-        $invite = TeamInvite::whereId($request->id);
+        $invite = TeamInvite::whereId($request->id)->first();
         if ($invite == null) {
             return response()->json(['error' => 'That invite does not exist!'], 404);
         }

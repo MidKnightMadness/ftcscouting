@@ -67,7 +67,6 @@ class ProfileController extends Controller {
         ]);
 
         $errors = [];
-        \Log::info($request);
         $userWithEmail = User::whereEmail($request->email)->first();
         if($userWithEmail != null){
             \Log::info("Found user $userWithEmail->id with the same email as ".Auth::id());

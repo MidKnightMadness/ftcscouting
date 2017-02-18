@@ -24,4 +24,12 @@ class InviteTest extends TestCase {
         // Accept an invalid id
         $this->actingAs($this->user)->get('/team/acceptInvite/-1')->assertSessionHas(['message' => 'Error:That invite does not exist!']);
     }
+
+    public function testCancelInvite() {
+        $this->actingAs($this->user, 'api')->post('/api/invite/cancel', ['id' => $this->invite->id])->assertJson(['status' => 'Deleted!']);
+        $this->assertDatabaseMissing('team_invites', ['id' => $this->invite->id]);
+
+        // attempt to cancel an invalid id
+        $this->actingAs($this->user, 'api')->post('/api/invite/cancel', ['id' => 40])->assertStatus(404)->assertJson(['error' => 'That invite does not exist!']);
+    }
 }
