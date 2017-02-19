@@ -12,6 +12,6 @@ class Question extends Model
 
 
     public function pin(){
-        return $this->hasOne('App\PIN', 'question', 'id');
+        return $this->hasOne(PIN::class, 'question_id');
     }
 }

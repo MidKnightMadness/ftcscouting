@@ -74,10 +74,14 @@ class SurveyController extends Controller {
                     $question->extra_data = $template_question->extra_data;
                     $question->save();
                     // Save pin
-                    $pin = new PIN();
-                    $pin->pin_data = $template_question->pin->pin_data;
-                    $pin->question = $question->id;
-                    $pin->save();
+                    \Log::info($template_question->pin);
+                    if ($template_question->pin != null) {
+                        $pin = new PIN();
+                        $pin->pin_data = $template_question->pin->pin_data;
+                        $pin->question_id = $question->id;
+                        $pin->save();
+                        \Log::info("Saved: " . $pin);
+                    }
                 }
             }
         return redirect(route('survey.edit', ['id' => $survey->id]));
@@ -91,7 +95,7 @@ class SurveyController extends Controller {
         $teamNumber = $request->team_number;
         $response = new Response();
         $response->submitter_id = $request->user()->id;
-        $response->survey_id= $survey;
+        $response->survey_id = $survey;
         $response->team = $teamNumber;
         $response->initial = $request->initial ? $request->initial : 0;
         $response->match_number = !$response->initial ? $request->match_number : -1;

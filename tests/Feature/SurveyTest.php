@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\PIN;
 use App\Question;
 use App\Survey;
 use App\Team;
@@ -33,7 +34,9 @@ class SurveyTest extends TestCase {
      */
     public function testClone() {
         $survey = factory(Survey::class)->create(['creator_id' => $this->user->id, 'team_id' => $this->team->id]);
-        factory(Question::class)->create(['survey_id' => $survey->id]);
+        $question = factory(Question::class)->create(['survey_id' => $survey->id]);
+        $pin = new PIN(['question_id' => $question->id, 'pin_data' => '{}']);
+        $pin->save();
 
         $surveyName = 'Cloned-' . str_random();
         $this->actingAs($this->user)->post('/survey/create', ['select_team' => $this->team->id, 'survey_name' => $surveyName, 'clone_from' => $survey->id]);
@@ -43,6 +46,11 @@ class SurveyTest extends TestCase {
         $this->assertNotNull($cloned);
 
         $this->assertDatabaseHas('questions', ['survey_id' => $cloned->id]);
+
+        // verify the pin exists
+        $survey = Survey::whereId($cloned->id)->first();
+        $questions = $survey->questions[0];
+        $this->assertDatabaseHas('pin', ['question_id' =>$questions->id]);
     }
 
     /**
